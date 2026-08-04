@@ -96,21 +96,26 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
             </ul>
           </div>
 
-          {/* Column 4: Socials & Flagship Studio */}
+          {/* Column 4: Socials & Contact / Studio */}
           <div className="space-y-4">
             <h4 className="font-serif text-lg font-normal uppercase tracking-wider text-[#2B2B2B]">
-              Flagship Studio
+              Contact &amp; Studio
             </h4>
             <p className="text-xs text-[#666666] font-light leading-relaxed">
-              Storegade 42, 1260 København K<br />
-              Denmark
+              Industriestr. 23<br />
+              48249 Dülmen
+            </p>
+            <p className="text-xs text-[#666666] font-light leading-relaxed">
+              Email:{' '}
+              <a href="mailto:service@levinahome.com" className="hover:text-[#B96A3C] transition-colors">
+                service@levinahome.com
+              </a>
             </p>
             <div className="pt-2 space-y-2">
               <span className="text-[10px] uppercase tracking-widest text-[#8B8B8B] block font-medium">Connect</span>
               <div className="flex gap-4 text-xs text-[#666666] font-light">
-                <a href="#instagram" className="hover:text-[#B96A3C] transition-colors">Instagram</a>
+                <a href="https://www.instagram.com/levinahomeshop/" target="_blank" rel="noopener noreferrer" className="hover:text-[#B96A3C] transition-colors">Instagram</a>
                 <a href="#pinterest" className="hover:text-[#B96A3C] transition-colors">Pinterest</a>
-                <a href="#linkedin" className="hover:text-[#B96A3C] transition-colors">LinkedIn</a>
               </div>
             </div>
           </div>

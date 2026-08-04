@@ -18,6 +18,7 @@ import { ProductDetailModal } from './components/ProductDetailModal';
 import { SearchModal } from './components/SearchModal';
 import { WishlistDrawer } from './components/WishlistDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
+import { IntegrationStatusModal } from './components/IntegrationStatusModal';
 
 import { PRODUCTS, COLLECTIONS, ROOMS, INSTAGRAM_GALLERY } from './data/mockData';
 import type { Product, CartItem } from './types';
@@ -34,6 +35,7 @@ export function App() {
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isIntegrationOpen, setIsIntegrationOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Category view filter state
@@ -126,6 +128,7 @@ export function App() {
         onOpenCart={() => setIsCartOpen(true)}
         onOpenWishlist={() => setIsWishlistOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
+        onOpenIntegrationModal={() => setIsIntegrationOpen(true)}
         onSelectCategory={(cat) => {
           setActiveCategory(cat);
           setActiveRoom(null);
@@ -423,6 +426,11 @@ export function App() {
         onClose={() => setIsCheckoutOpen(false)}
         cartItems={cartItems}
         onClearCart={() => setCartItems([])}
+      />
+
+      <IntegrationStatusModal
+        isOpen={isIntegrationOpen}
+        onClose={() => setIsIntegrationOpen(false)}
       />
     </div>
   );

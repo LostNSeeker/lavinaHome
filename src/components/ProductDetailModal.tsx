@@ -22,13 +22,13 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   isWishlisted,
   onToggleWishlist,
 }) => {
-  if (!product) return null;
-
-  const [activeImage, setActiveImage] = useState(product.primaryImage);
-  const [selectedSize, setSelectedSize] = useState(product.sizes[0] || 'Standard');
-  const [selectedColor, setSelectedColor] = useState(product.colors[0] || { name: 'Natural', hex: '#FAF8F5' });
-  const [selectedMaterial, setSelectedMaterial] = useState(product.material);
+  const [activeImage, setActiveImage] = useState(product?.primaryImage || '');
+  const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || 'Standard');
+  const [selectedColor, setSelectedColor] = useState(product?.colors[0] || { name: 'Natural', hex: '#FAF8F5' });
+  const [selectedMaterial, setSelectedMaterial] = useState(product?.material || '');
   const [openAccordion, setOpenAccordion] = useState<'desc' | 'care' | 'shipping'>('desc');
+
+  if (!product) return null;
 
   const gallery = [product.primaryImage, product.secondaryImage, ...(product.galleryImages || [])];
   const uniqueGallery = Array.from(new Set(gallery));

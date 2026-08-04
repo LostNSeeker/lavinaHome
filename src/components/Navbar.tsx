@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, Menu, X } from 'lucide-react';
+import { Search, Heart, ShoppingBag, Menu, X, Cpu } from 'lucide-react';
 
 interface NavbarProps {
   cartCount: number;
@@ -7,6 +7,7 @@ interface NavbarProps {
   onOpenCart: () => void;
   onOpenWishlist: () => void;
   onOpenSearch: () => void;
+  onOpenIntegrationModal?: () => void;
   onSelectCategory: (category: string) => void;
   activeCategory: string;
 }
@@ -17,6 +18,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCart,
   onOpenWishlist,
   onOpenSearch,
+  onOpenIntegrationModal,
   onSelectCategory,
   activeCategory,
 }) => {
@@ -103,8 +105,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             </span>
           </button>
 
-          {/* Right: Actions (Search, Account, Wishlist, Cart) */}
+          {/* Right: Actions (Search, Integration Status, Wishlist, Cart) */}
           <div className="flex items-center space-x-4 md:space-x-6 text-[#2B2B2B]">
+            {onOpenIntegrationModal && (
+              <button
+                onClick={onOpenIntegrationModal}
+                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#F4EEE6] hover:bg-[#EFE7DC] border border-[#ECE8E2] text-[10px] uppercase tracking-wider text-[#42593E] font-medium transition-colors"
+                title="Shopify & PlentyONE Sync Status"
+              >
+                <Cpu size={13} className="text-[#69705A]" />
+                <span className="hidden md:inline">Sync Active</span>
+              </button>
+            )}
+
             <button
               onClick={onOpenSearch}
               className="p-2 hover:text-[#B96A3C] transition-colors relative group"
@@ -167,9 +180,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             ))}
           </div>
 
-          <div className="pt-8 border-t border-[#ECE8E2] text-xs text-[#8B8B8B] tracking-wider uppercase flex justify-between">
+          <div className="pt-8 border-t border-[#ECE8E2] text-xs text-[#8B8B8B] tracking-wider uppercase flex justify-between items-center">
             <span>© 2026 LEVINA HOME</span>
-            <span>Copenhagen, Denmark</span>
+            {onOpenIntegrationModal && (
+              <button
+                onClick={() => {
+                  onOpenIntegrationModal();
+                  setMobileMenuOpen(false);
+                }}
+                className="text-[#69705A] font-medium underline uppercase"
+              >
+                Sync Status
+              </button>
+            )}
           </div>
         </div>
       )}
