@@ -1,0 +1,20 @@
+# ==============================================================================
+# Levina Home - Robots Configuration
+# https://www.levinahome.com / https://lavina-home.vercel.app
+# ==============================================================================
+
+User-agent: *
+Allow: /
+Allow: /Levina_home_logo.png
+Allow: /LI-112.jpg
+Allow: /sitemap.xml
+Allow: /site.webmanifest
+
+# Disallow private backend API and internal proxies from search engine crawlers
+Disallow: /api/
+Disallow: /api/proxy/
+
+# Host and Sitemap locations
+Host: https://www.levinahome.com
+Sitemap: https://www.levinahome.com/sitemap.xml
+Sitemap: https://lavina-home.vercel.app/sitemap.xml

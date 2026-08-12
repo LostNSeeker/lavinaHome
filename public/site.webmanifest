@@ -1,0 +1,17 @@
+{
+  "name": "Levina Home",
+  "short_name": "Levina Home",
+  "description": "Skandinavische Kinderteppiche, wolkenweiche Bio-Wollteppiche und Montessori-Möbel für kleine Träumer.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FDFBF7",
+  "theme_color": "#FDFBF7",
+  "icons": [
+    {
+      "src": "/Levina_home_logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

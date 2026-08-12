@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Homepage / Main Storefront -->
+  <url>
+    <loc>https://www.levinahome.com/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.levinahome.com/?lang=de"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.levinahome.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.levinahome.com/"/>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://www.levinahome.com/Levina_home_logo.png</image:loc>
+      <image:title>Levina Home Logo</image:title>
+      <image:caption>Levina Home - Skandinavische Kinderteppiche &amp; Montessori Kinderzimmer</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Interactive 3D Carpet Studio -->
+  <url>
+    <loc>https://www.levinahome.com/#carpet-3d-studio</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.levinahome.com/?lang=de#carpet-3d-studio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.levinahome.com/?lang=en#carpet-3d-studio"/>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Best Sellers Collection -->
+  <url>
+    <loc>https://www.levinahome.com/#best-sellers</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.levinahome.com/?lang=de#best-sellers"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.levinahome.com/?lang=en#best-sellers"/>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- New Arrivals Grid -->
+  <url>
+    <loc>https://www.levinahome.com/#new-arrivals</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.levinahome.com/?lang=de#new-arrivals"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.levinahome.com/?lang=en#new-arrivals"/>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- Shop by Room Space Collections -->
+  <url>
+    <loc>https://www.levinahome.com/#shop-by-room</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.levinahome.com/?lang=de#shop-by-room"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.levinahome.com/?lang=en#shop-by-room"/>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Full Catalog View -->
+  <url>
+    <loc>https://www.levinahome.com/#catalog-grid</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://www.levinahome.com/?lang=de#catalog-grid"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.levinahome.com/?lang=en#catalog-grid"/>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+</urlset>
