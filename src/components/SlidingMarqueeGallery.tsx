@@ -44,6 +44,10 @@ export const SlidingMarqueeGallery: React.FC<SlidingMarqueeGalleryProps> = ({
                 <img
                   src={prod.primaryImage}
                   alt={prod.name}
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                  }}
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
                 />
               </div>

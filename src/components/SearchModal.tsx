@@ -105,6 +105,9 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     <img
                       src={product.primaryImage}
                       alt={product.name}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                      }}
                       className="w-16 h-20 object-cover rounded-xl bg-[#F7F3EB]"
                     />
                     <div className="flex-1 min-w-0 flex flex-col justify-between">

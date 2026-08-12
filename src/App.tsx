@@ -339,6 +339,10 @@ export function App() {
                                 <img
                                   src={product.primaryImage}
                                   alt={product.name}
+                                  loading="lazy"
+                                  onError={(e) => {
+                                    (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                                  }}
                                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 />
                                 {product.stockInfo && (

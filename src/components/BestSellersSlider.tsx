@@ -71,12 +71,18 @@ export const BestSellersSlider: React.FC<BestSellersSliderProps> = ({
                     <img
                       src={product.primaryImage}
                       alt={product.name}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                      }}
                       className="w-full h-full object-cover transition-all duration-700 group-hover:opacity-0 group-hover:scale-105"
                       loading="lazy"
                     />
                     <img
-                      src={product.secondaryImage}
+                      src={product.secondaryImage || product.primaryImage}
                       alt={`${product.name} secondary view`}
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                      }}
                       className="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
                       loading="lazy"
                     />

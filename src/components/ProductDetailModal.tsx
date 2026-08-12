@@ -77,7 +77,10 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 src={activeImage || product.primaryImage}
                 alt={product.name}
                 onLoad={() => setIsImageLoading(false)}
-                onError={() => setIsImageLoading(false)}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                  setIsImageLoading(false);
+                }}
                 className={`w-full h-full object-cover transition-all duration-500 ${
                   isImageLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                 }`}
@@ -109,7 +112,14 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     activeImage === imgUrl ? 'border-[#E79685] scale-105' : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={imgUrl} alt="Thumbnail view" className="w-full h-full object-cover" />
+                  <img
+                    src={imgUrl}
+                    alt="Thumbnail view"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                    }}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>

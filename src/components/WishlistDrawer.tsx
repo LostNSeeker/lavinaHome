@@ -65,6 +65,9 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                   <img
                     src={product.primaryImage}
                     alt={product.name}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                    }}
                     className="w-20 h-24 object-cover rounded-xl bg-[#F7F3EB] cursor-pointer"
                     onClick={() => {
                       onSelectProduct(product);

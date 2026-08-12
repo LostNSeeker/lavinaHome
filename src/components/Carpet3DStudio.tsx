@@ -140,15 +140,10 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
   const getCORSFriendlyUrl = (rawUrl: string): string => {
     if (!rawUrl) return '';
     const url = rawUrl.trim();
-    // Local assets in public/ folder (e.g. /LI-112.jpg)
     if (url.startsWith('/') || url.startsWith('data:') || url.startsWith('blob:')) {
       return url;
     }
-    // Unsplash has open CORS headers natively
-    if (url.includes('images.unsplash.com')) {
-      return url;
-    }
-    // For PlentyONE and all external hosts without open CORS headers, route through our backend proxy
+    // Route external image through our backend proxy with guaranteed CORS headers
     return `/api/proxy/image?url=${encodeURIComponent(url)}`;
   };
 
@@ -157,16 +152,61 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
     if (!topMeshRef.current) return;
     setIsLoadingTexture(true);
 
-    const imageUrl = product.primaryImage || product.secondaryImage;
-    const targetUrl = getCORSFriendlyUrl(imageUrl);
+    const rawImageUrl = product.primaryImage || product.secondaryImage;
+    const proxyUrl = getCORSFriendlyUrl(rawImageUrl);
 
     const textureLoader = new THREE.TextureLoader();
-    if (!targetUrl.startsWith('/')) {
-      textureLoader.setCrossOrigin('anonymous');
-    }
+    textureLoader.setCrossOrigin('anonymous');
+
+    const loadDirectImageCanvas = (imgSrc: string) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        if (!topMeshRef.current) return;
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || 1024;
+          canvas.height = img.naturalHeight || 1024;
+          const ctx = canvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const canvasTex = new THREE.CanvasTexture(canvas);
+            canvasTex.colorSpace = THREE.SRGBColorSpace;
+            canvasTex.needsUpdate = true;
+
+            if (currentTextureRef.current) {
+              currentTextureRef.current.dispose();
+            }
+            currentTextureRef.current = canvasTex;
+
+            const mat = topMeshRef.current.material as THREE.MeshStandardMaterial;
+            mat.map = canvasTex;
+            mat.color.setHex(0xffffff);
+            mat.needsUpdate = true;
+          }
+        } catch (e) {
+          console.warn('[3D Studio] Canvas drawing note:', e);
+        } finally {
+          setIsLoadingTexture(false);
+        }
+      };
+      img.onerror = () => {
+        console.warn('[3D Studio] Image load failed, using vector fallback pattern for:', product.name);
+        if (topMeshRef.current) {
+          const canvas = generateFallbackCanvas(product.name);
+          const fallbackTex = new THREE.CanvasTexture(canvas);
+          fallbackTex.colorSpace = THREE.SRGBColorSpace;
+          const mat = topMeshRef.current.material as THREE.MeshStandardMaterial;
+          mat.map = fallbackTex;
+          mat.needsUpdate = true;
+        }
+        setIsLoadingTexture(false);
+      };
+      img.src = imgSrc;
+    };
 
     textureLoader.load(
-      targetUrl,
+      proxyUrl,
       (tex) => {
         if (!topMeshRef.current) return;
         tex.colorSpace = THREE.SRGBColorSpace;
@@ -193,56 +233,12 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
       },
       undefined,
       (err) => {
-        console.warn('[3D Studio] Primary texture load note:', err, 'Trying Image + Canvas fallback...');
-        const img = new Image();
-        if (!targetUrl.startsWith('/')) {
-          img.crossOrigin = 'anonymous';
-        }
-        img.onload = () => {
-          if (!topMeshRef.current) return;
-          try {
-            const canvas = document.createElement('canvas');
-            canvas.width = img.naturalWidth || 1024;
-            canvas.height = img.naturalHeight || 1024;
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-              const canvasTex = new THREE.CanvasTexture(canvas);
-              canvasTex.colorSpace = THREE.SRGBColorSpace;
-              canvasTex.needsUpdate = true;
-
-              if (currentTextureRef.current) {
-                currentTextureRef.current.dispose();
-              }
-              currentTextureRef.current = canvasTex;
-
-              const mat = topMeshRef.current.material as THREE.MeshStandardMaterial;
-              mat.map = canvasTex;
-              mat.color.setHex(0xffffff);
-              mat.needsUpdate = true;
-            }
-          } catch (e) {
-            console.warn('Canvas fallback note:', e);
-          } finally {
-            setIsLoadingTexture(false);
-          }
-        };
-        img.onerror = () => {
-          console.warn('[3D Studio] Image load failed, using vector fallback pattern for:', product.name);
-          if (topMeshRef.current) {
-            const canvas = generateFallbackCanvas(product.name);
-            const fallbackTex = new THREE.CanvasTexture(canvas);
-            fallbackTex.colorSpace = THREE.SRGBColorSpace;
-            const mat = topMeshRef.current.material as THREE.MeshStandardMaterial;
-            mat.map = fallbackTex;
-            mat.needsUpdate = true;
-          }
-          setIsLoadingTexture(false);
-        };
-        img.src = targetUrl;
+        console.warn('[3D Studio] Proxy texture loader error:', err, 'Falling back to direct image canvas...');
+        loadDirectImageCanvas(rawImageUrl || proxyUrl);
       }
     );
   }, []);
+
 
   // Three.js Scene Setup
   useEffect(() => {

@@ -275,23 +275,260 @@ async function syncPlentyoneCatalog() {
       console.warn('⚠️ [PlentyONE Sync] Stock fetch notice:', e.message);
     }
 
-    // 3. Fetch Images for Items (Batch fetch first 25 distinct item IDs)
-    const distinctItemIds = Array.from(new Set(variations.map(v => v.itemId))).slice(0, 25);
-    const imageMap = {};
+    // Comprehensive PlentyONE Real Item Image Registry (Fetched directly from PlentyONE ERP REST API)
+    const PLENTY_ITEM_IMAGE_REGISTRY = {
+      "137": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111p.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111d.jpg"
+      ],
+      "138": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/138/middle/LI-112.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/138/middle/LI-112-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/138/middle/LI-112-3.jpg"
+      ],
+      "139": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/139/middle/LI-113.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/139/middle/LI-113-2.jpg"
+      ],
+      "140": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/140/middle/LI-114.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/140/middle/LI-114-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/140/middle/LI-114-3.jpg"
+      ],
+      "142": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211-3.jpg"
+      ],
+      "143": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/143/middle/LS-212.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/143/middle/LS-212-2.jpg"
+      ],
+      "144": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/144/middle/LS-213.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/144/middle/LS-213-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/144/middle/LS-213-3.jpg"
+      ],
+      "145": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/145/middle/LS-214.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/145/middle/LS-214-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/145/middle/LS-214-3.jpg"
+      ],
+      "146": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310-3.jpg"
+      ],
+      "147": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/147/middle/SH-311.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/147/middle/SH-311-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/147/middle/SH-311-3.jpg"
+      ],
+      "148": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/148/middle/SH-312.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/148/middle/SH-312-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/148/middle/SH-312-3.jpg"
+      ],
+      "149": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/149/middle/SH-313.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/149/middle/SH-313-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/149/middle/SH-313-3.jpg"
+      ],
+      "151": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/151/middle/FE-411.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/151/middle/FE-411-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/151/middle/FE-411-3.jpg"
+      ],
+      "152": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/152/middle/FE-412.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/152/middle/FE-412-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/152/middle/FE-412-3.jpg"
+      ],
+      "153": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/153/middle/FE-413.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/153/middle/FE-413-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/153/middle/FE-413-3.jpg"
+      ],
+      "154": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/154/middle/FE-414.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/154/middle/FE-414-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/154/middle/FE-414-3.jpg"
+      ],
+      "155": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/155/middle/FE-415.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/155/middle/FE-415-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/155/middle/FE-415-3.jpg"
+      ],
+      "159": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/159/middle/PF-513.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/159/middle/PF-513-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/159/middle/PF-513-3.jpg"
+      ],
+      "160": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/160/middle/GA-610.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/160/middle/GA-610-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/160/middle/GA-610-3.jpg"
+      ],
+      "161": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/161/middle/GA-611.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/161/middle/GA-611-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/161/middle/GA-611-3.jpg"
+      ],
+      "162": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/162/middle/GA-612.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/162/middle/GA-612-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/162/middle/GA-612-3.jpg"
+      ],
+      "163": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/163/middle/GA-613.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/163/middle/GA-613-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/163/middle/GA-613-3.jpg"
+      ],
+      "164": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/164/middle/GA-614p.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/164/middle/GA-614.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/164/middle/GA-614-2.jpg"
+      ],
+      "165": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/165/middle/BG-710.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/165/middle/BG-710-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/165/middle/BG-710-3.jpg"
+      ],
+      "166": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/166/middle/BG-711.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/166/middle/BG-711-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/166/middle/BG-711-3.jpg"
+      ],
+      "167": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/167/middle/BG-712.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/167/middle/BG-712-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/167/middle/BG-712-3.jpg"
+      ],
+      "168": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/168/middle/BG-713_1.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/168/middle/BG-713_2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/168/middle/BG-713_3.jpg"
+      ],
+      "169": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/169/middle/BG-714p.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/169/middle/BG-714.jpg"
+      ],
+      "170": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/170/middle/BG-715.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/170/middle/BG-715-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/170/middle/BG-715-3.jpg"
+      ],
+      "171": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/171/middle/BC-101.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/171/middle/BC-101-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/171/middle/BC-101-3.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/171/middle/BC-101-4.jpg"
+      ],
+      "172": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/172/middle/BC-102.jpg"
+      ],
+      "173": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/173/middle/BC-103.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/173/middle/BC-103-2.jpg"
+      ],
+      "174": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/174/middle/BC-104.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/174/middle/BC-104-2.jpg"
+      ],
+      "175": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/175/middle/LK-401.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/175/middle/LK-401-2.jpg"
+      ],
+      "176": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/176/middle/LK-402.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/176/middle/LK-402-2.jpg"
+      ],
+      "178": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/178/middle/LK-404.jpg"
+      ],
+      "181": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/181/middle/LK-407.jpg"
+      ],
+      "182": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/182/middle/LK-408.jpg"
+      ],
+      "183": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/183/middle/LK-409.jpg"
+      ],
+      "184": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/184/middle/LK-410.jpg"
+      ],
+      "185": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/185/middle/LK-411.jpg"
+      ],
+      "187": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/187/middle/LK-415.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/187/middle/LK-415-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/187/middle/LK-415-3.jpg"
+      ],
+      "188": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/188/middle/LK-416.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/188/middle/LK-416-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/188/middle/LK-416-3.jpg"
+      ],
+      "190": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/190/middle/LK-418.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/190/middle/LK-418-2.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/190/middle/LK-418-3.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/190/middle/LK-418-4.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/190/middle/LK-418-5.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/190/middle/LK-418-6.jpg"
+      ],
+      "192": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/192/middle/LI-2200-01.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/192/middle/LI-2200-02.jpg"
+      ],
+      "195": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-01.JPG",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-02.JPG",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-03.JPG",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-04.JPG"
+      ],
+      "196": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/196/middle/FE-2943-01.jpg"
+      ],
+      "197": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-02.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-01.jpg",
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-03.jpg"
+      ],
+      "198": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/198/middle/SH-2360-01.jpg"
+      ],
+      "199": [
+        "https://cdn02.plentyone.com/sby0b6gglndr/item/images/199/middle/SH-2361.jpg"
+      ]
+    };
+
+    // 3. Dynamic Live Image Fetch (merge with registry)
+    const distinctItemIds = Array.from(new Set(variations.map(v => v.itemId)));
+    const imageMap = { ...PLENTY_ITEM_IMAGE_REGISTRY };
     
-    await Promise.all(
-      distinctItemIds.map(async (itemId) => {
-        try {
-          const imgRes = await fetch(`${config.plentyone.host}/rest/items/${itemId}/images`, { headers });
-          if (imgRes.ok) {
-            const imgs = await imgRes.json();
-            imageMap[itemId] = (imgs || []).map(i => i.urlMiddle || i.url).filter(Boolean);
+    try {
+      await Promise.allSettled(
+        distinctItemIds.slice(0, 15).map(async (itemId) => {
+          try {
+            const imgRes = await fetch(`${config.plentyone.host}/rest/items/${itemId}/images`, { headers, signal: AbortSignal.timeout(3000) });
+            if (imgRes.ok) {
+              const imgs = await imgRes.json();
+              if (Array.isArray(imgs) && imgs.length > 0) {
+                imageMap[itemId] = imgs.map(i => i.urlMiddle || i.url).filter(Boolean);
+              }
+            }
+          } catch (e) {
+            // fallback to registry
           }
-        } catch (e) {
-          // ignore individual image fetch failure
-        }
-      })
-    );
+        })
+      );
+    } catch (e) {
+      console.warn('⚠️ [PlentyONE Image Sync] Using cached registry:', e.message);
+    }
 
     // 4. Map PlentyONE Variations to Storefront Product Model
     const categoryOptions = ['carpets', 'rugs', 'furniture', 'decor', 'textiles', 'kitchen'];
@@ -301,14 +538,17 @@ async function syncPlentyoneCatalog() {
       const text = v.variationTexts?.[0] || {};
       const salesPrice = v.variationSalesPrices?.[0]?.price || (49 + (index % 5) * 20);
       const originalPrice = Math.round(salesPrice * 1.25);
-      const itemImages = imageMap[v.itemId] || [];
-      const primaryImg = itemImages[0] || 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&q=80&w=1200';
-      const secondaryImg = itemImages[1] || itemImages[0] || 'https://images.unsplash.com/photo-1579656381226-5fc0f0100c3b?auto=format&fit=crop&q=80&w=1200';
+      
+      // Resolve authentic PlentyONE images
+      const itemImages = imageMap[v.itemId] || PLENTY_ITEM_IMAGE_REGISTRY[String(v.itemId)] || [];
+      const primaryImg = itemImages[0] || `https://cdn02.plentyone.com/sby0b6gglndr/item/images/${v.itemId}/middle/${v.number || 'LI-111'}.jpg`;
+      const secondaryImg = itemImages[1] || itemImages[0] || primaryImg;
       const gallery = itemImages.length > 0 ? itemImages : [primaryImg, secondaryImg];
 
       const cleanTitle = text.name || text.name1 || v.model || `Levina Artisanal Piece #${v.number || v.id}`;
       const stock = stockMap[v.itemId] || { physicalStock: 15, netStock: 12, warehouseId: 1 };
       const inStock = stock.netStock > 0;
+
 
       // Delivery calculation based on PlentyONE availability
       const avgDays = v.availability === 1 ? 2 : v.availability === 5 ? 4 : 3;
@@ -462,12 +702,20 @@ app.get('/api/proxy/image', async (req, res) => {
 
   try {
     const token = plentyoneTokenCache.accessToken;
-    const fetchHeaders = {};
+    const fetchHeaders = {
+      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+    };
     if (imageUrl.includes('plentysystems.com') && token) {
       fetchHeaders['Authorization'] = `Bearer ${token}`;
     }
 
-    const response = await fetch(imageUrl, { headers: fetchHeaders });
+    const response = await fetch(imageUrl, { 
+      headers: fetchHeaders, 
+      redirect: 'follow',
+      signal: AbortSignal.timeout(10000)
+    });
+    
     if (!response.ok) {
       return res.status(response.status).send(`Failed to fetch image: ${response.statusText}`);
     }
@@ -479,14 +727,17 @@ app.get('/api/proxy/image', async (req, res) => {
       'Content-Type': contentType,
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
-      'Cache-Control': 'public, max-age=86400',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Cross-Origin-Resource-Policy': 'cross-origin',
+      'Cache-Control': 'public, max-age=604800, s-maxage=604800, stale-while-revalidate=86400',
     });
     res.send(Buffer.from(buffer));
   } catch (err) {
-    console.error('Image proxy error:', err.message);
-    res.status(500).send('Image proxy error');
+    console.error('Image proxy error for URL:', imageUrl, err.message);
+    res.status(502).send('Image proxy error: ' + err.message);
   }
 });
+
 
 // Fetch PlentyONE Inventory / Live Stock for specific variation
 app.get('/api/plentyone/stock', async (req, res) => {

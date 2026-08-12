@@ -90,6 +90,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <img
                     src={item.product.primaryImage}
                     alt={item.product.name}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
+                    }}
                     className="w-20 h-24 object-cover rounded-xl bg-[#F7F3EB]"
                   />
 
