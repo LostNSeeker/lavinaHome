@@ -1277,10 +1277,27 @@ app.post('/api/newsletter', (req, res) => {
   });
 });
 
+// SEO Static Endpoints
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain');
+  res.sendFile(path.join(distPath, 'robots.txt'));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  res.type('application/xml');
+  res.sendFile(path.join(distPath, 'sitemap.xml'));
+});
+
+app.get('/site.webmanifest', (req, res) => {
+  res.type('application/manifest+json');
+  res.sendFile(path.join(distPath, 'site.webmanifest'));
+});
+
 // SPA Fallback: Serve index.html for all unrecognized routes
 app.use((req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
+
 
 if (!process.env.VERCEL) {
   app.listen(PORT, '0.0.0.0', () => {
