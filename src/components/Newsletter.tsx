@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Check } from 'lucide-react';
+import { Check, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const Newsletter: React.FC = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -14,24 +16,25 @@ export const Newsletter: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-[#F4EEE6] border-b border-[#ECE8E2]">
-      <div className="max-w-[900px] mx-auto px-6 text-center space-y-6 animate-fade-up">
-        <span className="text-xs uppercase tracking-[0.35em] text-[#69705A] font-medium block">
-          Private Sanctuary Circle
+    <section className="py-24 bg-[#FDFBF7] border-b border-[#EDE6DC]">
+      <div className="max-w-[850px] mx-auto px-6 text-center space-y-6 animate-fade-up bg-white p-8 sm:p-12 rounded-3xl border-2 border-dashed border-[#8EBBB0]/40 shadow-pillowy">
+        <span className="text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-semibold bg-[#8EBBB0]/15 px-4 py-1.5 rounded-full inline-flex items-center gap-1.5">
+          <Sparkles size={13} />
+          <span>{t('newsletter.badge')}</span>
         </span>
 
-        <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#2B2B2B]">
-          Receive Seasonal Interior Journal &amp; Private Previews
+        <h2 className="font-heading text-3xl sm:text-5xl font-medium text-[#2D2B2A]">
+          {t('newsletter.title')}
         </h2>
 
-        <p className="text-sm text-[#666666] font-light leading-relaxed max-w-lg mx-auto">
-          Subscribe for quiet architectural insights, limited rug releases, and invitations to private trunk shows in Copenhagen.
+        <p className="text-sm text-[#6B6661] font-normal leading-relaxed max-w-lg mx-auto">
+          {t('newsletter.description')}
         </p>
 
         {submitted ? (
-          <div className="bg-[#FAF8F5] border border-[#69705A] p-6 rounded-[4px] max-w-md mx-auto flex items-center justify-center gap-3 text-[#505744] font-medium text-sm">
-            <Check size={18} className="text-[#69705A]" />
-            <span>Welcome to the Levina Home Journal Circle.</span>
+          <div className="bg-[#8EBBB0]/15 border border-[#8EBBB0] p-6 rounded-2xl max-w-md mx-auto flex items-center justify-center gap-3 text-[#6C9F93] font-bold text-sm">
+            <Check size={20} className="text-[#8EBBB0]" />
+            <span>{t('newsletter.success')}</span>
           </div>
         ) : (
           <form
@@ -42,23 +45,25 @@ export const Newsletter: React.FC = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address..."
+              placeholder={t('newsletter.placeholder')}
               required
-              className="w-full bg-[#FAF8F5] border border-[#ECE8E2] focus:border-[#B96A3C] text-[#2B2B2B] placeholder-[#8B8B8B] px-5 py-4 text-xs font-light rounded-[4px] outline-none transition-colors"
+              className="w-full bg-[#FDFBF7] border border-[#EDE6DC] focus:border-[#E79685] text-[#2D2B2A] placeholder-[#9E9891] px-5 py-3.5 text-xs font-normal rounded-full outline-none transition-all"
             />
             <button
               type="submit"
-              className="w-full sm:w-auto bg-[#B96A3C] hover:bg-[#A75D36] text-white px-8 py-4 text-xs uppercase tracking-[0.2em] font-medium rounded-[4px] whitespace-nowrap transition-colors shadow-xs"
+              className="w-full sm:w-auto bg-[#E79685] hover:bg-[#D47B68] text-white px-8 py-3.5 text-xs uppercase tracking-wider font-bold rounded-full whitespace-nowrap transition-all shadow-pillowy-coral hover:scale-105 cursor-pointer"
             >
-              Subscribe
+              {t('newsletter.button')}
             </button>
           </form>
         )}
 
-        <span className="text-[10px] text-[#8B8B8B] tracking-wider uppercase block pt-2">
-          We respect your peace. Unsubscribe anytime with one click.
+        <span className="text-[11px] text-[#9E9891] tracking-wide block pt-1">
+          {t('newsletter.disclaimer')}
         </span>
       </div>
     </section>
   );
 };
+
+

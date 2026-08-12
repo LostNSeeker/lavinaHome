@@ -1,5 +1,6 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles, ShieldCheck, Feather, Droplets, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface HeroSectionProps {
   onExploreClick: () => void;
@@ -10,59 +11,92 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onExploreClick,
   onShopCarpetsClick,
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <section className="relative w-full h-screen min-h-[700px] overflow-hidden flex items-center bg-[#F4EEE6]">
+    <section className="relative w-full min-h-[calc(100vh-80px)] py-16 md:py-24 overflow-hidden flex items-center bg-[#FDFBF7]">
       {/* Lifestyle Background Image with Ken Burns Zoom */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=2000&auto=format&fit=crop"
-          alt="Luxury Scandinavian Living Room Carpet"
-          className="w-full h-full object-cover object-center animate-kenburns opacity-90 filter brightness-[0.96]"
+          src="/hero_section.png"
+          alt="Warm nursery with cozy Scandinavian carpet and natural lighting"
+          className="w-full h-full object-cover object-center animate-kenburns opacity-90 filter brightness-[0.98]"
         />
-        {/* Soft Warm Neutral Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/40 to-transparent w-full md:w-3/4 pointer-events-none" />
+        {/* Soft Warm Pastel Cream Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FDFBF7] via-[#FDFBF7]/85 to-transparent w-full md:w-4/5 pointer-events-none" />
       </div>
 
       {/* Hero Content Container */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full pt-16">
-        <div className="max-w-2xl animate-fade-up">
-          <span className="inline-block text-xs font-medium uppercase tracking-[0.35em] text-[#69705A] mb-4">
-            Scandinavian Minimalist Collection
-          </span>
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full pt-8 pb-12">
+        <div className="max-w-2xl animate-fade-up space-y-6">
+          
+          {/* Playful Floating Badges */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#8EBBB0] bg-[#8EBBB0]/15 px-3.5 py-1.5 rounded-full border border-[#8EBBB0]/30 shadow-xs">
+              <Sparkles size={13} className="text-[#8EBBB0]" />
+              <span>{t('hero.badgeNonToxic')}</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#E79685] bg-[#E79685]/15 px-3.5 py-1.5 rounded-full border border-[#E79685]/30 shadow-xs">
+              <Heart size={13} className="text-[#E79685]" />
+              <span>{t('hero.badgeCopenhagen')}</span>
+            </span>
+          </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal text-[#2B2B2B] leading-[1.1] tracking-tight mb-6">
-            Luxury Carpets <br />
-            <span className="italic font-light text-[#505744]">Crafted for Timeless Living.</span>
+          <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold text-[#2D2B2A] leading-[1.08] tracking-tight">
+            {t('hero.titleLine1')} <br />
+            <span className="text-[#E79685] underline decoration-wavy decoration-[#8EBBB0]/60 decoration-2">
+              {t('hero.titleHighlight')}
+            </span>
           </h1>
 
-          <p className="text-base md:text-lg text-[#666666] font-light leading-relaxed mb-10 max-w-lg">
-            Beautiful spaces. Beautiful moments. Handwoven New Zealand wool, natural organic fibers, and serene interior design.
+          <p className="text-base md:text-lg text-[#6B6661] font-normal leading-relaxed max-w-lg">
+            {t('hero.subtitle')}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
             <button
               onClick={onExploreClick}
-              className="bg-[#B96A3C] hover:bg-[#A75D36] text-white px-8 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] shadow-sm hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-3 group"
+              className="bg-[#E79685] hover:bg-[#D47B68] text-white px-8 py-4 text-xs tracking-wider font-bold uppercase rounded-full shadow-pillowy-coral hover:scale-105 transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer group"
             >
-              <span>Explore Collection</span>
+              <span>{t('hero.exploreCollections')}</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
               onClick={onShopCarpetsClick}
-              className="border border-[#69705A] text-[#43463D] hover:bg-[#69705A] hover:text-white px-8 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] transition-all duration-300 text-center"
+              className="border-2 border-[#8EBBB0] bg-white/80 hover:bg-[#8EBBB0] text-[#2D2B2A] hover:text-white px-8 py-4 text-xs tracking-wider font-bold uppercase rounded-full shadow-pillowy-sage hover:scale-105 transition-all duration-300 text-center cursor-pointer flex items-center justify-center gap-2"
             >
-              Shop Carpets
+              <span>{t('hero.shopCarpets')}</span>
             </button>
           </div>
+
+          {/* Quick Trust Highlights / Legends */}
+          <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#EDE6DC]/80 max-w-md text-[#6B6661]">
+            <div className="flex items-center gap-2">
+              <ShieldCheck size={16} className="text-[#8EBBB0]" />
+              <span className="text-xs font-medium">{t('hero.oekoTex')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Feather size={16} className="text-[#E79685]" />
+              <span className="text-xs font-medium">{t('hero.cloudWool')}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Droplets size={16} className="text-[#8EBBB0]" />
+              <span className="text-xs font-medium">{t('hero.spillProof')}</span>
+            </div>
+          </div>
+
         </div>
       </div>
 
       {/* Floating Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-2 text-[#8B8B8B] text-[10px] tracking-[0.3em] uppercase">
-        <span>Scroll to Explore</span>
-        <div className="w-[1px] h-8 bg-gradient-to-b from-[#8B8B8B] to-transparent animate-pulse" />
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-1.5 text-[#9E9891] text-[10px] tracking-widest uppercase font-medium">
+        <span>{t('hero.scrollToExplore')}</span>
+        <div className="w-[2px] h-6 bg-[#8EBBB0] rounded-full animate-gentle-bounce" />
       </div>
     </section>
   );
 };
+
+
+

@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ParallaxBannerProps {
   onExploreClick: () => void;
 }
 
 export const ParallaxBanner: React.FC<ParallaxBannerProps> = ({ onExploreClick }) => {
+  const { t } = useTranslation();
   const [offsetY, setOffsetY] = useState(0);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -16,7 +18,6 @@ export const ParallaxBanner: React.FC<ParallaxBannerProps> = ({ onExploreClick }
       const windowHeight = window.innerHeight;
 
       if (rect.top < windowHeight && rect.bottom > 0) {
-        // Calculate scroll progress within viewport
         const scrollDistance = windowHeight - rect.top;
         setOffsetY(scrollDistance * 0.15);
       }
@@ -29,7 +30,7 @@ export const ParallaxBanner: React.FC<ParallaxBannerProps> = ({ onExploreClick }
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[650px] overflow-hidden flex items-center justify-center bg-[#2B2B2B]"
+      className="relative w-full h-[600px] overflow-hidden flex items-center justify-center bg-[#2D2B2A]"
     >
       {/* Background Image with Scroll-Driven Parallax Motion */}
       <div
@@ -40,40 +41,40 @@ export const ParallaxBanner: React.FC<ParallaxBannerProps> = ({ onExploreClick }
         }}
       >
         <img
-          src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=2000&auto=format&fit=crop"
-          alt="Parallax luxury interior carpet"
-          className="w-full h-full object-cover opacity-60 filter brightness-[0.8]"
+          src="https://images.unsplash.com/photo-1519689680058-324335c77eba?q=80&w=2000&auto=format&fit=crop"
+          alt="Child reading cozy bedtime story tucked in soft blanket"
+          className="w-full h-full object-cover opacity-60 filter brightness-[0.75]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#2B2B2B] via-[#2B2B2B]/40 to-[#2B2B2B]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2D2B2A] via-[#2D2B2A]/40 to-[#2D2B2A]" />
       </div>
 
       {/* Parallax Content Container */}
       <div
-        className="relative z-10 max-w-[1000px] mx-auto px-6 text-center text-white space-y-6 animate-fade-up"
+        className="relative z-10 max-w-[900px] mx-auto px-6 text-center text-white space-y-6 animate-fade-up"
         style={{
-          transform: `translateY(${-offsetY * 0.4}px)`,
+          transform: `translateY(${-offsetY * 0.35}px)`,
         }}
       >
-        <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.4em] text-[#D9C5A7] font-semibold">
-          <Sparkles size={14} />
-          <span>Tactile Scandinavian Living</span>
+        <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#E5B769] font-semibold bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/20">
+          <Sparkles size={14} className="text-[#E5B769]" />
+          <span>{t('parallax.badge')}</span>
         </div>
 
-        <h2 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal leading-[1.1] text-[#FAF8F5]">
-          "Simplicity is not the lack of clutter. <br />
-          <span className="italic text-[#D9C5A7]">It is the presence of quiet purpose."</span>
+        <h2 className="font-heading text-4xl sm:text-6xl font-medium leading-[1.15] text-[#FDFBF7]">
+          {t('parallax.quote1')} <br />
+          <span className="text-[#E79685] italic font-normal">{t('parallax.quoteHighlight')}</span>
         </h2>
 
-        <p className="text-sm md:text-base text-white/80 font-light max-w-xl mx-auto leading-relaxed">
-          Experience our scroll-driven 3D parallax spatial presentation. Each thread woven from un-dyed New Zealand organic wool.
+        <p className="text-sm md:text-base text-white/80 font-normal max-w-xl mx-auto leading-relaxed">
+          {t('parallax.description')}
         </p>
 
-        <div className="pt-4">
+        <div className="pt-2">
           <button
             onClick={onExploreClick}
-            className="bg-[#B96A3C] hover:bg-[#A75D36] text-white px-9 py-4 text-xs uppercase tracking-[0.25em] font-semibold rounded-[4px] inline-flex items-center gap-3 transition-colors shadow-lg"
+            className="bg-[#E79685] hover:bg-[#D47B68] text-white px-9 py-4 text-xs uppercase tracking-wider font-bold rounded-full inline-flex items-center gap-3 transition-all shadow-pillowy-coral hover:scale-105 cursor-pointer"
           >
-            <span>Explore 3D Lookbook</span>
+            <span>{t('parallax.exploreStudio')}</span>
             <ArrowRight size={16} />
           </button>
         </div>
@@ -81,3 +82,5 @@ export const ParallaxBanner: React.FC<ParallaxBannerProps> = ({ onExploreClick }
     </section>
   );
 };
+
+

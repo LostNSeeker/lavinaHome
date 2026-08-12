@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Heart, ShoppingBag, Menu, X, Cpu } from 'lucide-react';
+import { Search, Heart, ShoppingBag } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface NavbarProps {
   cartCount: number;
@@ -7,9 +9,10 @@ interface NavbarProps {
   onOpenCart: () => void;
   onOpenWishlist: () => void;
   onOpenSearch: () => void;
+  onOpenAuth?: () => void;
   onOpenIntegrationModal?: () => void;
   onSelectCategory: (category: string) => void;
-  activeCategory: string;
+  activeCategory?: string;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -18,16 +21,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenCart,
   onOpenWishlist,
   onOpenSearch,
-  onOpenIntegrationModal,
+  onOpenAuth,
   onSelectCategory,
-  activeCategory,
 }) => {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 40) {
+      if (window.scrollY > 30) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -37,103 +39,75 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: 'All', id: 'all' },
-    { label: 'Carpets', id: 'carpets' },
-    { label: 'Rugs', id: 'rugs' },
-    { label: 'Furniture', id: 'furniture' },
-    { label: 'Home Decor', id: 'decor' },
-    { label: 'Textiles', id: 'textiles' },
-    { label: 'Kitchen', id: 'kitchen' },
-    { label: 'About', id: 'about' },
-  ];
-
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
           isScrolled
-            ? 'bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#ECE8E2] py-4 shadow-xs'
-            : 'bg-transparent text-[#2B2B2B] py-6'
+            ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 shadow-pillowy'
+            : 'bg-transparent text-[#2D2B2A] py-4 border-b border-transparent'
         }`}
       >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* Left: Mobile Menu Toggle & Desktop Navigation */}
-          <div className="flex items-center gap-8">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[#2B2B2B] hover:text-[#B96A3C] transition-colors"
-              aria-label="Toggle navigation menu"
-            >
-              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-            </button>
-
-            <nav className="hidden lg:flex items-center space-x-7 text-xs tracking-[0.18em] uppercase font-medium">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => onSelectCategory(link.id)}
-                  className={`transition-all duration-300 relative py-1 hover:text-[#B96A3C] ${
-                    activeCategory === link.id
-                      ? 'text-[#B96A3C] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#B96A3C]'
-                      : 'text-[#2B2B2B]/80'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
-            </nav>
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 flex items-center justify-between">
+          
+          {/* Left: Language Switcher on Left Desktop/Mobile */}
+          <div className="flex items-center min-w-[80px] sm:min-w-[120px]">
+            <LanguageSwitcher />
           </div>
 
-          {/* Center: Brand Logo & Times New Roman Text */}
-          <button
-            onClick={() => onSelectCategory('all')}
-            className="flex flex-col items-center group cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
+          {/* Center: Brand Unit (Emblem Logo close to Text Wordmark in Middle) */}
+          <div className="flex-1 flex items-center justify-center px-2 sm:px-4">
+            <button
+              onClick={() => onSelectCategory('all')}
+              className="flex items-center justify-center gap-2.5 sm:gap-4 md:gap-5 cursor-pointer group py-0.5"
+              aria-label={t('nav.home')}
+            >
               <img
-                src="/lavina_logo.png"
-                alt="LEVINA HOME Logo"
-                className="h-8 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+                src="/Levina_home_logo.png"
+                alt="Levinahome Emblem"
+                className="h-9 sm:h-12 md:h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-105 shrink-0"
               />
-              <span className="font-['Times_New_Roman',_Times,_serif] text-xl md:text-2xl tracking-[0.25em] font-normal uppercase text-[#2B2B2B] group-hover:text-[#505744] transition-colors">
-                LEVINA HOME
-              </span>
-            </div>
-            <span className="block text-[8px] tracking-[0.35em] text-[#8B8B8B] uppercase font-sans font-light mt-0.5">
-              COPENHAGEN
-            </span>
-          </button>
+              <img
+                src="/text_levinaHome.png"
+                alt="Levinahome"
+                className="h-10 sm:h-14 md:h-18 lg:h-20 w-auto max-w-[340px] sm:max-w-[540px] md:max-w-[720px] lg:max-w-[860px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              />
+            </button>
+          </div>
 
-          {/* Right: Actions (Search, Integration Status, Wishlist, Cart) */}
-          <div className="flex items-center space-x-4 md:space-x-6 text-[#2B2B2B]">
-            {onOpenIntegrationModal && (
+          {/* Right: Actions (Profile First, then Search, Wishlist, Cart) */}
+          <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 text-[#2D2B2A] min-w-[80px] sm:min-w-[120px] justify-end">
+            {onOpenAuth && (
               <button
-                onClick={onOpenIntegrationModal}
-                className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-[2px] bg-[#F4EEE6] hover:bg-[#EFE7DC] border border-[#ECE8E2] text-[10px] uppercase tracking-wider text-[#42593E] font-medium transition-colors"
-                title="Shopify & PlentyONE Sync Status"
+                onClick={onOpenAuth}
+                className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#E79685] transition-all relative group cursor-pointer"
+                title={t('nav.account')}
+                aria-label={t('nav.account')}
               >
-                <Cpu size={13} className="text-[#69705A]" />
-                <span className="hidden md:inline">Sync Active</span>
+                <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="1.8">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
               </button>
             )}
 
             <button
               onClick={onOpenSearch}
-              className="p-2 hover:text-[#B96A3C] transition-colors relative group"
-              title="Search"
+              className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#8EBBB0] transition-all relative group cursor-pointer"
+              title={t('nav.search')}
+              aria-label={t('nav.search')}
             >
-              <Search size={20} strokeWidth={1.5} />
+              <Search size={20} strokeWidth={1.8} />
             </button>
 
             <button
               onClick={onOpenWishlist}
-              className="p-2 hover:text-[#B96A3C] transition-colors relative group hidden sm:block"
-              title="Wishlist"
+              className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#E79685] transition-all relative group hidden sm:block cursor-pointer"
+              title={t('nav.wishlist')}
+              aria-label={t('nav.wishlist')}
             >
-              <Heart size={20} strokeWidth={1.5} />
+              <Heart size={20} strokeWidth={1.8} />
               {wishlistCount > 0 && (
-                <span className="absolute top-1 right-1 bg-[#B96A3C] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-medium">
+                <span className="absolute top-0.5 right-0.5 bg-[#E79685] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-xs">
                   {wishlistCount}
                 </span>
               )}
@@ -141,61 +115,27 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <button
               onClick={onOpenCart}
-              className="p-2 hover:text-[#B96A3C] transition-colors relative group flex items-center gap-2"
-              title="Cart Drawer"
+              className="p-2 px-3 rounded-full bg-white hover:bg-[#8EBBB0] text-[#2D2B2A] hover:text-white transition-all duration-300 relative group flex items-center gap-2 border border-[#EDE6DC] shadow-pillowy cursor-pointer"
+              title={t('nav.cart')}
+              aria-label={t('nav.cart')}
             >
               <div className="relative">
-                <ShoppingBag size={20} strokeWidth={1.5} />
+                <ShoppingBag size={18} strokeWidth={1.8} />
                 {cartCount > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-[#69705A] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-medium">
+                  <span className="absolute -top-2 -right-2 bg-[#8EBBB0] group-hover:bg-[#E79685] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-xs">
                     {cartCount}
                   </span>
                 )}
               </div>
-              <span className="hidden md:inline text-xs tracking-widest font-medium uppercase text-[#666666]">
-                Cart
+              <span className="text-xs font-semibold uppercase tracking-wider">
+                {t('nav.cart')}
               </span>
             </button>
           </div>
         </div>
       </header>
-
-      {/* Mobile Drawer Menu */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-30 bg-[#FAF8F5] pt-24 px-8 pb-12 flex flex-col justify-between lg:hidden animate-fade-up">
-          <div className="flex flex-col space-y-6 text-base tracking-[0.2em] font-serif uppercase text-[#2B2B2B]">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => {
-                  onSelectCategory(link.id);
-                  setMobileMenuOpen(false);
-                }}
-                className={`text-left py-2 border-b border-[#ECE8E2]/60 hover:text-[#B96A3C] transition-colors ${
-                  activeCategory === link.id ? 'text-[#B96A3C] font-semibold' : ''
-                }`}
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="pt-8 border-t border-[#ECE8E2] text-xs text-[#8B8B8B] tracking-wider uppercase flex justify-between items-center">
-            <span>© 2026 LEVINA HOME</span>
-            {onOpenIntegrationModal && (
-              <button
-                onClick={() => {
-                  onOpenIntegrationModal();
-                  setMobileMenuOpen(false);
-                }}
-                className="text-[#69705A] font-medium underline uppercase"
-              >
-                Sync Status
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </>
   );
 };
+
+

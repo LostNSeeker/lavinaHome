@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { Product } from '../types';
-import { X, Heart, Star, ChevronDown, ChevronUp, ShoppingBag, ShieldCheck, RefreshCw } from 'lucide-react';
+import { X, Heart, Star, ChevronDown, ChevronUp, ShoppingBag, ShieldCheck, RefreshCw, Box } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ProductDetailModalProps {
   product: Product | null;
@@ -13,6 +14,7 @@ interface ProductDetailModalProps {
   ) => void;
   isWishlisted: boolean;
   onToggleWishlist: (product: Product) => void;
+  onViewIn3D?: (product: Product) => void;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
@@ -21,60 +23,90 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   onAddToCart,
   isWishlisted,
   onToggleWishlist,
+  onViewIn3D,
 }) => {
-  const [activeImage, setActiveImage] = useState(product?.primaryImage || '');
-  const [selectedSize, setSelectedSize] = useState(product?.sizes[0] || 'Standard');
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0] || { name: 'Natural', hex: '#FAF8F5' });
-  const [selectedMaterial, setSelectedMaterial] = useState(product?.material || '');
+  const { t } = useTranslation();
+  const [activeImage, setActiveImage] = useState<string>('');
+  const [selectedSize, setSelectedSize] = useState<string>('Standard');
+  const [selectedColor, setSelectedColor] = useState<{ name: string; hex: string }>({ name: 'Natural', hex: '#FAF8F5' });
+  const [selectedMaterial, setSelectedMaterial] = useState<string>('');
   const [openAccordion, setOpenAccordion] = useState<'desc' | 'care' | 'shipping'>('desc');
+  const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
+
+  // Sync state whenever the selected product changes or opens
+  React.useEffect(() => {
+    if (product) {
+      const initialImg = product.primaryImage || product.secondaryImage || product.galleryImages?.[0] || '';
+      setActiveImage(initialImg);
+      setSelectedSize(product.sizes?.[0] || 'Standard');
+      setSelectedColor(product.colors?.[0] || { name: 'Natural', hex: '#FAF8F5' });
+      setSelectedMaterial(product.material || '');
+      setIsImageLoading(true);
+    }
+  }, [product]);
 
   if (!product) return null;
 
-  const gallery = [product.primaryImage, product.secondaryImage, ...(product.galleryImages || [])];
+  const gallery = [product.primaryImage, product.secondaryImage, ...(product.galleryImages || [])].filter(Boolean);
   const uniqueGallery = Array.from(new Set(gallery));
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#2B2B2B]/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-fade-up">
-      <div className="bg-[#FAF8F5] max-w-5xl w-full rounded-[4px] border border-[#ECE8E2] shadow-2xl relative overflow-hidden my-8">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#2D2B2A]/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 animate-fade-up">
+      <div className="bg-[#FDFBF7] max-w-4xl w-full max-h-[86vh] overflow-y-auto rounded-3xl border border-[#EDE6DC] shadow-2xl relative my-auto">
         
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2 bg-white/80 hover:bg-white text-[#2B2B2B] rounded-full transition-colors"
+          className="absolute top-3.5 right-3.5 z-20 p-2 bg-white/95 hover:bg-white text-[#2D2B2A] rounded-full transition-all shadow-xs cursor-pointer"
         >
-          <X size={20} />
+          <X size={18} />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 p-6 sm:p-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 p-5 sm:p-8">
           
-          {/* Left Column: Sticky Image Gallery */}
-          <div className="space-y-4">
-            <div className="aspect-[3/4] bg-[#EFE7DC] rounded-[2px] overflow-hidden relative border border-[#ECE8E2]">
+          {/* Left Column: Image Gallery */}
+          <div className="space-y-3">
+            <div className="aspect-[3/4] bg-[#F7F3EB] rounded-2xl overflow-hidden relative border border-[#EDE6DC] shadow-xs">
+              {isImageLoading && (
+                <div className="absolute inset-0 bg-[#EDE6DC]/40 animate-pulse flex items-center justify-center z-10">
+                  <div className="w-8 h-8 rounded-full border-2 border-[#E79685] border-t-transparent animate-spin" />
+                </div>
+              )}
+
               <img
-                src={activeImage}
+                src={activeImage || product.primaryImage}
                 alt={product.name}
-                className="w-full h-full object-cover transition-all duration-500"
+                onLoad={() => setIsImageLoading(false)}
+                onError={() => setIsImageLoading(false)}
+                className={`w-full h-full object-cover transition-all duration-500 ${
+                  isImageLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                }`}
               />
               <button
                 onClick={() => onToggleWishlist(product)}
-                className={`absolute top-4 left-4 p-2.5 rounded-full backdrop-blur-md transition-colors ${
+                className={`absolute top-3.5 left-3.5 p-2.5 rounded-full backdrop-blur-md transition-all shadow-xs cursor-pointer z-10 ${
                   isWishlisted
-                    ? 'bg-[#B96A3C] text-white'
-                    : 'bg-white/80 text-[#2B2B2B] hover:bg-white'
+                    ? 'bg-[#E79685] text-white'
+                    : 'bg-white/90 text-[#2D2B2A] hover:bg-[#E79685] hover:text-white'
                 }`}
               >
-                <Heart size={18} fill={isWishlisted ? 'currentColor' : 'none'} />
+                <Heart size={16} fill={isWishlisted ? 'currentColor' : 'none'} />
               </button>
             </div>
 
             {/* Thumbnail Strip */}
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+            <div className="flex gap-2.5 overflow-x-auto no-scrollbar pb-1">
               {uniqueGallery.map((imgUrl, index) => (
                 <button
                   key={index}
-                  onClick={() => setActiveImage(imgUrl)}
-                  className={`w-20 aspect-square rounded-[2px] overflow-hidden border-2 transition-all ${
-                    activeImage === imgUrl ? 'border-[#B96A3C]' : 'border-transparent opacity-70 hover:opacity-100'
+                  onClick={() => {
+                    if (activeImage !== imgUrl) {
+                      setIsImageLoading(true);
+                      setActiveImage(imgUrl);
+                    }
+                  }}
+                  className={`w-16 aspect-square rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                    activeImage === imgUrl ? 'border-[#E79685] scale-105' : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
                 >
                   <img src={imgUrl} alt="Thumbnail view" className="w-full h-full object-cover" />
@@ -84,50 +116,50 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           </div>
 
           {/* Right Column: Details & Selectors */}
-          <div className="space-y-6 flex flex-col justify-between">
+          <div className="space-y-4 flex flex-col justify-between">
             <div>
-              <div className="flex items-center justify-between text-xs text-[#8B8B8B] uppercase tracking-wider mb-2">
-                <span>{product.categoryLabel}</span>
-                <div className="flex items-center gap-1 text-[#C37A4A]">
-                  <Star size={14} fill="currentColor" />
-                  <span className="font-medium text-[#2B2B2B]">{product.rating}</span>
-                  <span>({product.reviewsCount} reviews)</span>
+              <div className="flex items-center justify-between text-xs text-[#9E9891] uppercase tracking-wider mb-1.5">
+                <span className="text-[#8EBBB0] font-bold">{product.categoryLabel}</span>
+                <div className="flex items-center gap-1 text-[#E5B769]">
+                  <Star size={13} fill="currentColor" />
+                  <span className="font-bold text-[#2D2B2A]">{product.rating}</span>
+                  <span className="text-[#9E9891]">({product.reviewsCount} {t('productDetail.reviews')})</span>
                 </div>
               </div>
 
-              <h2 className="font-serif text-3xl sm:text-4xl text-[#2B2B2B] font-normal mb-3">
+              <h2 className="font-heading text-2xl sm:text-3xl text-[#2D2B2A] font-medium mb-2 leading-tight">
                 {product.name}
               </h2>
 
-              <div className="flex items-baseline gap-3 mb-6">
-                <span className="text-2xl font-serif text-[#2B2B2B]">
+              <div className="flex items-baseline gap-2.5 mb-4">
+                <span className="text-xl sm:text-2xl font-bold text-[#E79685]">
                   ${product.price.toLocaleString()}
                 </span>
                 {product.originalPrice && (
-                  <span className="text-sm text-[#8B8B8B] line-through font-light">
+                  <span className="text-xs text-[#9E9891] line-through font-normal">
                     ${product.originalPrice.toLocaleString()}
                   </span>
                 )}
-                <span className="text-[10px] text-[#69705A] uppercase tracking-widest bg-[#F4EEE6] px-2 py-0.5 rounded-[2px] font-medium">
-                  Tax included
+                <span className="text-[10px] text-[#8EBBB0] uppercase tracking-wider bg-[#8EBBB0]/15 px-2.5 py-0.5 rounded-full font-bold">
+                  {t('productDetail.taxIncluded')}
                 </span>
               </div>
 
               {/* Material Selector */}
               {product.availableMaterials && product.availableMaterials.length > 0 && (
-                <div className="mb-5 space-y-2">
-                  <span className="text-xs uppercase tracking-wider text-[#666666] font-medium block">
-                    Material: <strong className="text-[#2B2B2B]">{selectedMaterial}</strong>
+                <div className="mb-4 space-y-1.5">
+                  <span className="text-xs uppercase tracking-wider text-[#6B6661] font-semibold block">
+                    {t('productDetail.material')} <strong className="text-[#2D2B2A]">{selectedMaterial}</strong>
                   </span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {product.availableMaterials.map((mat) => (
                       <button
                         key={mat}
                         onClick={() => setSelectedMaterial(mat)}
-                        className={`text-xs px-3.5 py-2 rounded-[2px] border transition-all ${
+                        className={`text-xs px-3 py-1 rounded-full border transition-all cursor-pointer ${
                           selectedMaterial === mat
-                            ? 'border-[#B96A3C] bg-[#EFE7DC] text-[#2B2B2B] font-medium'
-                            : 'border-[#ECE8E2] bg-white text-[#666666] hover:border-[#BBA68B]'
+                            ? 'border-[#8EBBB0] bg-[#8EBBB0] text-white font-bold'
+                            : 'border-[#EDE6DC] bg-white text-[#6B6661] hover:border-[#8EBBB0]'
                         }`}
                       >
                         {mat}
@@ -139,19 +171,19 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Size Selector */}
               {product.sizes && product.sizes.length > 0 && (
-                <div className="mb-5 space-y-2">
-                  <span className="text-xs uppercase tracking-wider text-[#666666] font-medium block">
-                    Dimensions / Size: <strong className="text-[#2B2B2B]">{selectedSize}</strong>
+                <div className="mb-4 space-y-1.5">
+                  <span className="text-xs uppercase tracking-wider text-[#6B6661] font-semibold block">
+                    {t('productDetail.dimensions')} <strong className="text-[#2D2B2A]">{selectedSize}</strong>
                   </span>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {product.sizes.map((sz) => (
                       <button
                         key={sz}
                         onClick={() => setSelectedSize(sz)}
-                        className={`text-xs px-4 py-2 rounded-[2px] border transition-all ${
+                        className={`text-xs px-3.5 py-1 rounded-full border transition-all cursor-pointer ${
                           selectedSize === sz
-                            ? 'border-[#69705A] bg-[#69705A] text-white font-medium'
-                            : 'border-[#ECE8E2] bg-white text-[#2B2B2B] hover:border-[#69705A]'
+                            ? 'border-[#E79685] bg-[#E79685] text-white font-bold'
+                            : 'border-[#EDE6DC] bg-white text-[#2D2B2A] hover:border-[#E79685]'
                         }`}
                       >
                         {sz}
@@ -163,22 +195,22 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               {/* Color Swatches */}
               {product.colors && product.colors.length > 0 && (
-                <div className="mb-6 space-y-2">
-                  <span className="text-xs uppercase tracking-wider text-[#666666] font-medium block">
-                    Colorway: <strong className="text-[#2B2B2B]">{selectedColor.name}</strong>
+                <div className="mb-4 space-y-1.5">
+                  <span className="text-xs uppercase tracking-wider text-[#6B6661] font-semibold block">
+                    {t('productDetail.colorway')} <strong className="text-[#2D2B2A]">{selectedColor.name}</strong>
                   </span>
-                  <div className="flex gap-3">
+                  <div className="flex gap-2.5">
                     {product.colors.map((c) => (
                       <button
                         key={c.name}
                         onClick={() => setSelectedColor(c)}
-                        className={`w-7 h-7 rounded-full border-2 transition-all p-0.5 ${
-                          selectedColor.name === c.name ? 'border-[#B96A3C] scale-110' : 'border-transparent'
+                        className={`w-6 h-6 rounded-full border-2 transition-all p-0.5 cursor-pointer ${
+                          selectedColor.name === c.name ? 'border-[#E79685] scale-110' : 'border-transparent'
                         }`}
                         title={c.name}
                       >
                         <span
-                          className="w-full h-full rounded-full block border border-[#BBA68B]"
+                          className="w-full h-full rounded-full block border border-[#EDE6DC]"
                           style={{ backgroundColor: c.hex }}
                         />
                       </button>
@@ -187,49 +219,90 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 </div>
               )}
 
+              {/* Live Stock & Delivery Box */}
+              <div className="mb-4 bg-white p-3.5 rounded-2xl border border-[#EDE6DC] space-y-2 text-xs shadow-pillowy">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2 h-2 rounded-full ${
+                      product.stockInfo?.inStock ? 'bg-[#8EBBB0] animate-pulse' : 'bg-[#E5B769]'
+                    }`} />
+                    <span className="font-bold text-[#2D2B2A]">
+                      {product.stockInfo?.statusLabel || t('productDetail.inStockReady')}
+                    </span>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-wider text-[#8EBBB0] bg-[#8EBBB0]/15 px-2 py-0.5 rounded-full font-bold">
+                    {t('productDetail.nonToxicBadge')}
+                  </span>
+                </div>
+
+                <div className="pt-1.5 border-t border-[#EDE6DC] space-y-1 text-[11px] text-[#6B6661]">
+                  <div className="flex items-center justify-between font-medium">
+                    <span>{t('productDetail.estimatedDelivery')}</span>
+                    <span className="text-[#2D2B2A] font-bold">{product.deliveryInfo?.estimatedDateRange || t('productDetail.deliveryDays')}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-[#9E9891]">
+                    <span>{t('productDetail.dispatchHub')}</span>
+                    <span>Industriestr. 23, 48249 Dülmen</span>
+                  </div>
+                </div>
+              </div>
+
               {/* Add to Cart CTA */}
               <button
                 onClick={() => {
                   onAddToCart(product, selectedSize, selectedColor, selectedMaterial);
                   onClose();
                 }}
-                className="w-full bg-[#B96A3C] hover:bg-[#A75D36] text-white py-4 text-xs uppercase tracking-[0.2em] font-medium rounded-[4px] flex items-center justify-center gap-3 transition-colors shadow-xs mb-6"
+                className="w-full bg-[#E79685] hover:bg-[#D47B68] text-white py-3.5 text-xs uppercase tracking-wider font-bold rounded-full flex items-center justify-center gap-2.5 transition-all shadow-pillowy-coral hover:scale-105 mb-2 cursor-pointer"
               >
-                <ShoppingBag size={16} />
-                <span>Add to Sanctuary Cart — ${product.price.toLocaleString()}</span>
+                <ShoppingBag size={15} />
+                <span>{t('productDetail.addToCart', { price: `$${product.price.toLocaleString()}` })}</span>
               </button>
+
+              {/* View in 3D Carpet Studio (2D to 3D Projection) */}
+              {onViewIn3D && (
+                <button
+                  onClick={() => {
+                    onViewIn3D(product);
+                    onClose();
+                  }}
+                  className="w-full bg-[#8EBBB0]/15 hover:bg-[#8EBBB0]/25 text-[#4D7A70] border border-[#8EBBB0]/40 py-2.5 text-xs uppercase tracking-wider font-bold rounded-full flex items-center justify-center gap-2 transition-all hover:scale-[1.02] mb-4 cursor-pointer"
+                >
+                  <Box size={15} className="text-[#8EBBB0]" />
+                  <span>{t('productDetail.viewIn3D')}</span>
+                </button>
+              )}
             </div>
 
             {/* Accordion Info Sections */}
-            <div className="border-t border-[#ECE8E2] space-y-3 pt-4">
-              
+            <div className="border-t border-[#EDE6DC] space-y-2.5 pt-3">
               {/* Description */}
-              <div className="border-b border-[#ECE8E2] pb-3">
+              <div className="border-b border-[#EDE6DC] pb-2.5">
                 <button
                   onClick={() => setOpenAccordion(openAccordion === 'desc' ? ('' as any) : 'desc')}
-                  className="w-full flex justify-between items-center text-xs uppercase tracking-wider font-semibold text-[#2B2B2B]"
+                  className="w-full flex justify-between items-center text-xs uppercase tracking-wider font-bold text-[#2D2B2A] cursor-pointer"
                 >
-                  <span>Product Narrative &amp; Craft</span>
-                  {openAccordion === 'desc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  <span>{t('productDetail.tabStory')}</span>
+                  {openAccordion === 'desc' ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                 </button>
                 {openAccordion === 'desc' && (
-                  <p className="text-xs text-[#666666] font-light leading-relaxed pt-3 animate-fade-up">
+                  <p className="text-xs text-[#6B6661] font-normal leading-relaxed pt-2 animate-fade-up">
                     {product.description}
                   </p>
                 )}
               </div>
 
               {/* Care Instructions */}
-              <div className="border-b border-[#ECE8E2] pb-3">
+              <div className="border-b border-[#EDE6DC] pb-2.5">
                 <button
                   onClick={() => setOpenAccordion(openAccordion === 'care' ? ('' as any) : 'care')}
-                  className="w-full flex justify-between items-center text-xs uppercase tracking-wider font-semibold text-[#2B2B2B]"
+                  className="w-full flex justify-between items-center text-xs uppercase tracking-wider font-bold text-[#2D2B2A] cursor-pointer"
                 >
-                  <span>Care &amp; Maintenance</span>
-                  {openAccordion === 'care' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  <span>{t('productDetail.tabCare')}</span>
+                  {openAccordion === 'care' ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                 </button>
                 {openAccordion === 'care' && (
-                  <ul className="text-xs text-[#666666] font-light space-y-1.5 pt-3 list-disc list-inside animate-fade-up">
+                  <ul className="text-xs text-[#6B6661] font-normal space-y-1 pt-2 list-disc list-inside animate-fade-up">
                     {product.careInstructions.map((ci, idx) => (
                       <li key={idx}>{ci}</li>
                     ))}
@@ -238,28 +311,27 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               </div>
 
               {/* Shipping & Returns */}
-              <div className="pb-2">
+              <div className="pb-1">
                 <button
                   onClick={() => setOpenAccordion(openAccordion === 'shipping' ? ('' as any) : 'shipping')}
-                  className="w-full flex justify-between items-center text-xs uppercase tracking-wider font-semibold text-[#2B2B2B]"
+                  className="w-full flex justify-between items-center text-xs uppercase tracking-wider font-bold text-[#2D2B2A] cursor-pointer"
                 >
-                  <span>White-Glove Shipping &amp; 30-Day Returns</span>
-                  {openAccordion === 'shipping' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  <span>{t('productDetail.tabShipping')}</span>
+                  {openAccordion === 'shipping' ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                 </button>
                 {openAccordion === 'shipping' && (
-                  <div className="text-xs text-[#666666] font-light leading-relaxed pt-3 space-y-2 animate-fade-up">
-                    <p className="flex items-center gap-2 text-[#505744]">
-                      <ShieldCheck size={14} />
+                  <div className="text-xs text-[#6B6661] font-normal leading-relaxed pt-2 space-y-1.5 animate-fade-up">
+                    <p className="flex items-center gap-2 text-[#8EBBB0] font-semibold">
+                      <ShieldCheck size={13} />
                       <span>{product.shippingInfo}</span>
                     </p>
-                    <p className="flex items-center gap-2 text-[#8B8B8B]">
-                      <RefreshCw size={14} />
-                      <span>Complimentary 30-day trial in your home. Full refund guaranteed.</span>
+                    <p className="flex items-center gap-2 text-[#9E9891]">
+                      <RefreshCw size={13} />
+                      <span>{t('productDetail.trialGuarantee')}</span>
                     </p>
                   </div>
                 )}
               </div>
-
             </div>
 
           </div>
@@ -270,3 +342,4 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     </div>
   );
 };
+

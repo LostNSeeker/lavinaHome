@@ -1,6 +1,8 @@
+import type { Product } from '../types';
+
 /**
  * PlentyONE (Plentymarkets) REST API Service
- * Manages ERP authentication, live inventory verification, and order pushing to PlentyONE.
+ * Manages ERP authentication, live product catalog sync, live inventory verification, and order pushing.
  */
 
 export interface PlentyoneAuthResponse {
@@ -23,14 +25,35 @@ export interface PlentyoneStockData {
 
 export const plentyoneService = {
   /**
-   * Authenticate with PlentyONE REST API (/rest/login)
+   * Fetch live master product catalog from PlentyONE ERP
    */
-  async authenticate(credentials?: { username?: string; password?: string; host?: string }): Promise<PlentyoneAuthResponse> {
+  async fetchProducts(): Promise<Product[]> {
+    try {
+      const response = await fetch('/api/plentyone/products');
+      const contentType = response.headers.get('content-type');
+      if (!response.ok || !contentType || !contentType.includes('application/json')) {
+        throw new Error(`Invalid response (Status: ${response.status}, Content-Type: ${contentType})`);
+      }
+      const data = await response.json();
+      if (data.products && Array.isArray(data.products) && data.products.length > 0) {
+        return data.products;
+      }
+      return [];
+    } catch (err) {
+      console.warn('[PlentyONE Service] Backend endpoint error fetching live products:', err);
+      return [];
+    }
+  },
+
+
+  /**
+   * Verify PlentyONE ERP REST API server connection (/api/plentyone/auth)
+   */
+  async authenticate(): Promise<PlentyoneAuthResponse> {
     try {
       const response = await fetch('/api/plentyone/auth', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials || {})
+        headers: { 'Content-Type': 'application/json' }
       });
       return await response.json();
     } catch (err) {
@@ -57,11 +80,11 @@ export const plentyoneService = {
       return [
         {
           variationId,
-          stockPhysical: 99,
+          stockPhysical: 18,
           stockReserved: 0,
-          stockNet: 99,
+          stockNet: 18,
           warehouseId: 1,
-          warehouseName: 'Copenhagen Central (Fallback)',
+          warehouseName: 'KS Sales Depot (Dülmen Hub)',
           inStock: true
         }
       ];

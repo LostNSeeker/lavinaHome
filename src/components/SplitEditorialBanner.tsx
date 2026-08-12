@@ -1,69 +1,72 @@
 import React from 'react';
-import { ArrowRight, Compass } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SplitEditorialBannerProps {
   onExploreClick: () => void;
 }
 
 export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({ onExploreClick }) => {
+  const { t } = useTranslation();
+
   return (
-    <section className="py-24 bg-[#FAF8F5] overflow-hidden border-b border-[#ECE8E2]">
+    <section className="py-24 bg-[#FDFBF7] overflow-hidden border-b border-[#EDE6DC]">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
           {/* Left: Editorial Text Content */}
           <div className="space-y-6 lg:pr-8">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium">
-              <Compass size={14} />
-              <span>Editorial Focus</span>
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-semibold bg-[#8EBBB0]/15 px-3 py-1 rounded-full w-fit">
+              <Sparkles size={14} className="text-[#8EBBB0]" />
+              <span>{t('editorial.badge')}</span>
             </div>
 
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#2B2B2B] leading-[1.15]">
-              The Art of Un-dyed New Zealand Wool
+            <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-medium text-[#2D2B2A] leading-[1.12]">
+              {t('editorial.title')}<span className="text-[#E79685]">{t('editorial.titleHighlight')}</span>
             </h2>
 
-            <p className="text-sm md:text-base text-[#666666] font-light leading-relaxed">
-              Every Levina Home carpet is hand-knotted by generational artisans using pristine wool washed in natural spring waters. We leave organic fibers un-bleached, revealing subtle tone variations that ground your room in quiet luxury.
+            <p className="text-sm md:text-base text-[#6B6661] font-normal leading-relaxed">
+              {t('editorial.description')}
             </p>
 
-            <div className="grid grid-cols-2 gap-6 pt-4 border-t border-[#ECE8E2] text-[#2B2B2B]">
-              <div>
-                <span className="font-serif text-2xl md:text-3xl text-[#505744] block mb-1">100%</span>
-                <span className="text-[11px] uppercase tracking-wider text-[#8B8B8B] block">Biodegradable Wool</span>
+            <div className="grid grid-cols-2 gap-6 pt-4 border-t border-[#EDE6DC] text-[#2D2B2A]">
+              <div className="bg-white p-4 rounded-2xl border border-[#EDE6DC] shadow-pillowy">
+                <span className="font-heading text-3xl text-[#8EBBB0] block mb-0.5 font-bold">{t('editorial.stat1Number')}</span>
+                <span className="text-[11px] uppercase tracking-wider text-[#6B6661] font-semibold block">{t('editorial.stat1Label')}</span>
               </div>
-              <div>
-                <span className="font-serif text-2xl md:text-3xl text-[#B96A3C] block mb-1">45 Days</span>
-                <span className="text-[11px] uppercase tracking-wider text-[#8B8B8B] block">Handcrafted per Loom</span>
+              <div className="bg-white p-4 rounded-2xl border border-[#EDE6DC] shadow-pillowy">
+                <span className="font-heading text-3xl text-[#E79685] block mb-0.5 font-bold">{t('editorial.stat2Number')}</span>
+                <span className="text-[11px] uppercase tracking-wider text-[#6B6661] font-semibold block">{t('editorial.stat2Label')}</span>
               </div>
             </div>
 
-            <div className="pt-4">
+            <div className="pt-2">
               <button
                 onClick={onExploreClick}
-                className="bg-[#69705A] hover:bg-[#505744] text-white px-8 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] transition-all duration-300 inline-flex items-center gap-3 group"
+                className="bg-[#8EBBB0] hover:bg-[#6C9F93] text-white px-8 py-4 text-xs tracking-wider font-bold uppercase rounded-full shadow-pillowy-sage hover:scale-105 transition-all duration-300 inline-flex items-center gap-3 cursor-pointer group"
               >
-                <span>Read Craftsmanship Story</span>
+                <span>{t('editorial.safetyStory')}</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </div>
 
           {/* Right: Lifestyle Image Banner */}
-          <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] rounded-[2px] overflow-hidden bg-[#EFE7DC] shadow-xs">
+          <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] rounded-3xl overflow-hidden bg-[#F7F3EB] shadow-pillowy border border-[#EDE6DC]">
             <img
-              src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop"
-              alt="Handweaving luxury wool rug"
+              src="https://images.unsplash.com/photo-1566004100631-35d015d6a491?q=80&w=1200&auto=format&fit=crop"
+              alt="Toddler playing with wooden toys on soft Scandinavian rug"
               className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2B2B2B]/40 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2D2B2A]/40 via-transparent to-transparent pointer-events-none" />
             
-            <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/90 backdrop-blur-md rounded-[2px] text-[#2B2B2B]">
-              <span className="text-[10px] tracking-[0.25em] uppercase text-[#69705A] font-medium block mb-1">
-                Featured Space
+            <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/95 backdrop-blur-md rounded-2xl text-[#2D2B2A] border border-[#EDE6DC] shadow-pillowy">
+              <span className="text-[10px] tracking-wider uppercase text-[#8EBBB0] font-bold block mb-1">
+                {t('editorial.copenhagenBadge')}
               </span>
-              <p className="font-serif text-xl text-[#2B2B2B] font-normal">
-                "In a noisy world, true luxury is tactile silence."
+              <p className="font-heading text-xl text-[#2D2B2A] font-medium">
+                {t('editorial.quote')}
               </p>
             </div>
           </div>
@@ -73,3 +76,5 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({ onEx
     </section>
   );
 };
+
+

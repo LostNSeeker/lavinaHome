@@ -1,6 +1,7 @@
 import React from 'react';
 import type { ShopRoom } from '../types';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ShopByRoomProps {
   rooms: ShopRoom[];
@@ -8,19 +9,43 @@ interface ShopByRoomProps {
 }
 
 export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, onSelectRoom }) => {
+  const { t } = useTranslation();
+
+  const getRoomName = (room: ShopRoom) => {
+    switch (room.roomSlug) {
+      case 'kids': return t('rooms.kids.name', { defaultValue: room.name });
+      case 'living-room': return t('rooms.livingRoom.name', { defaultValue: room.name });
+      case 'office': return t('rooms.office.name', { defaultValue: room.name });
+      case 'bedroom': return t('rooms.bedroom.name', { defaultValue: room.name });
+      case 'dining': return t('rooms.dining.name', { defaultValue: room.name });
+      default: return room.name;
+    }
+  };
+
+  const getRoomTagline = (room: ShopRoom) => {
+    switch (room.roomSlug) {
+      case 'kids': return t('rooms.kids.tagline', { defaultValue: room.tagline });
+      case 'living-room': return t('rooms.livingRoom.tagline', { defaultValue: room.tagline });
+      case 'office': return t('rooms.office.tagline', { defaultValue: room.tagline });
+      case 'bedroom': return t('rooms.bedroom.tagline', { defaultValue: room.tagline });
+      case 'dining': return t('rooms.dining.tagline', { defaultValue: room.tagline });
+      default: return room.tagline;
+    }
+  };
+
   return (
-    <section className="py-24 bg-[#F4EEE6] border-b border-[#ECE8E2]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <section className="py-24 bg-[#FDFBF7] border-b border-[#EDE6DC]">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-            Interior Inspiration
+          <span className="text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-semibold block mb-2 bg-[#8EBBB0]/15 w-fit px-3 py-1 rounded-full">
+            {t('shopByRoom.badge')}
           </span>
-          <h2 className="font-serif text-3xl md:text-5xl font-normal text-[#2B2B2B]">
-            Shop by Room
+          <h2 className="font-heading text-3xl md:text-5xl font-medium text-[#2D2B2A]">
+            {t('shopByRoom.title')}
           </h2>
         </div>
-        <p className="text-xs text-[#666666] tracking-widest uppercase font-light">
-          Harmonized rugs, wooden furnishings, and linens for every sanctuary.
+        <p className="text-xs text-[#6B6661] tracking-wide max-w-xs font-normal">
+          {t('shopByRoom.subtitle')}
         </p>
       </div>
 
@@ -31,32 +56,32 @@ export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, onSelectRoom }) =
             <div
               key={room.id}
               onClick={() => onSelectRoom(room.roomSlug)}
-              className="snap-start shrink-0 w-[280px] sm:w-[360px] md:w-[420px] group relative aspect-[3/4] overflow-hidden rounded-[2px] cursor-pointer bg-[#EFE7DC]"
+              className="snap-start shrink-0 w-[280px] sm:w-[360px] md:w-[420px] group relative aspect-[3/4] overflow-hidden rounded-3xl cursor-pointer bg-[#F7F3EB] shadow-pillowy border border-[#EDE6DC]"
             >
               <img
                 src={room.image}
-                alt={room.name}
+                alt={getRoomName(room)}
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 loading="lazy"
               />
 
-              {/* Gradient Darkener */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2B2B2B]/80 via-[#2B2B2B]/20 to-transparent" />
+              {/* Gentle Gradient Darkener */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2D2B2A]/85 via-[#2D2B2A]/25 to-transparent" />
 
               {/* Card Overlay Text */}
-              <div className="absolute bottom-8 left-8 right-8 text-white space-y-2">
-                <span className="text-[10px] tracking-[0.3em] uppercase text-[#D9C5A7] font-medium block">
-                  Space Styling
+              <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
+                <span className="text-[10px] tracking-wider uppercase text-[#E5B769] font-bold block">
+                  {t('shopByRoom.roomInspiration')}
                 </span>
-                <h3 className="font-serif text-3xl font-normal group-hover:text-[#D9C5A7] transition-colors">
-                  {room.name}
+                <h3 className="font-heading text-2xl md:text-3xl font-medium group-hover:text-[#E79685] transition-colors">
+                  {getRoomName(room)}
                 </h3>
-                <p className="text-xs text-white/80 font-light leading-relaxed">
-                  {room.tagline}
+                <p className="text-xs text-white/90 font-normal leading-relaxed line-clamp-2">
+                  {getRoomTagline(room)}
                 </p>
 
-                <div className="pt-2 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-white group-hover:translate-x-1 transition-transform">
-                  <span>Explore Room</span>
+                <div className="pt-2 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#8EBBB0] group-hover:text-[#E79685] group-hover:translate-x-1 transition-all">
+                  <span>{t('shopByRoom.exploreRoom')}</span>
                   <ArrowRight size={14} />
                 </div>
               </div>
@@ -67,3 +92,5 @@ export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, onSelectRoom }) =
     </section>
   );
 };
+
+

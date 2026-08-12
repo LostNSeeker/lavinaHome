@@ -1,5 +1,23 @@
+export interface ProductStockInfo {
+  physicalStock: number;
+  netStock: number;
+  inStock: boolean;
+  statusLabel: string;
+  warehouseName?: string;
+}
+
+export interface ProductDeliveryInfo {
+  averageDays: number;
+  deliveryText: string;
+  estimatedDateRange: string;
+  carrier?: string;
+}
+
 export interface Product {
   id: string;
+  plentyVariationId?: number | string;
+  itemId?: number | string;
+  sku?: string;
   name: string;
   category: 'carpets' | 'rugs' | 'furniture' | 'decor' | 'textiles' | 'kitchen';
   categoryLabel: string;
@@ -20,6 +38,8 @@ export interface Product {
   description: string;
   careInstructions: string[];
   shippingInfo: string;
+  stockInfo?: ProductStockInfo;
+  deliveryInfo?: ProductDeliveryInfo;
 }
 
 export interface CartItem {
@@ -55,4 +75,51 @@ export interface InstagramPost {
   roomName: string;
   likes: number;
   taggedProducts: Product[];
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  postalCode?: string;
+  createdAt?: string;
+  orders?: OrderRecord[];
+}
+
+export interface AuthResponse {
+  success: boolean;
+  message?: string;
+  token?: string;
+  user?: User;
+}
+
+export interface DeliveryPreferences {
+  phone: string;
+  preferredDeliveryDate: string;
+  deliveryTimeWindow: string;
+  gateFloorNotes: string;
+  vatNumber?: string;
+  specialInstructions?: string;
+}
+
+export interface OrderRecord {
+  orderId: string;
+  plentyOrderId: string;
+  customer: {
+    fullName: string;
+    email: string;
+    address?: string;
+    city?: string;
+    country?: string;
+    postalCode?: string;
+  };
+  items: CartItem[];
+  totalAmount: number;
+  status: string;
+  createdAt: string;
+  deliveryPreferences?: DeliveryPreferences | null;
 }
