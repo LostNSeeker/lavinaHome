@@ -14,7 +14,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const { t } = useTranslation();
 
   return (
-    <section className="relative w-full min-h-[calc(100vh-80px)] py-16 md:py-24 overflow-hidden flex items-center bg-[#FDFBF7]">
+    <section className="relative w-full min-h-screen pt-28 sm:pt-32 md:pt-36 pb-16 md:pb-24 overflow-hidden flex items-center bg-[#FDFBF7]">
       {/* Lifestyle Background Image with Ken Burns Zoom */}
       <div className="absolute inset-0 z-0">
         <img
@@ -27,7 +27,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
 
       {/* Hero Content Container */}
-      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full pt-8 pb-12">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full pt-2 pb-10">
         <div className="max-w-2xl animate-fade-up space-y-6">
           
           {/* Playful Floating Badges */}

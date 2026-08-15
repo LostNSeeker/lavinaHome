@@ -171,8 +171,8 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 shadow-pillowy'
-            : 'bg-[#FDFBF7]/90 backdrop-blur-sm text-[#2D2B2A] py-3.5 border-b border-[#EDE6DC]/60'
+            ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 sm:py-3 shadow-pillowy text-[#2D2B2A]'
+            : 'bg-transparent text-[#2D2B2A] py-4 sm:py-5 border-b border-transparent'
         }`}
       >
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex items-center justify-between gap-2 sm:gap-4">
@@ -187,18 +187,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               <img
                 src="/Levina_home_logo.png"
                 alt="Levinahome Emblem"
-                className="h-8 sm:h-10 md:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 shrink-0"
+                className="h-8 sm:h-10 md:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105 shrink-0 drop-shadow-xs"
               />
               <img
                 src="/text_levinaHome.png"
                 alt="Levina Home"
-                className="h-7 sm:h-9 md:h-10 w-auto max-w-[140px] sm:max-w-[190px] md:max-w-[220px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                className="h-7 sm:h-9 md:h-10 w-auto max-w-[140px] sm:max-w-[190px] md:max-w-[220px] object-contain transition-transform duration-300 group-hover:scale-[1.02] drop-shadow-xs"
               />
             </button>
           </div>
 
           {/* CENTER: Navigation Tags with Dropdowns */}
-          <nav className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 flex-1 max-w-2xl mx-auto">
+          <nav className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-2.5 flex-1 max-w-2xl mx-auto">
             {NAV_CATEGORIES.map((cat) => {
               const isOpen = activeDropdown === cat.id;
               const isSelected = activeTag === cat.label || (activeTag && cat.items.some(item => typeof item === 'string' ? item === activeTag : item.name === activeTag));
@@ -214,10 +214,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onClick={() => handleCategoryHeaderClick(cat)}
                     className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
                       cat.isSale
-                        ? 'bg-[#E79685]/10 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/30'
+                        ? 'bg-[#E79685]/15 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/40 shadow-xs'
                         : isSelected
                         ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage'
-                        : 'text-[#2D2B2A] hover:bg-white hover:text-[#8EBBB0] border border-transparent hover:border-[#EDE6DC]'
+                        : isScrolled
+                        ? 'text-[#2D2B2A] hover:bg-white hover:text-[#8EBBB0] border border-transparent hover:border-[#EDE6DC]'
+                        : 'text-[#2D2B2A] bg-white/60 hover:bg-white hover:text-[#8EBBB0] border border-white/70 shadow-2xs backdrop-blur-xs'
                     }`}
                   >
                     {cat.isSale && <Tag size={13} className="shrink-0" />}
@@ -400,11 +402,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             {onOpenAuth && (
               <button
                 onClick={onOpenAuth}
-                className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#E79685] transition-all relative group cursor-pointer"
+                className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#E79685] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
                 title={t('nav.account')}
                 aria-label={t('nav.account')}
               >
-                <svg className="w-5 h-5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="1.8">
+                <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="1.8">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                 </svg>
               </button>
@@ -413,21 +415,21 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Search Button */}
             <button
               onClick={onOpenSearch}
-              className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#8EBBB0] transition-all relative group cursor-pointer"
+              className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#8EBBB0] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
               title={t('nav.search')}
               aria-label={t('nav.search')}
             >
-              <Search size={19} strokeWidth={1.8} />
+              <Search size={17} strokeWidth={1.8} />
             </button>
 
             {/* Wishlist Button */}
             <button
               onClick={onOpenWishlist}
-              className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#E79685] transition-all relative group hidden sm:block cursor-pointer"
+              className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#E79685] transition-all relative group hidden sm:block cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
               title={t('nav.wishlist')}
               aria-label={t('nav.wishlist')}
             >
-              <Heart size={19} strokeWidth={1.8} />
+              <Heart size={17} strokeWidth={1.8} />
               {wishlistCount > 0 && (
                 <span className="absolute top-0.5 right-0.5 bg-[#E79685] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-xs">
                   {wishlistCount}
@@ -438,7 +440,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Cart Button */}
             <button
               onClick={onOpenCart}
-              className="p-2 px-2.5 sm:px-3 rounded-full bg-white hover:bg-[#8EBBB0] text-[#2D2B2A] hover:text-white transition-all duration-300 relative group flex items-center gap-1.5 sm:gap-2 border border-[#EDE6DC] shadow-pillowy cursor-pointer"
+              className="p-2 px-2.5 sm:px-3 rounded-full bg-white/90 hover:bg-[#8EBBB0] text-[#2D2B2A] hover:text-white transition-all duration-300 relative group flex items-center gap-1.5 sm:gap-2 border border-[#EDE6DC] shadow-pillowy cursor-pointer backdrop-blur-xs"
               title={t('nav.cart')}
               aria-label={t('nav.cart')}
             >
@@ -458,7 +460,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-full hover:bg-white text-[#6B6661] hover:text-[#2D2B2A] transition-all lg:hidden cursor-pointer"
+              className="p-2 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] transition-all lg:hidden cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
               aria-label="Toggle navigation menu"
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}

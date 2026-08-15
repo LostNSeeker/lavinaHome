@@ -314,7 +314,7 @@ export function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 pt-20">
+      <main className={`flex-1 ${currentView === 'product' ? 'pt-24 sm:pt-28' : 'pt-0'}`}>
         {currentView === 'product' && selectedProduct ? (
           /* ================= DEDICATED PRODUCT DETAIL PAGE VIEW ================= */
           <ProductDetailPage
