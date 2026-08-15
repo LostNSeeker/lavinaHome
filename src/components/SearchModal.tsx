@@ -108,7 +108,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                       }}
-                      className="w-16 h-20 object-cover rounded-xl bg-[#F7F3EB]"
+                      className="w-16 h-20 object-contain p-1 rounded-xl bg-[#F7F3EB] border border-[#EDE6DC]"
                     />
                     <div className="flex-1 min-w-0 flex flex-col justify-between">
                       <div>
@@ -121,7 +121,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       </div>
                       <div className="flex justify-between items-center text-xs">
                         <span className="font-bold text-[#E79685]">
-                          ${product.price.toLocaleString()}
+                          €{product.price.toLocaleString()}
                         </span>
                         <span className="text-[#8EBBB0] font-bold">{t('search.view')}</span>
                       </div>

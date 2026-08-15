@@ -58,7 +58,7 @@ export const SlidingMarqueeGallery: React.FC<SlidingMarqueeGalleryProps> = ({
                 {prod.name}
               </h3>
               <span className="text-xs font-bold text-[#E79685]">
-                ${prod.price.toLocaleString()}
+                €{prod.price.toLocaleString()}
               </span>
             </TiltCard>
           ))}

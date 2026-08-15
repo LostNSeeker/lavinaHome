@@ -68,7 +68,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                     }}
-                    className="w-20 h-24 object-cover rounded-xl bg-[#F7F3EB] cursor-pointer"
+                    className="w-20 h-24 object-contain p-1 rounded-xl bg-[#F7F3EB] border border-[#EDE6DC] cursor-pointer"
                     onClick={() => {
                       onSelectProduct(product);
                       onClose();
@@ -100,7 +100,7 @@ export const WishlistDrawer: React.FC<WishlistDrawerProps> = ({
                         {product.name}
                       </h4>
                       <span className="text-sm font-bold text-[#E79685]">
-                        ${product.price.toLocaleString()}
+                        €{product.price.toLocaleString()}
                       </span>
                     </div>
 

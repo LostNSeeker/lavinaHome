@@ -66,7 +66,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           
           {/* Left Column: Image Gallery */}
           <div className="space-y-3">
-            <div className="aspect-[3/4] bg-[#F7F3EB] rounded-2xl overflow-hidden relative border border-[#EDE6DC] shadow-xs">
+            <div className="aspect-[4/5] bg-[#F7F3EB] rounded-2xl overflow-hidden relative border border-[#EDE6DC] p-3 sm:p-5 flex items-center justify-center shadow-xs">
               {isImageLoading && (
                 <div className="absolute inset-0 bg-[#EDE6DC]/40 animate-pulse flex items-center justify-center z-10">
                   <div className="w-8 h-8 rounded-full border-2 border-[#E79685] border-t-transparent animate-spin" />
@@ -81,7 +81,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                   (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                   setIsImageLoading(false);
                 }}
-                className={`w-full h-full object-cover transition-all duration-500 ${
+                className={`w-full h-full object-contain drop-shadow-sm transition-all duration-500 ${
                   isImageLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                 }`}
               />
@@ -118,7 +118,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                     }}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain p-1 bg-[#F7F3EB]"
                   />
                 </button>
               ))}
@@ -143,11 +143,11 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               <div className="flex items-baseline gap-2.5 mb-4">
                 <span className="text-xl sm:text-2xl font-bold text-[#E79685]">
-                  ${product.price.toLocaleString()}
+                  €{product.price.toLocaleString()}
                 </span>
                 {product.originalPrice && (
                   <span className="text-xs text-[#9E9891] line-through font-normal">
-                    ${product.originalPrice.toLocaleString()}
+                    €{product.originalPrice.toLocaleString()}
                   </span>
                 )}
                 <span className="text-[10px] text-[#8EBBB0] uppercase tracking-wider bg-[#8EBBB0]/15 px-2.5 py-0.5 rounded-full font-bold">
@@ -266,7 +266,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 className="w-full bg-[#E79685] hover:bg-[#D47B68] text-white py-3.5 text-xs uppercase tracking-wider font-bold rounded-full flex items-center justify-center gap-2.5 transition-all shadow-pillowy-coral hover:scale-105 mb-2 cursor-pointer"
               >
                 <ShoppingBag size={15} />
-                <span>{t('productDetail.addToCart', { price: `$${product.price.toLocaleString()}` })}</span>
+                <span>{t('productDetail.addToCart', { price: `€${product.price.toLocaleString()}` })}</span>
               </button>
 
               {/* View in 3D Carpet Studio (2D to 3D Projection) */}

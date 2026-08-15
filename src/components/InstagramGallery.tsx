@@ -122,8 +122,8 @@ export const InstagramGallery: React.FC<InstagramGalleryProps> = ({ posts, onSel
                         <h4 className="font-heading text-sm text-[#2D2B2A] font-medium truncate">
                           {prod.name}
                         </h4>
-                        <span className="text-xs font-bold text-[#E79685]">
-                          ${prod.price.toLocaleString()}
+                        <span className="text-[11px] font-bold text-[#E79685]">
+                          €{prod.price.toLocaleString()}
                         </span>
                       </div>
                       <span className="text-xs text-[#8EBBB0] font-bold uppercase tracking-wider pr-2">

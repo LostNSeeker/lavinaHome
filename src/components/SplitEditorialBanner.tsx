@@ -55,7 +55,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({ onEx
           <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] rounded-3xl overflow-hidden bg-[#F7F3EB] shadow-pillowy border border-[#EDE6DC]">
             <img
               src="https://images.unsplash.com/photo-1566004100631-35d015d6a491?q=80&w=1200&auto=format&fit=crop"
-              alt="Toddler playing with wooden toys on soft Scandinavian rug"
+              alt="Toddler playing with wooden toys on soft rug"
               className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
               loading="lazy"
             />

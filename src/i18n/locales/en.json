@@ -10,10 +10,10 @@
   },
   "hero": {
     "badgeNonToxic": "100% Non-Toxic & Safe",
-    "badgeCopenhagen": "Copenhagen Nursery Crafts",
+    "badgeCopenhagen": "Artisan Craftsmanship",
     "titleLine1": "Whimsical, Soft & Safe Décor",
     "titleHighlight": "for Little Dreamers.",
-    "subtitle": "Gentle Scandinavian rugs, tactile playmats, and organic Montessori furniture crafted with un-dyed wool and love for tiny feet and wild imaginations.",
+    "subtitle": "Gentle rugs, tactile playmats, and organic Montessori furniture crafted with un-dyed wool and love for tiny feet and wild imaginations.",
     "exploreCollections": "Explore Collections",
     "shopCarpets": "Shop Nursery Rugs",
     "oekoTex": "OEKO-TEX® Certified",
@@ -24,7 +24,7 @@
   "liveStatus": {
     "loading": "Loading Whimsical Nursery Catalog...",
     "ready": "Whimsical Pieces Ready",
-    "source": "Levina Kids Copenhagen & Dülmen Nursery Hub"
+    "source": "Levina Kids Dülmen Nursery Hub"
   },
   "studio3D": {
     "badge": "2D to 3D Product Projection Studio",
@@ -78,7 +78,7 @@
     "stat2Number": "0% VOCs",
     "stat2Label": "Zero Chemical Dyes",
     "safetyStory": "Read Our Nursery Safety Story",
-    "copenhagenBadge": "Copenhagen Philosophy",
+    "copenhagenBadge": "Design Philosophy",
     "quote": "\"Where childhood creativity meets the softest natural hugs.\""
   },
   "newArrivals": {
@@ -109,7 +109,7 @@
     "pillar2Title": "Master Hand-Loomers",
     "pillar2Desc": "Every rug is hand-tufted over weeks by master artisans, embedding high-density cushioning to soften every toddler tumble.",
     "pillar3Title": "Made to Grow Up With",
-    "pillar3Desc": "Timeless Scandinavian shapes and durable fibers that transition seamlessly from baby nursery to creative big-kid playrooms."
+    "pillar3Desc": "Timeless shapes and durable fibers that transition seamlessly from baby nursery to creative big-kid playrooms."
   },
   "collections": {
     "badge": "Curated Play Spaces",
@@ -137,7 +137,7 @@
     "disclaimer": "Zero spam. Only gentle bedtime inspiration and nursery perks. Unsubscribe anytime."
   },
   "footer": {
-    "bio": "Thoughtfully crafted Scandinavian rugs, playmats, and nursery furniture designed for gentle feet, cozy snuggles, and endless imagination.",
+    "bio": "Thoughtfully crafted rugs, playmats, and nursery furniture designed for gentle feet, cozy snuggles, and endless imagination.",
     "hubTitle": "Studio & Warehouse",
     "hubName": "Levinahome Logistics Hub",
     "hubAddressLine1": "Industriestr. 23",
@@ -223,11 +223,22 @@
     "deliveryDays": "2–4 Business Days",
     "dispatchHub": "Dispatch Hub:",
     "addToCart": "Add to Cart — {{price}}",
+    "buyNow": "Buy Now",
+    "quantity": "Quantity",
     "viewIn3D": "Project in 3D Carpet Studio",
+    "backToCatalog": "Back to Collection",
+    "home": "Home",
     "tabStory": "Product Story & Loom Craft",
     "tabCare": "Care & Spill Guide",
     "tabShipping": "Free Shipping & 30-Day Trial",
-    "trialGuarantee": "Complimentary 30-day trial in your nursery. 100% full refund guarantee."
+    "trialGuarantee": "Complimentary 30-day trial in your nursery. 100% full refund guarantee.",
+    "youMightAlsoLike": "You Might Also Love",
+    "youMightAlsoLikeSubtitle": "Handpicked pieces that complement this collection seamlessly in your little one's room.",
+    "verifiedReview": "Verified Parent Review",
+    "oekoTexCertified": "OEKO-TEX® Standard 100",
+    "handcraftedFibers": "Pure Natural Fibers",
+    "fastDispatch": "Express Delivery (2-4 Days)",
+    "riskFreeTrial": "30-Day Risk-Free Nursery Trial"
   },
   "checkout": {
     "title": "Secure Nursery Checkout",
@@ -269,29 +280,40 @@
     "continueShopping": "Continue Shopping"
   },
   "auth": {
-    "signInTitle": "Welcome Back",
-    "signInSubtitle": "Sign in to your Little Dreamers account",
-    "registerTitle": "Create an Account",
-    "registerSubtitle": "Join the Levina Kids family",
-    "tabSignIn": "Sign In",
-    "tabRegister": "Register",
-    "emailLabel": "Email Address",
-    "passwordLabel": "Password",
-    "nameLabel": "Full Name",
-    "phoneLabel": "Phone Number",
-    "addressLabel": "Street Address",
-    "cityLabel": "City",
-    "countryLabel": "Country",
-    "postalCodeLabel": "Postal Code",
-    "signInButton": "Sign In",
-    "registerButton": "Create Account",
-    "processing": "Processing...",
-    "welcomeBack": "Welcome back to your Little Dreamers account!",
-    "accountCreated": "Your Levina Kids account has been created!",
-    "profileTitle": "My Levina Profile",
-    "ordersTitle": "My Order History",
-    "noOrders": "No orders placed yet.",
-    "logout": "Sign Out"
+    "welcomeBackMsg": "Welcome back to your Levina Home account!",
+    "invalidCreds": "Invalid email or password. Please check your credentials.",
+    "accountCreated": "Your Levina Home account has been created successfully!",
+    "registrationFailed": "Registration failed. Please check your details.",
+    "parentClubProfile": "Parent Club & Nursery Profile",
+    "nurserySpecs": "Nursery Specifications",
+    "kidSafeVerified": "Kid-Safe Verified Account",
+    "contactPhone": "Contact Phone",
+    "nurseryHub": "Dispatch Logistics Hub",
+    "deliveryAddress": "Primary Delivery Address",
+    "recentOrders": "Recent Nursery Orders",
+    "dispatchedFromDulmen": "Dispatched from Dülmen Depot",
+    "continueBrowsing": "Continue Browsing",
+    "signOut": "Sign Out",
+    "welcomeBack": "Welcome Back",
+    "createAccount": "Create an Account",
+    "signIn": "Sign In",
+    "register": "Register",
+    "parentEmail": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "verifying": "Verifying Credentials...",
+    "signInBtn": "Sign In to Account",
+    "demoCreds": "Demo Login: sophia@example.com / password123",
+    "parentFullName": "Full Name",
+    "emailAddress": "Email Address",
+    "createPassword": "Create Password (min. 6 characters)",
+    "phoneNumber": "Phone Number",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "country": "Country",
+    "deliveryStreetAddress": "Street Address",
+    "creatingMembership": "Creating Membership...",
+    "joinClubBtn": "Create Nursery Account"
   },
   "integration": {
     "title": "Shopify & PlentyONE Sync",

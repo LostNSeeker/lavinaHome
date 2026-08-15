@@ -597,7 +597,7 @@ async function syncPlentyoneCatalog() {
           { name: 'Dune Sand', hex: '#D9C5A7' }
         ],
         roomCategory: roomCategory,
-        description: text.description ? text.description.replace(/<[^>]*>?/gm, ' ') : 'Handcrafted by master artisans using time-honored heritage techniques. Designed for serene, sophisticated Scandinavian living spaces.',
+        description: text.description ? text.description.replace(/<[^>]*>?/gm, ' ') : 'Handcrafted by master artisans using time-honored heritage techniques. Designed for serene, sophisticated living spaces.',
         careInstructions: [
           'Vacuum regularly using gentle suction without rotating beater brush.',
           'Blot spills immediately with a clean, undyed cloth and lukewarm water.',
@@ -678,17 +678,28 @@ app.get('/api/plentyone/products', async (req, res) => {
     }
 
     const liveProducts = await syncPlentyoneCatalog();
-    res.json({
+    if (liveProducts && liveProducts.length > 0) {
+      return res.json({
+        success: true,
+        source: 'PlentyONE ERP Live Catalog',
+        count: liveProducts.length,
+        products: liveProducts
+      });
+    }
+
+    return res.json({
       success: true,
-      source: 'PlentyONE ERP Live Catalog',
-      count: liveProducts.length,
-      products: liveProducts
+      source: 'PlentyONE ERP Live Catalog (Fallback Mode)',
+      count: (cachedPlentyProducts || []).length,
+      products: cachedPlentyProducts || []
     });
   } catch (error) {
     console.error('Error in /api/plentyone/products:', error.message);
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Failed to fetch PlentyONE catalog'
+    res.json({
+      success: true,
+      source: 'PlentyONE ERP Live Catalog (Fallback Mode)',
+      count: (cachedPlentyProducts || []).length,
+      products: cachedPlentyProducts || []
     });
   }
 });
@@ -1299,7 +1310,8 @@ app.use((req, res) => {
 });
 
 
-if (!process.env.VERCEL) {
+const isDirectExecution = process.argv[1] && (process.argv[1].endsWith('server.js') || process.argv[1].includes('server.js'));
+if (!process.env.VERCEL && isDirectExecution) {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`====================================================`);
     console.log(`🚀 LEVINA HOME Production Backend deployed successfully!`);

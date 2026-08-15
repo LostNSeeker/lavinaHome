@@ -67,14 +67,14 @@ export const BestSellersSlider: React.FC<BestSellersSliderProps> = ({
                   className="snap-start shrink-0 w-[270px] sm:w-[320px] md:w-[350px] group bg-white p-4 rounded-3xl border border-[#EDE6DC] transition-all duration-300 hover:shadow-pillowy hover:border-[#8EBBB0]/60"
                 >
                   {/* Image Swap Container */}
-                  <div className="relative aspect-[3/4] overflow-hidden bg-[#F7F3EB] rounded-2xl mb-4">
+                  <div className="relative aspect-[4/5] overflow-hidden bg-[#F7F3EB] rounded-2xl p-2.5 sm:p-3 flex items-center justify-center mb-4">
                     <img
                       src={product.primaryImage}
                       alt={product.name}
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                       }}
-                      className="w-full h-full object-cover transition-all duration-700 group-hover:opacity-0 group-hover:scale-105"
+                      className="w-full h-full object-contain transition-all duration-700 group-hover:opacity-0 group-hover:scale-105 drop-shadow-xs"
                       loading="lazy"
                     />
                     <img
@@ -83,7 +83,7 @@ export const BestSellersSlider: React.FC<BestSellersSliderProps> = ({
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                       }}
-                      className="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-contain p-2.5 sm:p-3 opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105 drop-shadow-xs"
                       loading="lazy"
                     />
 
@@ -146,11 +146,11 @@ export const BestSellersSlider: React.FC<BestSellersSliderProps> = ({
 
                     <div className="flex items-center gap-2 pt-1">
                       <span className="text-base font-bold text-[#E79685]">
-                        ${product.price.toLocaleString()}
+                        €{product.price.toLocaleString()}
                       </span>
                       {product.originalPrice && (
                         <span className="text-xs text-[#9E9891] line-through font-normal">
-                          ${product.originalPrice.toLocaleString()}
+                          €{product.originalPrice.toLocaleString()}
                         </span>
                       )}
                     </div>

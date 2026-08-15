@@ -10,10 +10,10 @@
   },
   "hero": {
     "badgeNonToxic": "100% Schadstofffrei & Sicher",
-    "badgeCopenhagen": "Kopenhagener Kinderzimmer-Handwerk",
+    "badgeCopenhagen": "Kinderzimmer-Handwerkskunst",
     "titleLine1": "Zauberhafte, weiche & sichere Deko",
     "titleHighlight": "für kleine Träumer.",
-    "subtitle": "Sanfte skandinavische Teppiche, fühlbare Spielmatten und ökologische Montessori-Möbel – gefertigt aus ungefärbter Naturwolle und mit viel Liebe für kleine Füße und große Fantasie.",
+    "subtitle": "Sanfte Teppiche, fühlbare Spielmatten und ökologische Montessori-Möbel – gefertigt aus ungefärbter Naturwolle und mit viel Liebe für kleine Füße und große Fantasie.",
     "exploreCollections": "Kollektionen entdecken",
     "shopCarpets": "Kinderteppiche shoppen",
     "oekoTex": "OEKO-TEX® zertifiziert",
@@ -24,7 +24,7 @@
   "liveStatus": {
     "loading": "Kinderzimmer-Katalog wird geladen...",
     "ready": "Zauberhafte Unikate versandbereit",
-    "source": "Levinahome Kopenhagen & Dülmen Logistik-Zentrum"
+    "source": "Levinahome Dülmen Logistik-Zentrum"
   },
   "studio3D": {
     "badge": "2D-auf-3D Teppich-Projektionsstudio",
@@ -78,7 +78,7 @@
     "stat2Number": "0% VOCs",
     "stat2Label": "Frei von Chemiefarben",
     "safetyStory": "Unsere Sicherheitsphilosophie lesen",
-    "copenhagenBadge": "Kopenhagener Design-Philosophie",
+    "copenhagenBadge": "Design-Philosophie",
     "quote": "\"Wo kindliche Kreativität auf die sanfteste Umarmung der Natur trifft.\""
   },
   "newArrivals": {
@@ -109,7 +109,7 @@
     "pillar2Title": "Meisterhafte Handwebung",
     "pillar2Desc": "Jeder Teppich wird wochenlang von Meisterhand getuftet mit extra dichter Polsterung, um Stürze sanft abzufedern.",
     "pillar3Title": "Wächst mit Ihrem Kind",
-    "pillar3Desc": "Zeitlose skandinavische Formen und langlebige Fasern, die harmonisch vom Babyzimmer ins Schulkindzimmer übergehen."
+    "pillar3Desc": "Zeitlose Formen und langlebige Fasern, die harmonisch vom Babyzimmer ins Schulkindzimmer übergehen."
   },
   "collections": {
     "badge": "Kuratierte Spielwelten",
@@ -137,7 +137,7 @@
     "disclaimer": "Kein Spam. Nur sanfte Deko-Inspirationen und Kinderzimmer-Vorteile. Jederzeit abbestellbar."
   },
   "footer": {
-    "bio": "Liebevoll gestaltete skandinavische Kinderteppiche, Spielmatten und Naturmöbel für zarte Füße, gemütliches Kuscheln und endlose Fantasie.",
+    "bio": "Liebevoll gestaltete Kinderteppiche, Spielmatten und Naturmöbel für zarte Füße, gemütliches Kuscheln und endlose Fantasie.",
     "hubTitle": "Studio & Logistikzentrum",
     "hubName": "Levinahome Logistics Hub",
     "hubAddressLine1": "Industriestr. 23",
@@ -223,11 +223,22 @@
     "deliveryDays": "2–4 Werktage",
     "dispatchHub": "Versandzentrum:",
     "addToCart": "In den Warenkorb — {{price}}",
+    "buyNow": "Direkt kaufen",
+    "quantity": "Menge",
     "viewIn3D": "Im 3D-Carpet-Studio projizieren",
+    "backToCatalog": "Zurück zur Übersicht",
+    "home": "Startseite",
     "tabStory": "Produktgeschichte & Webkunst",
     "tabCare": "Pflege & Flecken-Ratgeber",
     "tabShipping": "Kostenloser Versand & 30 Tage Probeliegen",
-    "trialGuarantee": "30 Tage risikofreies Probeliegen im Kinderzimmer. 100% Geld-zurück-Garantie."
+    "trialGuarantee": "30 Tage risikofreies Probeliegen im Kinderzimmer. 100% Geld-zurück-Garantie.",
+    "youMightAlsoLike": "Passend dazu fürs Kinderzimmer",
+    "youMightAlsoLikeSubtitle": "Sorgfältig ausgewählte Stücke, die perfekt mit diesem Design harmonieren.",
+    "verifiedReview": "Verifizierter Eltern-Kauf",
+    "oekoTexCertified": "OEKO-TEX® Standard 100",
+    "handcraftedFibers": "Reine Naturfasern",
+    "fastDispatch": "Express-Versand (2-4 Werktage)",
+    "riskFreeTrial": "30 Tage risikofreies Probeliegen"
   },
   "checkout": {
     "title": "Sicherer Bestellabschluss",
@@ -269,29 +280,40 @@
     "continueShopping": "Weiter einkaufen"
   },
   "auth": {
-    "signInTitle": "Willkommen zurück",
-    "signInSubtitle": "Melden Sie sich in Ihrem Levinahome-Kundenkonto an",
-    "registerTitle": "Konto erstellen",
-    "registerSubtitle": "Werden Sie Teil der Levinahome-Familie",
-    "tabSignIn": "Anmelden",
-    "tabRegister": "Registrieren",
-    "emailLabel": "E-Mail-Adresse",
-    "passwordLabel": "Passwort",
-    "nameLabel": "Vollständiger Name",
-    "phoneLabel": "Telefonnummer",
-    "addressLabel": "Straße & Hausnummer",
-    "cityLabel": "Stadt",
-    "countryLabel": "Land",
-    "postalCodeLabel": "Postleitzahl",
-    "signInButton": "Anmelden",
-    "registerButton": "Konto anlegen",
-    "processing": "Wird verarbeitet...",
-    "welcomeBack": "Willkommen zurück in Ihrem Kinderzimmer-Konto!",
-    "accountCreated": "Ihr Levinahome-Konto wurde erfolgreich erstellt!",
-    "profileTitle": "Mein Levinahome Profil",
-    "ordersTitle": "Meine Bestellungen",
-    "noOrders": "Bisher keine Bestellungen aufgegeben.",
-    "logout": "Abmelden"
+    "welcomeBackMsg": "Willkommen zurück bei Levina Home!",
+    "invalidCreds": "Ungültige E-Mail-Adresse oder Passwort. Bitte erneut versuchen.",
+    "accountCreated": "Ihr Levina Home Konto wurde erfolgreich erstellt!",
+    "registrationFailed": "Registrierung fehlgeschlagen. Bitte überprüfen Sie Ihre Angaben.",
+    "parentClubProfile": "Eltern-Club & Kinderzimmer-Profil",
+    "nurserySpecs": "Kinderzimmer-Spezifikationen",
+    "kidSafeVerified": "Zertifiziertes Eltern-Konto",
+    "contactPhone": "Telefonnummer",
+    "nurseryHub": "Logistik-Zentrum",
+    "deliveryAddress": "Standard-Lieferadresse",
+    "recentOrders": "Letzte Bestellungen",
+    "dispatchedFromDulmen": "Versendet ab Dülmen Depot",
+    "continueBrowsing": "Weiter stöbern",
+    "signOut": "Abmelden",
+    "welcomeBack": "Willkommen zurück",
+    "createAccount": "Konto erstellen",
+    "signIn": "Anmelden",
+    "register": "Registrieren",
+    "parentEmail": "E-Mail-Adresse",
+    "password": "Passwort",
+    "forgotPassword": "Passwort vergessen?",
+    "verifying": "Anmeldung wird geprüft...",
+    "signInBtn": "Jetzt Anmelden",
+    "demoCreds": "Demo-Zugang: sophia@example.com / password123",
+    "parentFullName": "Vollständiger Name",
+    "emailAddress": "E-Mail-Adresse",
+    "createPassword": "Passwort erstellen (mind. 6 Zeichen)",
+    "phoneNumber": "Telefonnummer",
+    "city": "Stadt",
+    "postalCode": "Postleitzahl",
+    "country": "Land",
+    "deliveryStreetAddress": "Straße & Hausnummer",
+    "creatingMembership": "Konto wird erstellt...",
+    "joinClubBtn": "Konto jetzt erstellen"
   },
   "integration": {
     "title": "Shopify & PlentyONE Synchronisation",

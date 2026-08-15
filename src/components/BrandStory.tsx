@@ -20,7 +20,7 @@ export const BrandStory: React.FC = () => {
         <div className="relative aspect-[16/9] max-w-5xl mx-auto overflow-hidden rounded-3xl bg-[#F7F3EB] shadow-pillowy my-10 border border-[#EDE6DC]">
           <img
             src="https://images.unsplash.com/photo-1560869713-7d0a29430803?q=80&w=1600&auto=format&fit=crop"
-            alt="Parent and toddler playing on soft Scandinavian playmat"
+            alt="Parent and toddler playing on soft playmat"
             className="w-full h-full object-cover object-center transition-transform duration-1000 hover:scale-105"
             loading="lazy"
           />

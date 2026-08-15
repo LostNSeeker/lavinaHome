@@ -19,7 +19,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="absolute inset-0 z-0">
         <img
           src="/hero_section.png"
-          alt="Warm nursery with cozy Scandinavian carpet and natural lighting"
+          alt="Warm nursery with cozy carpet and natural lighting"
           className="w-full h-full object-cover object-center animate-kenburns opacity-90 filter brightness-[0.98]"
         />
         {/* Soft Warm Pastel Cream Overlay */}

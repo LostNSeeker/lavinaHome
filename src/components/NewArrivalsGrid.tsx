@@ -90,14 +90,14 @@ export const NewArrivalsGrid: React.FC<NewArrivalsGridProps> = ({
                   className="group relative bg-white p-4 rounded-3xl border border-[#EDE6DC] transition-all duration-300 hover:shadow-pillowy hover:border-[#8EBBB0]/60"
                 >
                   {/* Image Box */}
-                  <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-[#F7F3EB] mb-4">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#F7F3EB] p-2.5 sm:p-3 flex items-center justify-center mb-4">
                     <img
                       src={product.primaryImage}
                       alt={product.name}
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                       }}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-700 ease-out group-hover:scale-105 drop-shadow-xs"
                       loading="lazy"
                     />
 
@@ -153,7 +153,7 @@ export const NewArrivalsGrid: React.FC<NewArrivalsGridProps> = ({
                       {product.name}
                     </h3>
                     <div className="text-sm font-bold text-[#E79685]">
-                      ${product.price.toLocaleString()}
+                      €{product.price.toLocaleString()}
                     </div>
                   </div>
                 </div>

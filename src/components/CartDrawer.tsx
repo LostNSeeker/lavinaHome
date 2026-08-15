@@ -56,7 +56,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             <div className="flex items-center gap-2 text-xs text-[#6B6661] font-medium mb-2">
               <Truck size={15} className="text-[#8EBBB0]" />
               {remainingForFreeShipping > 0 ? (
-                <span>{t('cart.addForFreeShipping', { amount: `$${remainingForFreeShipping.toLocaleString()}` })}</span>
+                <span>{t('cart.addForFreeShipping', { amount: `€${remainingForFreeShipping.toLocaleString()}` })}</span>
               ) : (
                 <span className="text-[#8EBBB0] font-bold">{t('cart.freeShippingUnlocked')}</span>
               )}
@@ -93,7 +93,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
                     }}
-                    className="w-20 h-24 object-cover rounded-xl bg-[#F7F3EB]"
+                    className="w-20 h-24 object-contain p-1 rounded-xl bg-[#F7F3EB] border border-[#EDE6DC]"
                   />
 
                   <div className="flex-1 flex flex-col justify-between space-y-1">
@@ -143,7 +143,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </div>
 
                       <span className="text-sm font-bold text-[#E79685]">
-                        ${(item.product.price * item.quantity).toLocaleString()}
+                        €{(item.product.price * item.quantity).toLocaleString()}
                       </span>
                     </div>
                   </div>
@@ -161,7 +161,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </div>
               <div className="flex justify-between items-center font-heading text-xl text-[#2D2B2A] font-bold">
                 <span>{t('cart.subtotal')}</span>
-                <span className="text-[#E79685]">${subtotal.toLocaleString()}</span>
+                <span className="text-[#E79685]">€{subtotal.toLocaleString()}</span>
               </div>
 
               <button

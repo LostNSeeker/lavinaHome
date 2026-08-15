@@ -701,7 +701,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
                   <span>{t('studio3D.step1', { count: carpetProducts.length })}</span>
                 </span>
                 <span className="text-[11px] font-bold text-[#E79685]">
-                  ${activeProduct?.price.toLocaleString()}
+                  €{activeProduct?.price.toLocaleString()}
                 </span>
               </div>
 
@@ -711,7 +711,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
                   <img
                     src={activeProduct.primaryImage}
                     alt={activeProduct.name}
-                    className="w-14 h-14 rounded-xl object-cover border border-[#EDE6DC] shadow-xs shrink-0"
+                    className="w-14 h-14 rounded-xl object-contain p-1 bg-white border border-[#EDE6DC] shadow-xs shrink-0"
                   />
                   <div className="text-xs min-w-0">
                     <p className="font-bold text-[#2D2B2A] truncate">{activeProduct.name}</p>
@@ -727,7 +727,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
                   <button
                     key={prod.id}
                     onClick={() => handleSelectProduct(prod)}
-                    className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all cursor-pointer group ${
+                    className={`relative aspect-square rounded-2xl overflow-hidden border-2 transition-all cursor-pointer group bg-[#F7F3EB] ${
                       activeProduct?.id === prod.id
                         ? 'border-[#E79685] ring-2 ring-[#E79685]/30 scale-105 shadow-xs'
                         : 'border-[#EDE6DC] opacity-75 hover:opacity-100 hover:border-[#8EBBB0]'
@@ -737,7 +737,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
                     <img
                       src={prod.primaryImage}
                       alt={prod.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      className="w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-300"
                     />
                     {activeProduct?.id === prod.id && (
                       <div className="absolute top-1.5 right-1.5 bg-[#E79685] text-white p-0.5 rounded-full shadow-xs">
@@ -779,7 +779,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
             <div className="space-y-2 pt-3 border-t border-[#EDE6DC]">
               <div className="flex justify-between items-center text-xs text-[#2D2B2A] font-medium">
                 <span>{t('studio3D.dimensionsTitle')} <strong>{customWidth} x {customLength} cm</strong></span>
-                <span className="text-[#E79685] font-heading text-xl font-bold">${calculatedPrice.toLocaleString()}</span>
+                <span className="text-[#E79685] font-heading text-xl font-bold">€{calculatedPrice.toLocaleString()}</span>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -815,7 +815,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
               className="w-full bg-[#E79685] hover:bg-[#D47B68] text-white py-3.5 text-xs uppercase tracking-wider font-bold rounded-full flex items-center justify-center gap-2.5 transition-all shadow-pillowy-coral hover:scale-[1.02] cursor-pointer"
             >
               <ShoppingBag size={16} />
-              <span>{t('studio3D.orderButton', { price: `$${calculatedPrice.toLocaleString()}` })}</span>
+              <span>{t('studio3D.orderButton', { price: `€${calculatedPrice.toLocaleString()}` })}</span>
             </button>
 
           </div>
