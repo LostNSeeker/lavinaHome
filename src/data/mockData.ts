@@ -3,56 +3,38 @@ import type { Product, CollectionCategory, ShopRoom, InstagramPost } from '../ty
 export const GENERAL_COLLECTIONS: CollectionCategory[] = [
   {
     id: 'col-gen-1',
-    title: 'Luxury Handwoven Carpets',
-    tagline: 'Crafted from 100% organic New Zealand wool and natural jute.',
-    description: 'Ultra-soft underfoot texture with subtle earthy tones designed for high-end sanctuaries.',
+    title: 'Handgewebte Luxusteppiche',
+    tagline: 'Gefertigt aus 100% Bio-Schurwolle und edlen Naturfasern.',
+    description: 'Samtweicher Trittkomfort, meisterhafte Knotung und zeitlose Eleganz für anspruchsvolles Wohnen.',
     image: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=1200&auto=format&fit=crop',
     categorySlug: 'carpets',
     section: 'general'
   },
   {
     id: 'col-gen-2',
-    title: 'Moderne Akzent-Teppiche',
-    tagline: 'Organische Formen treffen auf wohlige Gemütlichkeit.',
-    description: 'Flachflor- und Handwebteppiche, ideal für Wohnzimmer, Flur und Arbeitsbereiche.',
-    image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1200&auto=format&fit=crop',
-    categorySlug: 'rugs',
+    title: 'Echte Naturfelle & Lammfelle',
+    tagline: '100% naturbelassene Lamm- und Rinderfelle für wohligen Komfort.',
+    description: 'Unvergleichlich weiche Unikate für gemütliche Wohnräume, Sessel und behagliche Schlafzimmer.',
+    image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1200&auto=format&fit=crop',
+    categorySlug: 'naturfelle',
     section: 'general'
   },
   {
     id: 'col-gen-3',
-    title: 'Handgefertigte Holzmöbel',
-    tagline: 'Massive Eiche, Esche und feine Leinenpolsterung.',
-    description: 'Zeitlose Sitzmöbel und skulpturale Holztische von Meisterhand gefertigt.',
-    image: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=1200&auto=format&fit=crop',
-    categorySlug: 'furniture',
+    title: 'Shaggy Hochflor-Teppiche',
+    tagline: 'Kuschelweicher Hochflor in eleganten Farbnuancen.',
+    description: 'Dichter, samtiger Mikrofaser-Flor für ultimative Gemütlichkeit und luxuriösen Komfort unter den Füßen.',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1200&auto=format&fit=crop',
+    categorySlug: 'shaggy',
     section: 'general'
   },
   {
     id: 'col-gen-4',
-    title: 'Artisanal Home Decor',
-    tagline: 'Hand-blown glass, stoneware ceramics, and copper accents.',
-    description: 'Curated home accessories that subtly elevate everyday moments.',
-    image: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=1200&auto=format&fit=crop',
-    categorySlug: 'decor',
-    section: 'general'
-  },
-  {
-    id: 'col-gen-5',
-    title: 'Linen & Wool Textiles',
-    tagline: 'Washed European flax linens and tactile throws.',
-    description: 'Naturally breathable blankets, cushions, and bed coverings in calming tones.',
-    image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1200&auto=format&fit=crop',
-    categorySlug: 'textiles',
-    section: 'general'
-  },
-  {
-    id: 'col-gen-6',
-    title: 'Küche & Essbereich',
-    tagline: 'Steingut, Olivenholz-Bretter und Leinen-Tischwäsche.',
-    description: 'Edles Tischgeschirr für gemeinsame Abendessen und gemütliche Morgenstunden.',
-    image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200&auto=format&fit=crop',
-    categorySlug: 'kitchen',
+    title: 'Moderne Wohnteppiche',
+    tagline: 'Organische Webstrukturen und harmonische Naturtöne.',
+    description: 'Flachflor- und Strukturteppiche, ideal für Wohnzimmer, Essbereich und behagliche Lounge-Zonen.',
+    image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1200&auto=format&fit=crop',
+    categorySlug: 'rugs',
     section: 'general'
   }
 ];
@@ -69,29 +51,20 @@ export const KIDS_COLLECTIONS: CollectionCategory[] = [
   },
   {
     id: 'col-kids-2',
-    title: 'Echte Naturfelle & Lammfelle',
-    tagline: '100% natürliche Lamm- und Rinderfelle, unvergleichlich weich & wärmend.',
-    description: 'Naturbelassene Unikate für wohlige Kuschelecken, Babybetten und stilvolle Akzente im modernen Wohnraum.',
+    title: 'Babyfelle & Kuschelmatten',
+    tagline: '100% schadstofffreie Lammfelle, unvergleichlich weich & wärmend.',
+    description: 'Naturbelassene Babyfelle für wohlige Kuschelecken, Krabbelwelten und das Kinderbett.',
     image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1200&auto=format&fit=crop',
     categorySlug: 'naturfelle',
     section: 'kids'
   },
   {
     id: 'col-kids-3',
-    title: 'Shaggy Hochflor-Teppiche',
-    tagline: 'Kuscheliger Hochflor in 9 brillanten Farbtönen.',
-    description: 'Dichter, samtiger Mikrofaser-Flor für ultimative Gemütlichkeit und luxuriösen Komfort unter den Füßen.',
+    title: 'Bunte Kinder-Shaggys',
+    tagline: 'Kuscheliger Hochflor in fröhlichen Farben.',
+    description: 'Wolkenweicher, pflegeleichter Flor für kleine Füße und fröhliche Kinderzimmer.',
     image: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=1200&auto=format&fit=crop',
     categorySlug: 'shaggy',
-    section: 'kids'
-  },
-  {
-    id: 'col-kids-4',
-    title: 'Wohnteppiche & Modern Living',
-    tagline: 'Zeitlose Eleganz und strapazierfähige Webkunst.',
-    description: 'Harmonische Designs und edle Texturen für behagliche Wohn- und Schlafzimmer.',
-    image: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=1200&auto=format&fit=crop',
-    categorySlug: 'rugs',
     section: 'kids'
   }
 ];

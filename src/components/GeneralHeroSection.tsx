@@ -32,17 +32,17 @@ export const GeneralHeroSection: React.FC<GeneralHeroSectionProps> = ({
           {/* Subtle German Badge */}
           <div className="mb-4">
             <span className="inline-block text-xs font-medium uppercase tracking-[0.35em] text-[#69705A]">
-              Levina Home Teppich-Kollektion
+              Levina Home Luxus-Teppiche &amp; Manufaktur
             </span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal text-[#2B2B2B] leading-[1.1] tracking-tight mb-6">
-            Handgefertigte Teppiche <br />
-            <span className="italic font-light text-[#505744]">Für zeitloses Wohnen &amp; Wohlfühlen.</span>
+            Luxus-Teppiche &amp; Wohnkomfort <br />
+            <span className="italic font-light text-[#505744]">Handgefertigte Gemütlichkeit für Ihr Zuhause.</span>
           </h1>
 
           <p className="text-base md:text-lg text-[#666666] font-light leading-relaxed mb-8 max-w-lg">
-            Wunderschöne Räume. Besondere Momente. Handgewebte Naturwolle, OEKO-TEX® zertifizierte Textilien und erstklassige Manufakturqualität.
+            Wunderschöne Räume. Besondere Momente. Handgewebte Naturwolle, samtweiche Shaggys und echte Naturfelle für anspruchsvolles Wohnen und puren Wohlfühlkomfort.
           </p>
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
@@ -56,18 +56,18 @@ export const GeneralHeroSection: React.FC<GeneralHeroSectionProps> = ({
             </button>
 
             <button
-              onClick={onOpenKidsClick}
-              className="bg-[#FAF8F5]/90 hover:bg-[#E79685] hover:text-white text-[#2B2B2B] border border-[#E79685]/50 px-7 py-4 text-xs tracking-[0.18em] font-medium uppercase rounded-[4px] shadow-xs hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer group"
-            >
-              <Sparkles size={14} className="text-[#E79685] group-hover:text-white transition-colors" />
-              <span>Kinderteppiche &amp; Welten</span>
-            </button>
-
-            <button
               onClick={onShopCarpetsClick}
               className="border border-[#69705A] text-[#43463D] hover:bg-[#69705A] hover:text-white px-7 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] transition-all duration-300 text-center cursor-pointer"
             >
               Teppiche ansehen
+            </button>
+
+            <button
+              onClick={onOpenKidsClick}
+              className="bg-[#FAF8F5]/90 hover:bg-[#E79685] hover:text-white text-[#2B2B2B] border border-[#E79685]/50 px-6 py-4 text-xs tracking-[0.15em] font-medium uppercase rounded-[4px] shadow-xs hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer group"
+            >
+              <Sparkles size={14} className="text-[#E79685] group-hover:text-white transition-colors" />
+              <span>🧸 Zur Kinderwelt</span>
             </button>
           </div>
         </div>

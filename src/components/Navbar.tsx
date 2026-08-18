@@ -18,7 +18,7 @@ export interface NavCategoryItem {
   items: (string | ShaggyColor)[];
 }
 
-export const NAV_CATEGORIES: NavCategoryItem[] = [
+export const KIDS_NAV_CATEGORIES: NavCategoryItem[] = [
   {
     id: 'kinderteppiche',
     label: 'Kinderteppiche',
@@ -39,11 +39,11 @@ export const NAV_CATEGORIES: NavCategoryItem[] = [
   },
   {
     id: 'felle',
-    label: 'Naturfelle',
+    label: 'Babyfelle',
     categoryKey: 'naturfelle',
     items: [
-      'Rinderfelle',
       'Lammfelle',
+      'Medizinische Felle',
     ],
   },
   {
@@ -52,14 +52,14 @@ export const NAV_CATEGORIES: NavCategoryItem[] = [
     categoryKey: 'carpets',
     items: [
       { name: 'weiß', hex: '#FFFFFF', border: true },
-      { name: 'aubergine', hex: '#4A154B' },
-      { name: 'rot', hex: '#C53030' },
       { name: 'silber', hex: '#CBD5E1' },
-      { name: 'schwarz', hex: '#1A202C' },
-      { name: 'mocca', hex: '#5C3D2E' },
+      { name: 'rot', hex: '#C53030' },
       { name: 'violett', hex: '#805AD5' },
-      { name: 'bordeaux', hex: '#800020' },
       { name: 'beige', hex: '#D9C5A7' },
+      { name: 'aubergine', hex: '#4A154B' },
+      { name: 'mocca', hex: '#5C3D2E' },
+      { name: 'schwarz', hex: '#1A202C' },
+      { name: 'bordeaux', hex: '#800020' },
     ],
   },
   {
@@ -73,6 +73,60 @@ export const NAV_CATEGORIES: NavCategoryItem[] = [
     ],
   },
 ];
+
+export const GENERAL_NAV_CATEGORIES: NavCategoryItem[] = [
+  {
+    id: 'luxusteppiche',
+    label: 'Luxusteppiche',
+    categoryKey: 'carpets',
+    items: [
+      'Wollteppiche',
+      'Handweb-Kollektionen',
+      'Bio-Schurwolle',
+      'Wohnzimmer',
+      'Schlafzimmer',
+      'Flur & Läufer',
+    ],
+  },
+  {
+    id: 'felle',
+    label: 'Naturfelle',
+    categoryKey: 'naturfelle',
+    items: [
+      'Rinderfelle',
+      'Lammfelle',
+    ],
+  },
+  {
+    id: 'shaggy',
+    label: 'Shaggy',
+    categoryKey: 'carpets',
+    items: [
+      { name: 'weiß', hex: '#FFFFFF', border: true },
+      { name: 'mocca', hex: '#5C3D2E' },
+      { name: 'beige', hex: '#D9C5A7' },
+      { name: 'silber', hex: '#CBD5E1' },
+      { name: 'schwarz', hex: '#1A202C' },
+      { name: 'bordeaux', hex: '#800020' },
+      { name: 'aubergine', hex: '#4A154B' },
+      { name: 'rot', hex: '#C53030' },
+      { name: 'violett', hex: '#805AD5' },
+    ],
+  },
+  {
+    id: 'sale',
+    label: 'Sale',
+    categoryKey: 'carpets',
+    isSale: true,
+    items: [
+      'Wollteppiche',
+      'Shaggy',
+      'Naturfelle',
+    ],
+  },
+];
+
+export const NAV_CATEGORIES = KIDS_NAV_CATEGORIES;
 
 interface NavbarProps {
   storeMode?: StoreMode;
@@ -91,6 +145,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
+  storeMode = 'general',
   cartCount,
   wishlistCount,
   onOpenCart,
@@ -99,6 +154,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onSelectCategory,
   onSelectTag,
+  onSwitchMode,
   activeTag,
 }) => {
   const { t } = useTranslation();
@@ -107,6 +163,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const currentCategories = storeMode === 'kids' ? KIDS_NAV_CATEGORIES : GENERAL_NAV_CATEGORIES;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -174,15 +232,15 @@ export const Navbar: React.FC<NavbarProps> = ({
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 sm:py-3 shadow-pillowy text-[#2D2B2A]'
+            ? storeMode === 'kids'
+              ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 sm:py-3 shadow-pillowy text-[#2D2B2A]'
+              : 'bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#ECE8E2] py-2.5 sm:py-3 shadow-xs text-[#2B2B2B]'
             : 'bg-transparent text-[#2B2B2B] py-4 sm:py-5 border-b border-transparent'
         }`}
       >
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex items-center justify-between gap-2 sm:gap-4">
           
-          {/* LEFT: Logo (Emblem + Wordmark) */}
           <div className="flex items-center gap-6 xl:gap-8 shrink-0">
-            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-full bg-white/70 hover:bg-white text-[#2B2B2A] transition-all lg:hidden cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
@@ -206,15 +264,14 @@ export const Navbar: React.FC<NavbarProps> = ({
                   LEVINA HOME
                 </span>
                 <span className="text-[7.5px] sm:text-[8.5px] tracking-[0.35em] text-[#8B8B8B] uppercase font-sans font-light mt-0.5">
-                  KINDERTEPPICHE &amp; NATURFELLE
+                  {storeMode === 'kids' ? '★ KINDERWELT & SPIELTEPPICHE' : 'LUXUS-TEPPICHE & WOHNKOMFORT'}
                 </span>
               </div>
             </button>
           </div>
 
-          {/* CENTER: Main Categories (Kinderteppiche, Naturfelle, Shaggy, Sale) with Dropdowns */}
           <nav className="hidden lg:flex items-center justify-center gap-2 xl:gap-3 flex-1 max-w-2xl mx-auto">
-            {NAV_CATEGORIES.map((cat) => {
+            {currentCategories.map((cat) => {
               const isOpen = activeDropdown === cat.id;
               const isSelected = activeTag === cat.label || (activeTag && cat.items.some(item => typeof item === 'string' ? item === activeTag : item.name === activeTag));
 
@@ -231,7 +288,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                       cat.isSale
                         ? 'bg-[#E79685]/15 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/40 shadow-xs'
                         : isSelected
-                        ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage'
+                        ? storeMode === 'kids'
+                          ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage'
+                          : 'bg-[#B96A3C] text-white shadow-xs'
                         : isScrolled
                         ? 'text-[#2D2B2A] hover:bg-white hover:text-[#8EBBB0] border border-transparent hover:border-[#EDE6DC]'
                         : 'text-[#2D2B2A] bg-white/60 hover:bg-white hover:text-[#8EBBB0] border border-white/70 shadow-2xs backdrop-blur-xs'
@@ -247,7 +306,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                     />
                   </button>
 
-                  {/* Dropdown Menu Container */}
                   {isOpen && (
                     <div
                       className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 animate-fade-in"
@@ -256,8 +314,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     >
                       <div className="bg-white/98 backdrop-blur-md rounded-2xl border border-[#EDE6DC] shadow-pillowy p-3.5 min-w-[220px] max-w-[420px]">
                         
-                        {/* Kinderteppiche Dropdown: 2-Column Grid */}
-                        {cat.id === 'kinderteppiche' && (
+                        {cat.id === 'kinderteppiche' || cat.id === 'luxusteppiche' ? (
                           <div>
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
                               <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
@@ -289,9 +346,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                               })}
                             </div>
                           </div>
-                        )}
+                        ) : null}
 
-                        {/* Felle Dropdown: Clean Vertical List */}
                         {cat.id === 'felle' && (
                           <div className="space-y-1 min-w-[200px]">
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
@@ -321,7 +377,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                           </div>
                         )}
 
-                        {/* Shaggy Dropdown: Color Palette Grid */}
                         {cat.id === 'shaggy' && (
                           <div>
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
@@ -357,7 +412,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                           </div>
                         )}
 
-                        {/* Sale Dropdown */}
                         {cat.id === 'sale' && (
                           <div className="space-y-1 min-w-[220px]">
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
@@ -398,15 +452,33 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* RIGHT: Action Icons */}
           <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 text-[#2D2B2A] shrink-0 justify-end">
             
-            {/* Language Switcher in Right */}
+            {onSwitchMode && (
+              storeMode === 'general' ? (
+                <button
+                  onClick={() => onSwitchMode('kids')}
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#E79685]/15 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/30 text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-2xs hover:scale-105 cursor-pointer group"
+                  title="Zur Levina Kinderwelt wechseln"
+                >
+                  <Sparkles size={13} className="group-hover:rotate-12 transition-transform" />
+                  <span>🧸 Kinderwelt</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => onSwitchMode('general')}
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 text-[#2B2B2B] hover:bg-[#69705A] hover:text-white border border-[#ECE8E2] text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-2xs hover:scale-105 cursor-pointer group"
+                  title="Zur Hauptseite (Luxusteppiche) wechseln"
+                >
+                  <span>← Hauptseite</span>
+                </button>
+              )
+            )}
+
             <div className="flex items-center">
               <LanguageSwitcher />
             </div>
 
-            {/* Profile Button */}
             {onOpenAuth && (
               <button
                 onClick={onOpenAuth}
@@ -420,7 +492,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             )}
 
-            {/* Search Button */}
             <button
               onClick={onOpenSearch}
               className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
@@ -430,7 +501,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Search size={17} strokeWidth={1.8} />
             </button>
 
-            {/* Wishlist Button */}
             <button
               onClick={onOpenWishlist}
               className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
@@ -445,7 +515,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </button>
 
-            {/* Cart Button */}
             <button
               onClick={onOpenCart}
               className="p-2 sm:p-2.5 rounded-full bg-[#2D2B2A] text-white hover:bg-[#8EBBB0] transition-all relative group cursor-pointer shadow-2xs"
@@ -463,17 +532,42 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-[#FAF8F5] border-b border-[#ECE8E2] px-4 py-4 space-y-4 shadow-pillowy max-h-[80vh] overflow-y-auto animate-fade-in">
             
-            {/* Categories */}
+            {onSwitchMode && (
+              <div className="p-1 bg-[#EDE6DC] rounded-xl">
+                {storeMode === 'general' ? (
+                  <button
+                    onClick={() => {
+                      onSwitchMode('kids');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#E79685] text-white shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <Sparkles size={14} />
+                    <span>🧸 Zur Levina Kinderwelt wechseln</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      onSwitchMode('general');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-white text-[#2B2B2B] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <span>← Zur Hauptseite (Luxusteppiche)</span>
+                  </button>
+                )}
+              </div>
+            )}
+
             <div className="space-y-2">
               <div className="text-[11px] font-bold uppercase tracking-wider text-[#8EBBB0] px-2 pt-1">
-                Kategorien &amp; Kollektionen
+                {storeMode === 'kids' ? 'Kinderwelt Kollektionen' : 'Luxusteppiche & Kollektionen'}
               </div>
 
-              {NAV_CATEGORIES.map((cat) => {
+              {currentCategories.map((cat) => {
                 const isExpanded = mobileExpandedCat === cat.id;
 
                 return (

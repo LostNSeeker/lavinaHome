@@ -11,6 +11,7 @@ interface KidsHeroSectionProps {
 export const KidsHeroSection: React.FC<KidsHeroSectionProps> = ({
   onExploreClick,
   onShopCarpetsClick,
+  onBackToGeneralClick,
 }) => {
   const { t } = useTranslation();
 
@@ -41,6 +42,14 @@ export const KidsHeroSection: React.FC<KidsHeroSectionProps> = ({
               <Heart size={13} className="text-[#E79685]" />
               <span>{t('hero.badgeCopenhagen')}</span>
             </span>
+            {onBackToGeneralClick && (
+              <button
+                onClick={onBackToGeneralClick}
+                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2B2B2B] bg-white hover:bg-[#69705A] hover:text-white px-3.5 py-1.5 rounded-full border border-[#EDE6DC] shadow-2xs transition-all cursor-pointer"
+              >
+                <span>← Zur Hauptseite (Luxusteppiche)</span>
+              </button>
+            )}
           </div>
 
           <h1 className="font-heading text-4xl sm:text-6xl md:text-7xl font-bold text-[#2D2B2A] leading-[1.08] tracking-tight">

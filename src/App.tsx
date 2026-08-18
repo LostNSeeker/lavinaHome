@@ -32,9 +32,39 @@ import { plentyoneService } from './services/plentyoneService';
 import type { Product, CartItem, StoreMode } from './types';
 import { SlidersHorizontal } from 'lucide-react';
 
+// Helper to distinguish kids-specific products from luxury general products
+export const isKidsProduct = (p: Product): boolean => {
+  const nameLower = (p.name || '').toLowerCase();
+  const idLower = (p.id || '').toLowerCase();
+  const descLower = (p.description || '').toLowerCase();
+  const catLabelLower = (p.categoryLabel || '').toLowerCase();
+
+  return (
+    p.section === 'kids' ||
+    idLower.startsWith('lk-') ||
+    idLower.startsWith('bg-') ||
+    idLower.startsWith('bc-') ||
+    catLabelLower.includes('kinder') ||
+    nameLower.includes('lillifee') ||
+    nameLower.includes('felix') ||
+    nameLower.includes('sharky') ||
+    nameLower.includes('sieben') ||
+    nameLower.includes('t-rex') ||
+    nameLower.includes('pferd') ||
+    nameLower.includes('glück') ||
+    nameLower.includes('bobby') ||
+    nameLower.includes('mondbär') ||
+    nameLower.includes('spielteppich') ||
+    nameLower.includes('kinderteppich') ||
+    descLower.includes('kinderzimmer') ||
+    descLower.includes('spielteppich') ||
+    p.roomCategory === 'kids'
+  );
+};
+
 export function App() {
-  // Store Mode State: Default to 'kids' (Specialized Kids Rugs, Felle & Carpets)
-  const [storeMode, setStoreMode] = useState<StoreMode>('kids');
+  // Store Mode State: Default to 'general' (Luxury Living Carpets & Comfort)
+  const [storeMode, setStoreMode] = useState<StoreMode>('general');
   
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
@@ -107,7 +137,7 @@ export function App() {
       }
     }
 
-    if (hash.startsWith('#/kids')) {
+    if (hash.startsWith('#/kids') || hash.startsWith('#kids')) {
       setStoreMode('kids');
       setCurrentView('home');
       setSelectedProduct(null);
@@ -116,7 +146,7 @@ export function App() {
 
     // Default to home / general
     if (!hash.startsWith('#/product/')) {
-      if (hash === '#/' || hash === '') {
+      if (hash === '#/' || hash === '' || hash === '#') {
         setStoreMode('general');
       }
       setCurrentView('home');
@@ -248,7 +278,16 @@ export function App() {
 
   // Filtered Products for Catalog View based on Store Mode & Active Filters
   const displayedProducts = products.filter((p) => {
-    // 1. Tag Filtering (Kids categories, Shaggy, Naturfelle, Character lines)
+    // 1. Strict Mode Separation:
+    if (storeMode === 'kids') {
+      // In kids section, show ONLY products related to kids
+      if (!isKidsProduct(p)) return false;
+    } else {
+      // In main site, show ONLY luxury carpets, comfort rugs, Naturfelle, and high-pile shaggies
+      if (isKidsProduct(p)) return false;
+    }
+
+    // 2. Tag Filtering (Kids categories, Shaggy colors, Naturfelle, character lines, etc.)
     if (activeTag) {
       const tagLower = activeTag.toLowerCase();
       const nameLower = (p.name || '').toLowerCase();
@@ -259,7 +298,9 @@ export function App() {
 
       if (activeTag === 'Kinderteppiche') {
         if (p.category !== 'carpets' && p.category !== 'rugs' && !nameLower.includes('teppich') && !nameLower.includes('carpet')) return false;
-      } else if (activeTag === 'Naturfelle' || activeTag === 'Felle') {
+      } else if (activeTag === 'Luxusteppiche' || activeTag === 'Wollteppiche') {
+        if (p.category !== 'carpets' && p.category !== 'rugs' && !nameLower.includes('wolle') && !descLower.includes('wolle') && !nameLower.includes('teppich')) return false;
+      } else if (activeTag === 'Naturfelle' || activeTag === 'Felle' || activeTag === 'Babyfelle') {
         if (p.category !== 'naturfelle' && !nameLower.includes('fell') && !descLower.includes('fell') && !idLower.includes('fe-')) return false;
       } else if (activeTag === 'Rinderfelle') {
         if (!nameLower.includes('rinderfell') && !nameLower.includes('rinder') && !descLower.includes('rinder') && !idLower.includes('fe-2194')) return false;
@@ -268,10 +309,12 @@ export function App() {
       } else if (activeTag === 'Shaggy') {
         if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-')) return false;
       } else if (activeTag.startsWith('Sale')) {
-        if (activeTag.includes('Kinderteppiche')) {
+        if (activeTag.includes('Kinderteppiche') || activeTag.includes('Wollteppiche')) {
           if (p.category !== 'carpets' && p.category !== 'rugs') return false;
         } else if (activeTag.includes('Shaggy')) {
           if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-')) return false;
+        } else if (activeTag.includes('Naturfelle')) {
+          if (p.category !== 'naturfelle' && !nameLower.includes('fell')) return false;
         }
       } else {
         const matches =
@@ -293,11 +336,6 @@ export function App() {
 
         if (!matches) return false;
       }
-    }
-
-    // 2. Default partition: show kids catalog and live products
-    if (!activeTag && activeCategory === 'all' && !activeRoom) {
-      if (p.section === 'general') return false;
     }
 
     // 3. Category & Room Filters
@@ -406,7 +444,7 @@ export function App() {
             {/* Interactive 3D WebGL Carpet Studio */}
             <div id="carpet-3d-studio">
               <Carpet3DStudio
-                products={products}
+                products={storeMode === 'kids' ? products.filter(isKidsProduct) : products.filter(p => !isKidsProduct(p))}
                 isLoading={isLoadingProducts}
                 selectedProductFor3D={selected3DProduct}
                 onAddToCart={handleAddToCart}
@@ -421,7 +459,7 @@ export function App() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-[#ECE8E2]">
                   <div>
                     <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-                      Kollektionen &amp; Teppiche
+                      {storeMode === 'kids' ? 'Levina Kinderwelt Katalog' : 'Exklusive Kollektionen &amp; Wohnkomfort'}
                     </span>
                     <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#2B2B2B] capitalize">
                       {activeTag
@@ -429,8 +467,8 @@ export function App() {
                         : activeRoom
                         ? `Raum: ${activeRoom}`
                         : activeCategory !== 'all'
-                        ? `${activeCategory === 'carpets' ? 'Kinderteppiche' : activeCategory === 'naturfelle' ? 'Naturfelle' : activeCategory} Kollektion`
-                        : 'Kollektionen & Teppiche'}
+                        ? `${activeCategory === 'carpets' ? (storeMode === 'kids' ? 'Kinderteppiche' : 'Luxusteppiche') : activeCategory === 'naturfelle' ? 'Naturfelle' : activeCategory} Kollektion`
+                        : storeMode === 'kids' ? 'Kinderzimmer &amp; Spielwelten' : 'Luxusteppiche &amp; Wohnkomfort'}
                     </h2>
                   </div>
 
@@ -549,7 +587,7 @@ export function App() {
                                 Bestseller
                               </span>
                             )}
-                            {product.section === 'kids' && (
+                            {isKidsProduct(product) && (
                               <span className="bg-[#8EBBB0] text-white text-[9.5px] uppercase tracking-wider px-2 py-0.5 rounded-[2px] font-medium shadow-xs">
                                 Kids Safe
                               </span>
@@ -632,10 +670,13 @@ export function App() {
             </section>
 
             {/* Split Editorial / Craftsmanship Banner */}
-            <SplitEditorialBanner onExploreClick={() => {
-              const el = document.getElementById('catalog-grid');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }} />
+            <SplitEditorialBanner
+              storeMode={storeMode}
+              onExploreClick={() => {
+                const el = document.getElementById('catalog-grid');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+            />
 
             {/* Shop by Room Sanctuary */}
             <ShopByRoom
@@ -654,7 +695,10 @@ export function App() {
             <BrandStory storeMode={storeMode} />
 
             {/* Sliding Marquee Gallery */}
-            <SlidingMarqueeGallery products={products} onSelectProduct={navigateToProduct} />
+            <SlidingMarqueeGallery
+              products={storeMode === 'kids' ? products.filter(isKidsProduct) : products.filter(p => !isKidsProduct(p))}
+              onSelectProduct={navigateToProduct}
+            />
 
             {/* Curated Instagram Sanctuary Inspiration */}
             <InstagramGallery
