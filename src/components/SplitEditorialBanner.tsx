@@ -19,58 +19,8 @@ interface ManufakturStep {
   statNumber: string;
   statLabel: string;
   highlightTag: string;
+  tab: string;
 }
-
-const MANUFAKTUR_STEPS: ManufakturStep[] = [
-  {
-    id: 'step-manufacturing',
-    stepNumber: '01',
-    title: 'Traditionelle Webkunst & Manufaktur',
-    subtitle: 'Meisterhafte Handarbeit am Holzwebstuhl',
-    description: 'Vom ersten Schurwollfaden bis zum vollendeten Meisterstück entsteht jeder Teppich mit meisterhafter Präzision von Hand. Jahrzehntelange Erfahrung und Fingerspitzengefühl prägen jeden Arbeitsgang.',
-    videoSrc: '/manufacturing.mp4',
-    badge: '01. Handwebkunst',
-    statNumber: '100%',
-    statLabel: 'Traditionelle Handarbeit',
-    highlightTag: 'Holzwebstuhl-Präzision',
-  },
-  {
-    id: 'step-luxury',
-    stepNumber: '02',
-    title: 'Edle Schurwolle & Dichte Haptik',
-    subtitle: '100% Reine Bio-Naturwolle',
-    description: 'Ausgewählte, ungebleichte Schurwolle verleiht unseren Teppichen ihre außergewöhnliche Dichte, natürliche Elastizität und ein unvergleichlich weiches Trittgefühl unter den Füßen.',
-    videoSrc: '/LuxuryCarpet.mp4',
-    badge: '02. Reine Naturwolle',
-    statNumber: 'GOTS',
-    statLabel: 'Bio-Qualität & Naturfasern',
-    highlightTag: 'Reine Neuseeland-Wolle',
-  },
-  {
-    id: 'step-carpet',
-    stepNumber: '03',
-    title: 'Präzise Veredelung & Kettelung',
-    subtitle: 'Perfektion bis in die kleinste Faser',
-    description: 'Jede Kante wird sorgsam von Hand eingekettelt und qualitätsgeprüft. Dadurch entstehen langlebige, formstabile Luxusteppiche, die Generationen überdauern.',
-    videoSrc: '/Carpet.mp4',
-    badge: '03. Handveredelung',
-    statNumber: 'Premium',
-    statLabel: 'Robuste Kantenverstärkung',
-    highlightTag: 'Handgekettelte Ränder',
-  },
-  {
-    id: 'step-family',
-    stepNumber: '04',
-    title: 'Lebendige Geborgenheit & Wohnkomfort',
-    subtitle: 'Schadstofffreie Wohlfühloase für die Familie',
-    description: 'Reine Naturmaterialien schenken Ihrem Zuhause wohlige Wärme, beruhigende Akustik und ein gesundes Raumklima – ideal für gemütliche Stunden mit Ihren Liebsten.',
-    videoSrc: '/featuring_family.mp4',
-    badge: '04. Wohngefühl',
-    statNumber: '0%',
-    statLabel: 'Frei von Chemiefarben',
-    highlightTag: 'Familienfreundlich & Sicher',
-  },
-];
 
 export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
   storeMode = 'general',
@@ -84,6 +34,61 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
 
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  const manufakturSteps: ManufakturStep[] = [
+    {
+      id: 'step-manufacturing',
+      stepNumber: '01',
+      title: t('manufaktur.step1Title', 'Traditionelle Webkunst & Manufaktur'),
+      subtitle: t('manufaktur.step1Subtitle', 'Meisterhafte Handarbeit am Holzwebstuhl'),
+      description: t('manufaktur.step1Desc', 'Vom ersten Schurwollfaden bis zum vollendeten Meisterstück entsteht jeder Teppich mit meisterhafter Präzision von Hand. Jahrzehntelange Erfahrung und Fingerspitzengefühl prägen jeden Arbeitsgang.'),
+      videoSrc: '/manufacturing.mp4',
+      badge: t('manufaktur.step1Badge', '01. Handwebkunst'),
+      statNumber: t('manufaktur.step1StatNumber', '100%'),
+      statLabel: t('manufaktur.step1StatLabel', 'Traditionelle Handarbeit'),
+      highlightTag: t('manufaktur.step1Highlight', 'Holzwebstuhl-Präzision'),
+      tab: t('manufaktur.step1Tab', '01 Webkunst'),
+    },
+    {
+      id: 'step-luxury',
+      stepNumber: '02',
+      title: t('manufaktur.step2Title', 'Edle Schurwolle & Dichte Haptik'),
+      subtitle: t('manufaktur.step2Subtitle', '100% Reine Bio-Naturwolle'),
+      description: t('manufaktur.step2Desc', 'Ausgewählte, ungebleichte Schurwolle verleiht unseren Teppichen ihre außergewöhnliche Dichte, natürliche Elastizität und ein unvergleichlich weiches Trittgefühl unter den Füßen.'),
+      videoSrc: '/LuxuryCarpet.mp4',
+      badge: t('manufaktur.step2Badge', '02. Reine Naturwolle'),
+      statNumber: t('manufaktur.step2StatNumber', 'GOTS'),
+      statLabel: t('manufaktur.step2StatLabel', 'Bio-Qualität & Naturfasern'),
+      highlightTag: t('manufaktur.step2Highlight', 'Reine Neuseeland-Wolle'),
+      tab: t('manufaktur.step2Tab', '02 Bio-Wolle'),
+    },
+    {
+      id: 'step-carpet',
+      stepNumber: '03',
+      title: t('manufaktur.step3Title', 'Präzise Veredelung & Kettelung'),
+      subtitle: t('manufaktur.step3Subtitle', 'Perfektion bis in die kleinste Faser'),
+      description: t('manufaktur.step3Desc', 'Jede Kante wird sorgsam von Hand eingekettelt und qualitätsgeprüft. Dadurch entstehen langlebige, formstabile Luxusteppiche, die Generationen überdauern.'),
+      videoSrc: '/Carpet.mp4',
+      badge: t('manufaktur.step3Badge', '03. Handveredelung'),
+      statNumber: t('manufaktur.step3StatNumber', 'Premium'),
+      statLabel: t('manufaktur.step3StatLabel', 'Robuste Kantenverstärkung'),
+      highlightTag: t('manufaktur.step3Highlight', 'Handgekettelte Ränder'),
+      tab: t('manufaktur.step3Tab', '03 Veredelung'),
+    },
+    {
+      id: 'step-family',
+      stepNumber: '04',
+      title: t('manufaktur.step4Title', 'Lebendige Geborgenheit & Wohnkomfort'),
+      subtitle: t('manufaktur.step4Subtitle', 'Schadstofffreie Wohlfühloase für die Familie'),
+      description: t('manufaktur.step4Desc', 'Reine Naturmaterialien schenken Ihrem Zuhause wohlige Wärme, beruhigende Akustik und ein gesundes Raumklima – ideal für gemütliche Stunden mit Ihren Liebsten.'),
+      videoSrc: '/featuring_family.mp4',
+      badge: t('manufaktur.step4Badge', '04. Wohngefühl'),
+      statNumber: t('manufaktur.step4StatNumber', '0%'),
+      statLabel: t('manufaktur.step4StatLabel', 'Frei von Chemiefarben'),
+      highlightTag: t('manufaktur.step4Highlight', 'Familienfreundlich & Sicher'),
+      tab: t('manufaktur.step4Tab', '04 Wohnkomfort'),
+    },
+  ];
 
   // Synchronize video playback
   const updateVideoPlayback = useCallback((stepIndex: number, shouldPlay: boolean) => {
@@ -134,7 +139,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
       const progress = Math.max(0, Math.min(1, scrolled / trackHeight));
       setTrackProgress(progress);
 
-      const stepCount = MANUFAKTUR_STEPS.length;
+      const stepCount = manufakturSteps.length;
       // Map progress smoothly: 0..0.25 -> 0, 0.25..0.5 -> 1, 0.5..0.75 -> 2, 0.75..1 -> 3
       const stepIndex = Math.min(stepCount - 1, Math.floor(progress * stepCount));
 
@@ -144,7 +149,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [storeMode]);
+  }, [manufakturSteps.length, storeMode]);
 
   // Update active video when activeStep or viewport changes
   useEffect(() => {
@@ -159,7 +164,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
       const rect = sectionRef.current.getBoundingClientRect();
       const sectionTop = window.scrollY + rect.top;
       const trackHeight = rect.height - window.innerHeight;
-      const targetScroll = sectionTop + ((index + 0.1) / MANUFAKTUR_STEPS.length) * trackHeight;
+      const targetScroll = sectionTop + ((index + 0.1) / manufakturSteps.length) * trackHeight;
       window.scrollTo({ top: targetScroll, behavior: 'smooth' });
     }
   };
@@ -171,16 +176,16 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
   };
 
   const handleNextStep = () => {
-    const nextIndex = (activeStep + 1) % MANUFAKTUR_STEPS.length;
+    const nextIndex = (activeStep + 1) % manufakturSteps.length;
     handleStepClick(nextIndex);
   };
 
   const handlePrevStep = () => {
-    const prevIndex = (activeStep - 1 + MANUFAKTUR_STEPS.length) % MANUFAKTUR_STEPS.length;
+    const prevIndex = (activeStep - 1 + manufakturSteps.length) % manufakturSteps.length;
     handleStepClick(prevIndex);
   };
 
-  const currentStep = MANUFAKTUR_STEPS[activeStep] || MANUFAKTUR_STEPS[0];
+  const currentStep = manufakturSteps[activeStep] || manufakturSteps[0];
 
   if (storeMode === 'general') {
     return (
@@ -204,21 +209,24 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                 <div>
                   <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#69705A] font-semibold bg-[#69705A]/15 px-3.5 py-1 rounded-full w-fit mb-2.5">
                     <Sparkles size={13} className="text-[#69705A]" />
-                    <span>Handgewebte Manufaktur</span>
+                    <span>{t('manufaktur.badge', 'Handgewebte Manufaktur')}</span>
                   </div>
                   <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-[#2B2B2B] leading-[1.12]">
-                    Meisterhafte Webkunst &amp; <span className="italic text-[#B96A3C]">Komfort</span>
+                    {t('manufaktur.title', 'Meisterhafte Webkunst &')}{' '}
+                    <span className="italic text-[#B96A3C]">{t('manufaktur.titleHighlight', 'Komfort')}</span>
                   </h2>
                 </div>
 
                 {/* 4 Segmented Progress Bars for Scroll Feedback */}
                 <div className="space-y-1.5 pt-1">
                   <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-[#8B8B8B] font-medium">
-                    <span className="text-[#69705A] font-bold">Station {activeStep + 1} von 4</span>
+                    <span className="text-[#69705A] font-bold">
+                      {t('manufaktur.stationCount', { current: activeStep + 1, total: 4 })}
+                    </span>
                     <span>{currentStep.highlightTag}</span>
                   </div>
                   <div className="grid grid-cols-4 gap-2">
-                    {MANUFAKTUR_STEPS.map((step, idx) => {
+                    {manufakturSteps.map((step, idx) => {
                       const isPast = idx < activeStep;
                       const isCurrent = idx === activeStep;
                       // Sub-progress within current step
@@ -250,7 +258,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                 >
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-serif font-bold tracking-widest text-[#B96A3C]">
-                      PHASE {currentStep.stepNumber}
+                      {t('manufaktur.phase', 'PHASE')} {currentStep.stepNumber}
                     </span>
                     <span className="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-[2px] bg-[#FAF8F5] text-[#69705A] font-semibold border border-[#ECE8E2]">
                       {currentStep.badge}
@@ -302,7 +310,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                 {/* Chapter Quick Tabs & Primary Button */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
                   <div className="flex flex-wrap items-center gap-1.5">
-                    {MANUFAKTUR_STEPS.map((step, idx) => (
+                    {manufakturSteps.map((step, idx) => (
                       <button
                         key={step.id}
                         onClick={() => handleStepClick(idx)}
@@ -312,7 +320,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                             : 'bg-[#EFE7DC] text-[#666666] hover:bg-[#D9C5A7] hover:text-[#2B2B2B]'
                         }`}
                       >
-                        {step.stepNumber} {step.badge.split('. ')[1] || step.badge}
+                        {step.tab}
                       </button>
                     ))}
                   </div>
@@ -322,7 +330,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                     className="bg-[#B96A3C] hover:bg-[#A75D36] text-white px-5 py-2.5 text-xs tracking-[0.18em] font-medium uppercase rounded-[4px] shadow-xs hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 cursor-pointer group"
                   >
                     <Compass size={13} />
-                    <span>Kollektion entdecken</span>
+                    <span>{t('manufaktur.exploreBtn', 'Kollektion entdecken')}</span>
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
@@ -334,7 +342,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                 <div className="relative aspect-[16/10] sm:aspect-[16/10] rounded-[6px] overflow-hidden bg-[#1A1A1A] shadow-xl border border-[#ECE8E2]">
                   
                   {/* 4 Video Layers stacked with smooth crossfade */}
-                  {MANUFAKTUR_STEPS.map((step, idx) => {
+                  {manufakturSteps.map((step, idx) => {
                     const isActive = activeStep === idx;
 
                     return (
@@ -385,7 +393,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                   <div className="absolute bottom-4 left-4 right-4 z-30 flex items-end justify-between gap-4 text-white">
                     <div>
                       <span className="text-[10px] tracking-[0.25em] uppercase text-[#D9C5A7] font-semibold block mb-0.5">
-                        Manufaktur-Einblick — {currentStep.stepNumber} / 04
+                        {t('manufaktur.badge', 'Handgewebte Manufaktur')} — {currentStep.stepNumber} / 04
                       </span>
                       <h4 className="font-serif text-base sm:text-xl font-normal drop-shadow-sm line-clamp-1">
                         {currentStep.title}
@@ -394,7 +402,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
 
                     {/* Step Indicators */}
                     <div className="flex items-center gap-1.5 shrink-0 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-[2px] border border-white/20">
-                      {MANUFAKTUR_STEPS.map((_, i) => (
+                      {manufakturSteps.map((_, i) => (
                         <span
                           key={i}
                           className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -412,11 +420,11 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-[#69705A] animate-pulse" />
                     <span className="font-medium text-[#2B2B2B] truncate">
-                      Aktive Aufnahme: {currentStep.title} ({currentStep.subtitle})
+                      {t('manufaktur.activeView', 'Aktive Manufaktur-Aufnahme:')} {currentStep.title} ({currentStep.subtitle})
                     </span>
                   </div>
                   <span className="text-[10px] uppercase tracking-wider text-[#8B8B8B] shrink-0 font-medium pl-2">
-                    HD 1080p
+                    {t('manufaktur.hdBadge', 'HD 1080p')}
                   </span>
                 </div>
 

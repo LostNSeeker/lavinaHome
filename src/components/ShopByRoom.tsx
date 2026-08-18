@@ -39,16 +39,20 @@ export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, storeMode = 'gene
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-            {storeMode === 'kids' ? t('shopByRoom.badge', 'Kinderzimmer Styling') : 'Wohnwelten'}
+            {storeMode === 'kids'
+              ? t('shopByRoom.badge', 'Kinderzimmer Styling')
+              : t('generalShopByRoom.badge', 'Wohnwelten')}
           </span>
           <h2 className="font-serif text-3xl md:text-5xl font-normal text-[#2B2B2B]">
-            {storeMode === 'kids' ? t('shopByRoom.title', 'Nach Raum Gestalten') : 'Nach Wohnwelt Gestalten'}
+            {storeMode === 'kids'
+              ? t('shopByRoom.title', 'Nach Raum Gestalten')
+              : t('generalShopByRoom.title', 'Nach Wohnwelt Gestalten')}
           </h2>
         </div>
         <p className="text-xs text-[#666666] tracking-widest uppercase max-w-xs font-light">
           {storeMode === 'kids'
             ? t('shopByRoom.subtitle', 'Harmonisch abgestimmte Wolkenteppiche, Spielmöbel und Bio-Textilien.')
-            : 'Harmonisch abgestimmte Teppiche, Naturfelle und Textilien für jeden Raum.'}
+            : t('generalShopByRoom.subtitle', 'Harmonisch abgestimmte Teppiche, Naturfelle und Textilien für jeden Raum.')}
         </p>
       </div>
 

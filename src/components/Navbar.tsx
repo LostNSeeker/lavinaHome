@@ -476,7 +476,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
 
             <div className="flex items-center">
-              <LanguageSwitcher />
+              <LanguageSwitcher storeMode={storeMode} />
             </div>
 
             {onOpenAuth && (

@@ -31,6 +31,7 @@ import {
 import { plentyoneService } from './services/plentyoneService';
 import type { Product, CartItem, StoreMode } from './types';
 import { SlidersHorizontal } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 // Helper to distinguish kids-specific products from luxury general products
 export const isKidsProduct = (p: Product): boolean => {
@@ -63,15 +64,13 @@ export const isKidsProduct = (p: Product): boolean => {
 };
 
 export function App() {
-  // Store Mode State: Default to 'general' (Luxury Living Carpets & Comfort)
+  const { t } = useTranslation();
   const [storeMode, setStoreMode] = useState<StoreMode>('general');
+  const [currentView, setCurrentView] = useState<'home' | 'product'>('home');
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
-
-  // Routing State
-  const [currentView, setCurrentView] = useState<'home' | 'product'>('home');
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -459,16 +458,18 @@ export function App() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-[#ECE8E2]">
                   <div>
                     <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-                      {storeMode === 'kids' ? 'Levina Kinderwelt Katalog' : 'Exklusive Kollektionen &amp; Wohnkomfort'}
+                      {storeMode === 'kids'
+                        ? t('newArrivals.badge', 'Levina Kinderwelt Katalog')
+                        : t('generalCatalog.subtitle', 'Exklusive Kollektionen & Wohnkomfort')}
                     </span>
                     <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#2B2B2B] capitalize">
                       {activeTag
                         ? activeTag
                         : activeRoom
-                        ? `Raum: ${activeRoom}`
+                        ? `${activeRoom}`
                         : activeCategory !== 'all'
-                        ? `${activeCategory === 'carpets' ? (storeMode === 'kids' ? 'Kinderteppiche' : 'Luxusteppiche') : activeCategory === 'naturfelle' ? 'Naturfelle' : activeCategory} Kollektion`
-                        : storeMode === 'kids' ? 'Kinderzimmer &amp; Spielwelten' : 'Luxusteppiche &amp; Wohnkomfort'}
+                        ? `${activeCategory === 'carpets' ? (storeMode === 'kids' ? t('categories.carpets', 'Kinderteppiche') : t('categories.rugs', 'Luxusteppiche')) : activeCategory === 'naturfelle' ? t('categories.naturfelle', 'Naturfelle') : activeCategory}`
+                        : storeMode === 'kids' ? t('bestSellers.title', 'Kinderzimmer & Spielwelten') : t('generalCatalog.title', 'Luxusteppiche & Wohnkomfort')}
                     </h2>
                   </div>
 
@@ -484,7 +485,7 @@ export function App() {
                       }}
                       className="text-xs uppercase tracking-[0.2em] font-medium text-[#B96A3C] hover:underline cursor-pointer flex items-center gap-1.5"
                     >
-                      <span>Filter zurücksetzen &times;</span>
+                      <span>{t('generalCatalog.resetFilters', 'Filter zurücksetzen')} &times;</span>
                     </button>
                   )}
                 </div>
@@ -494,7 +495,11 @@ export function App() {
                   <div className="flex items-center gap-2">
                     <SlidersHorizontal size={14} className="text-[#69705A]" />
                     <span className="font-medium uppercase tracking-wider text-[#2B2B2B]">
-                      Zeige {Math.min(visibleCatalogCount, displayedProducts.length)} von {displayedProducts.length} Artikeln
+                      {t('generalCatalog.showingCount', {
+                        visible: Math.min(visibleCatalogCount, displayedProducts.length),
+                        total: displayedProducts.length,
+                        defaultValue: `Zeige ${Math.min(visibleCatalogCount, displayedProducts.length)} von ${displayedProducts.length} Artikeln`,
+                      })}
                     </span>
                   </div>
 
@@ -508,7 +513,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      Alle Materialien
+                      {t('generalCatalog.allMaterials', 'Alle Materialien')}
                     </button>
                     <button
                       onClick={() => setSelectedMaterialFilter('wool')}
@@ -518,7 +523,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      100% Bio-Wolle
+                      {t('generalCatalog.wool', '100% Bio-Wolle')}
                     </button>
                     <button
                       onClick={() => setSelectedMaterialFilter('shaggy')}
@@ -528,7 +533,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      Kuschel-Shaggy
+                      {t('generalCatalog.shaggy', 'Kuschel-Shaggy')}
                     </button>
                     <button
                       onClick={() => setSelectedMaterialFilter('fell')}
@@ -538,7 +543,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      Echtes Naturfell
+                      {t('generalCatalog.fell', 'Echtes Naturfell')}
                     </button>
                   </div>
                 </div>
@@ -547,7 +552,7 @@ export function App() {
                 {displayedProducts.length === 0 ? (
                   <div className="text-center py-20 bg-white/70 rounded-[2px] border border-[#ECE8E2] p-8 space-y-4">
                     <p className="text-base text-[#666666] font-light">
-                      Keine Artikel für die gewählten Filter gefunden.
+                      {t('generalCatalog.noProducts', 'Keine Artikel für die gewählten Filter gefunden.')}
                     </p>
                     <button
                       onClick={() => {
@@ -558,7 +563,7 @@ export function App() {
                       }}
                       className="px-6 py-2.5 bg-[#B96A3C] text-white text-xs uppercase tracking-widest rounded-[2px] hover:bg-[#A75D36] transition-colors cursor-pointer"
                     >
-                      Alle Artikel anzeigen
+                      {t('generalCatalog.resetFilters', 'Alle Artikel anzeigen')}
                     </button>
                   </div>
                 ) : (
@@ -646,7 +651,7 @@ export function App() {
                               onClick={() => handleQuickAdd(product)}
                               className="text-xs text-[#B96A3C] hover:text-[#505744] font-medium uppercase tracking-wider cursor-pointer hover:underline"
                             >
-                              + Schnellkauf
+                              {t('generalCatalog.quickAdd', '+ Schnellkauf')}
                             </button>
                           </div>
                         </div>
@@ -662,7 +667,10 @@ export function App() {
                       onClick={() => setVisibleCatalogCount((prev) => prev + 8)}
                       className="px-8 py-3.5 bg-[#2B2B2B] hover:bg-[#505744] text-white text-xs uppercase tracking-[0.2em] font-medium rounded-[2px] transition-all cursor-pointer"
                     >
-                      Weitere Artikel laden ({displayedProducts.length - visibleCatalogCount} verbleibend)
+                      {t('generalCatalog.loadMore', {
+                        count: displayedProducts.length - visibleCatalogCount,
+                        defaultValue: `Weitere Artikel laden (${displayedProducts.length - visibleCatalogCount} verbleibend)`,
+                      })}
                     </button>
                   </div>
                 )}

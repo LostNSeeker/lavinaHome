@@ -1,24 +1,34 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe } from 'lucide-react';
+import type { StoreMode } from '../types';
 
 interface LanguageSwitcherProps {
   className?: string;
   variant?: 'navbar' | 'compact' | 'modal';
+  storeMode?: StoreMode;
 }
 
 export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   className = '',
   variant = 'navbar',
+  storeMode = 'general',
 }) => {
   const { i18n, t } = useTranslation();
-  const currentLang = i18n.language.startsWith('de') ? 'de' : 'en';
+  const rawLang = i18n.resolvedLanguage || i18n.language || 'de';
+  const currentLang = rawLang.startsWith('de') ? 'de' : 'en';
 
   const toggleLanguage = (lang: 'de' | 'en') => {
     if (currentLang !== lang) {
       i18n.changeLanguage(lang);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('levina_language', lang);
+        document.documentElement.lang = lang;
+      }
     }
   };
+
+  const activeColorClass = storeMode === 'kids' ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage' : 'bg-[#B96A3C] text-white shadow-xs';
 
   if (variant === 'compact') {
     return (
@@ -27,7 +37,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           onClick={() => toggleLanguage('de')}
           className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
             currentLang === 'de'
-              ? 'bg-[#E79685] text-white shadow-xs'
+              ? activeColorClass
               : 'text-[#6B6661] hover:text-[#2D2B2A]'
           }`}
           title="Deutsch"
@@ -38,7 +48,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
           onClick={() => toggleLanguage('en')}
           className={`px-2.5 py-1 rounded-full transition-all cursor-pointer ${
             currentLang === 'en'
-              ? 'bg-[#E79685] text-white shadow-xs'
+              ? activeColorClass
               : 'text-[#6B6661] hover:text-[#2D2B2A]'
           }`}
           title="English"
@@ -52,16 +62,16 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   return (
     <div
       className={`flex items-center bg-white/90 backdrop-blur-md rounded-full p-1 border border-[#EDE6DC] shadow-xs text-xs font-semibold ${className}`}
-      aria-label={t('nav.language')}
+      aria-label={t('nav.language', 'Sprache')}
     >
-      <div className="flex items-center gap-1 pl-1.5 pr-1 text-[#8EBBB0] hidden sm:flex">
+      <div className="flex items-center gap-1 pl-1.5 pr-1 text-[#69705A] hidden sm:flex">
         <Globe size={13} strokeWidth={2} />
       </div>
       <button
         onClick={() => toggleLanguage('de')}
         className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1 ${
           currentLang === 'de'
-            ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage scale-105'
+            ? `${activeColorClass} scale-105`
             : 'text-[#6B6661] hover:text-[#2D2B2A]'
         }`}
         title="Deutsch (German)"
@@ -72,7 +82,7 @@ export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
         onClick={() => toggleLanguage('en')}
         className={`px-2.5 py-1 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer flex items-center gap-1 ${
           currentLang === 'en'
-            ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage scale-105'
+            ? `${activeColorClass} scale-105`
             : 'text-[#6B6661] hover:text-[#2D2B2A]'
         }`}
         title="English"
