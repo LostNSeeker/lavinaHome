@@ -153,8 +153,8 @@ export const ROOMS = GENERAL_ROOMS;
 
 export const GENERAL_PRODUCTS: Product[] = [
   {
-    id: 'PO-1068',
-    plentyVariationId: 1068,
+    id: 'lux-astrid-101',
+    plentyVariationId: 106801,
     name: 'Astrid Handgewebter Bio-Schurwolle Teppich',
     section: 'general',
     category: 'carpets',
@@ -203,8 +203,8 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-1069',
-    plentyVariationId: 1069,
+    id: 'lux-malmo-102',
+    plentyVariationId: 106901,
     name: 'Malmö Handgeknüpfter Terrakotta Naturteppich',
     section: 'general',
     category: 'rugs',
@@ -251,8 +251,8 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-1070',
-    plentyVariationId: 1070,
+    id: 'lux-kobenhavn-103',
+    plentyVariationId: 107001,
     name: 'Kobenhavn Shaggy Hochflor-Teppich Naturweiß',
     section: 'general',
     category: 'carpets',
@@ -300,8 +300,8 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-1075',
-    plentyVariationId: 1075,
+    id: 'lux-hague-104',
+    plentyVariationId: 107501,
     name: 'Hague Samtweicher Salbei Hochflor-Teppich',
     section: 'general',
     category: 'carpets',
@@ -348,9 +348,9 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-195',
+    id: 'lux-rinderfell-105',
     sku: 'FE-2194',
-    plentyVariationId: 195,
+    plentyVariationId: 195001,
     name: 'Echtes Brasilien Natur-Rinderfell Unikat',
     section: 'general',
     category: 'naturfelle',
@@ -396,9 +396,9 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-197',
+    id: 'lux-lammfell-106',
     sku: 'FE-2192',
-    plentyVariationId: 197,
+    plentyVariationId: 197001,
     name: 'Echtes Neuseeland Natur-Lammfell Goldbraun',
     section: 'general',
     category: 'naturfelle',
@@ -441,9 +441,9 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-146',
+    id: 'lux-shaggy-107',
     sku: 'SH-310',
-    plentyVariationId: 146,
+    plentyVariationId: 146001,
     name: 'Shaggy Hochflor-Teppich Flausch Mocca',
     section: 'general',
     category: 'carpets',
@@ -494,9 +494,9 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-137',
+    id: 'lux-meisterstueck-108',
     sku: 'LI-111',
-    plentyVariationId: 137,
+    plentyVariationId: 137001,
     name: 'Levina Meisterstück Handwebteppich Klassik',
     section: 'general',
     category: 'carpets',
@@ -543,9 +543,9 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-142',
+    id: 'lux-livingstyle-109',
     sku: 'LS-211',
-    plentyVariationId: 142,
+    plentyVariationId: 142001,
     name: 'Levina Living Style Designerteppich Graphit',
     section: 'general',
     category: 'carpets',
@@ -592,9 +592,9 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-192',
+    id: 'lux-grandluxury-110',
     sku: 'LI-2200',
-    plentyVariationId: 192,
+    plentyVariationId: 192001,
     name: 'Levina Grand Luxury Webteppich Elegance',
     section: 'general',
     category: 'carpets',

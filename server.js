@@ -706,8 +706,8 @@ async function syncPlentyoneCatalog() {
 
     const SERVER_LUXURY_PRODUCTS = [
       {
-        id: 'PO-1068',
-        plentyVariationId: 1068,
+        id: 'lux-astrid-101',
+        plentyVariationId: 106801,
         name: 'Astrid Handgewebter Bio-Schurwolle Teppich',
         section: 'general',
         category: 'carpets',
@@ -755,8 +755,8 @@ async function syncPlentyoneCatalog() {
         }
       },
       {
-        id: 'PO-1069',
-        plentyVariationId: 1069,
+        id: 'lux-malmo-102',
+        plentyVariationId: 106901,
         name: 'Malmö Handgeknüpfter Terrakotta Naturteppich',
         section: 'general',
         category: 'rugs',
@@ -801,8 +801,8 @@ async function syncPlentyoneCatalog() {
         }
       },
       {
-        id: 'PO-1070',
-        plentyVariationId: 1070,
+        id: 'lux-kobenhavn-103',
+        plentyVariationId: 107001,
         name: 'Kobenhavn Shaggy Hochflor-Teppich Naturweiß',
         section: 'general',
         category: 'carpets',
@@ -848,8 +848,8 @@ async function syncPlentyoneCatalog() {
         }
       },
       {
-        id: 'PO-1075',
-        plentyVariationId: 1075,
+        id: 'lux-hague-104',
+        plentyVariationId: 107501,
         name: 'Hague Samtweicher Salbei Hochflor-Teppich',
         section: 'general',
         category: 'carpets',
@@ -894,9 +894,9 @@ async function syncPlentyoneCatalog() {
         }
       },
       {
-        id: 'PO-195',
+        id: 'lux-rinderfell-105',
         sku: 'FE-2194',
-        plentyVariationId: 195,
+        plentyVariationId: 195001,
         name: 'Echtes Brasilien Natur-Rinderfell Unikat',
         section: 'general',
         category: 'naturfelle',
@@ -938,9 +938,9 @@ async function syncPlentyoneCatalog() {
         }
       },
       {
-        id: 'PO-197',
+        id: 'lux-lammfell-106',
         sku: 'FE-2192',
-        plentyVariationId: 197,
+        plentyVariationId: 197001,
         name: 'Echtes Neuseeland Natur-Lammfell Goldbraun',
         section: 'general',
         category: 'naturfelle',
@@ -971,6 +971,99 @@ async function syncPlentyoneCatalog() {
           netStock: 35,
           inStock: true,
           statusLabel: 'Auf Lager (35 Stück in Dülmen)',
+          warehouseName: 'KS Sales Dülmen Logistikzentrum'
+        },
+        deliveryInfo: {
+          averageDays: 2,
+          deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+          estimatedDateRange: 'Aug 19 – Aug 22',
+          carrier: 'DHL / DPD Paketdienst'
+        }
+      },
+      {
+        id: 'lux-shaggy-107',
+        sku: 'SH-310',
+        plentyVariationId: 146001,
+        name: 'Shaggy Hochflor-Teppich Flausch Mocca',
+        section: 'general',
+        category: 'carpets',
+        categoryLabel: 'Shaggy Teppiche',
+        price: 59,
+        originalPrice: 79,
+        rating: 4.85,
+        reviewsCount: 38,
+        primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310.jpg',
+        secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310-2.jpg',
+        galleryImages: [
+          'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310.jpg'
+        ],
+        isBestSeller: true,
+        isNewArrival: false,
+        material: '100% Soft-Touch Hochflor Polypropylen / Mikrofaser',
+        availableMaterials: ['100% Soft-Touch Hochflor Mikrofaser'],
+        sizes: ['60 x 110 cm', '80 x 150 cm', '120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
+        colors: [
+          { name: 'mocca', hex: '#5C3D2E' },
+          { name: 'weiß', hex: '#FFFFFF' },
+          { name: 'silber', hex: '#CBD5E1' }
+        ],
+        roomCategory: 'living-room',
+        description: 'Kuschelweicher Hochflor-Shaggy mit ca. 30-35 mm Florhöhe für maximalen Komfort unter den Füßen.',
+        careInstructions: [
+          'Regelmäßig ausschütteln und mit glatter Düse absaugen.'
+        ],
+        shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+        stockInfo: {
+          physicalStock: 19,
+          netStock: 16,
+          inStock: true,
+          statusLabel: 'Auf Lager (16 Stück in Dülmen)',
+          warehouseName: 'KS Sales Dülmen Logistikzentrum'
+        },
+        deliveryInfo: {
+          averageDays: 2,
+          deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+          estimatedDateRange: 'Aug 19 – Aug 22',
+          carrier: 'DHL / DPD Paketdienst'
+        }
+      },
+      {
+        id: 'lux-meisterstueck-108',
+        sku: 'LI-111',
+        plentyVariationId: 137001,
+        name: 'Levina Meisterstück Handwebteppich Klassik',
+        section: 'general',
+        category: 'carpets',
+        categoryLabel: 'Luxusteppiche',
+        price: 249,
+        originalPrice: 299,
+        rating: 4.95,
+        reviewsCount: 54,
+        primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111.jpg',
+        secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111p.jpg',
+        galleryImages: [
+          'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111.jpg'
+        ],
+        isBestSeller: true,
+        isNewArrival: true,
+        material: 'Reine Neuseeland Schurwolle & Naturfaser-Kettelung',
+        availableMaterials: ['Reine Neuseeland Schurwolle', 'Wolle & Jute Blend'],
+        sizes: ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
+        colors: [
+          { name: 'Natur Sand', hex: '#D9C5A7' },
+          { name: 'Oatmeal', hex: '#EFE7DC' }
+        ],
+        roomCategory: 'living-room',
+        description: 'Meisterhaft gewebter Teppich aus edelster Schurwolle. Verleiht jedem Raum zeitlose Eleganz und eine spürbar behagliche Atmosphäre.',
+        careInstructions: [
+          'Regelmäßig mit glatter Düse absaugen.'
+        ],
+        shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+        stockInfo: {
+          physicalStock: 22,
+          netStock: 19,
+          inStock: true,
+          statusLabel: 'Auf Lager (19 Stück in Dülmen)',
           warehouseName: 'KS Sales Dülmen Logistikzentrum'
         },
         deliveryInfo: {
