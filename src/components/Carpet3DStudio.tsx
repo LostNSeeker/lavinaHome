@@ -44,9 +44,19 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
   // Filter authentic carpet and rug products from store catalog
   const carpetProducts = useMemo(() => {
     const list = products.filter(
-      (p) => p.category !== 'naturfelle' && p.category !== 'accessories' && (p.category === 'carpets' || p.category === 'rugs' || (p.name || '').toLowerCase().includes('teppich') || (p.name || '').toLowerCase().includes('shaggy'))
+      (p) =>
+        p.category !== 'naturfelle' &&
+        p.category !== 'accessories' &&
+        (p.category === 'carpets' ||
+          p.category === 'rugs' ||
+          (p.name || '').toLowerCase().includes('teppich') ||
+          (p.name || '').toLowerCase().includes('shaggy') ||
+          (p.categoryLabel || '').toLowerCase().includes('teppich'))
     );
-    return list.length > 0 ? list : products.filter((p) => p.category !== 'naturfelle');
+    if (list.length > 0) return list;
+    const nonFell = products.filter((p) => p.category !== 'naturfelle' && p.category !== 'accessories');
+    if (nonFell.length > 0) return nonFell;
+    return products;
   }, [products]);
 
   // Selected product for texture projection
@@ -286,7 +296,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
 
   // Three.js Scene Setup
   useEffect(() => {
-    if (!mountRef.current || isLoading || carpetProducts.length === 0) return;
+    if (!mountRef.current || carpetProducts.length === 0) return;
     const container = mountRef.current;
     const width = container.clientWidth || 600;
     const height = container.clientHeight || 450;
@@ -743,8 +753,8 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
     );
   };
 
-  // Full Skeleton / Loader State while products are fetching
-  if (isLoading || carpetProducts.length === 0) {
+  // Full Skeleton / Loader State while products are fetching (only if no products exist yet)
+  if (isLoading && carpetProducts.length === 0) {
     return (
       <section id="carpet-3d-studio" className="py-20 sm:py-28 bg-[#FDFBF7] border-b border-[#EDE6DC] overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-8">

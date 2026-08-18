@@ -704,10 +704,293 @@ async function syncPlentyoneCatalog() {
       };
     });
 
-    cachedPlentyProducts = formattedProducts;
+    const SERVER_LUXURY_PRODUCTS = [
+      {
+        id: 'PO-1068',
+        plentyVariationId: 1068,
+        name: 'Astrid Handgewebter Bio-Schurwolle Teppich',
+        section: 'general',
+        category: 'carpets',
+        categoryLabel: 'Luxusteppiche',
+        price: 1450,
+        originalPrice: 1680,
+        rating: 4.9,
+        reviewsCount: 48,
+        primaryImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=800&auto=format&fit=crop',
+        secondaryImage: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=800&auto=format&fit=crop',
+        galleryImages: [
+          'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=1000&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1000&auto=format&fit=crop'
+        ],
+        isBestSeller: true,
+        isNewArrival: false,
+        material: '100% Ungefärbte Neuseeland Schurwolle',
+        availableMaterials: ['100% Neuseeland Bio-Schurwolle', 'Wolle & Seide Blend'],
+        sizes: ['160 x 230 cm', '200 x 300 cm', '250 x 350 cm', '300 x 400 cm'],
+        colors: [
+          { name: 'Oatmeal & Soft Linen', hex: '#EFE7DC' },
+          { name: 'Sage & Olive Gray', hex: '#69705A' },
+          { name: 'Warm Terracotta', hex: '#B96A3C' }
+        ],
+        roomCategory: 'living-room',
+        description: 'Handgewebt von Meisterhand aus ungefärbter reiner Bio-Schurwolle. Der Astrid Teppich zeichnet sich durch seine sanfte High-Low-Struktur und samtweichen Trittkomfort aus.',
+        careInstructions: [
+          'Regelmäßig mit glatter Düse absaugen.',
+          'Punktuelle Flecken sofort mit mildem Wollwaschmittel abtupfen.',
+          'Geeignet für Fußbodenheizung.'
+        ],
+        shippingInfo: 'Kostenlose Premium-Lieferung direkt aus unserem Dülmen Logistikzentrum.',
+        stockInfo: {
+          physicalStock: 18,
+          netStock: 15,
+          inStock: true,
+          statusLabel: 'Auf Lager (15 Stück in Dülmen)',
+          warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
+        },
+        deliveryInfo: {
+          averageDays: 3,
+          deliveryText: 'Standard Dispatch: 2–4 Business Days',
+          estimatedDateRange: 'Aug 20 – Aug 23',
+          carrier: 'DHL / DPD Freight White-Glove'
+        }
+      },
+      {
+        id: 'PO-1069',
+        plentyVariationId: 1069,
+        name: 'Malmö Handgeknüpfter Terrakotta Naturteppich',
+        section: 'general',
+        category: 'rugs',
+        categoryLabel: 'Wollteppiche',
+        price: 890,
+        originalPrice: 1050,
+        rating: 4.8,
+        reviewsCount: 32,
+        primaryImage: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=800&auto=format&fit=crop',
+        secondaryImage: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=800&auto=format&fit=crop',
+        galleryImages: [
+          'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1000&auto=format&fit=crop'
+        ],
+        isBestSeller: true,
+        isNewArrival: true,
+        material: 'Natürliche Jute & Schurwoll-Mikroflor',
+        availableMaterials: ['Natürliche Jute & Wolle', '100% Bio-Baumwolle'],
+        sizes: ['160 x 230 cm', '200 x 300 cm', '240 x 320 cm'],
+        colors: [
+          { name: 'Terracotta Earth', hex: '#B96A3C' },
+          { name: 'Burnt Clay', hex: '#A75D36' }
+        ],
+        roomCategory: 'bedroom',
+        description: 'Der Malmö Akzentteppich vereint warme Terrakotta-Töne mit einer flach gewebten Struktur für jedes Parkett.',
+        careInstructions: [
+          'Alle 6 Monate um 180 Grad drehen.',
+          'Nicht an losen Fäden ziehen, vorsichtig abschneiden.'
+        ],
+        shippingInfo: 'Kostenlose Lieferung direkt aus Dülmen.',
+        stockInfo: {
+          physicalStock: 12,
+          netStock: 9,
+          inStock: true,
+          statusLabel: 'Auf Lager (9 Stück in Dülmen)',
+          warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
+        },
+        deliveryInfo: {
+          averageDays: 3,
+          deliveryText: 'Standard Dispatch: 2–4 Business Days',
+          estimatedDateRange: 'Aug 20 – Aug 23',
+          carrier: 'DHL / DPD Freight White-Glove'
+        }
+      },
+      {
+        id: 'PO-1070',
+        plentyVariationId: 1070,
+        name: 'Kobenhavn Shaggy Hochflor-Teppich Naturweiß',
+        section: 'general',
+        category: 'carpets',
+        categoryLabel: 'Shaggy Teppiche',
+        price: 380,
+        originalPrice: 480,
+        rating: 5.0,
+        reviewsCount: 62,
+        primaryImage: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop',
+        secondaryImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=800&auto=format&fit=crop',
+        galleryImages: [
+          'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop'
+        ],
+        isBestSeller: true,
+        isNewArrival: false,
+        material: '100% Soft-Touch Hochflor Mikrofaser & Schurwolle',
+        availableMaterials: ['100% Soft-Touch Hochflor'],
+        sizes: ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
+        colors: [
+          { name: 'weiß', hex: '#FFFFFF' },
+          { name: 'silber', hex: '#CBD5E1' },
+          { name: 'mocca', hex: '#5C3D2E' }
+        ],
+        roomCategory: 'living-room',
+        description: 'Extrem dichter, samtiger Hochflor mit ca. 35 mm Florhöhe. Bringt unvergleichliche Gemütlichkeit und luxuriösen Komfort ins Wohnzimmer.',
+        careInstructions: [
+          'Regelmäßig ausschütteln und mit glatter Düse absaugen.',
+          'Geeignet für Fußbodenheizung.'
+        ],
+        shippingInfo: 'Kostenlose Express-Lieferung aus Dülmen.',
+        stockInfo: {
+          physicalStock: 20,
+          netStock: 18,
+          inStock: true,
+          statusLabel: 'Auf Lager (18 Stück in Dülmen)',
+          warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
+        },
+        deliveryInfo: {
+          averageDays: 2,
+          deliveryText: 'Express Dispatch: 1–3 Business Days',
+          estimatedDateRange: 'Aug 19 – Aug 21',
+          carrier: 'DHL / DPD Freight'
+        }
+      },
+      {
+        id: 'PO-1075',
+        plentyVariationId: 1075,
+        name: 'Hague Samtweicher Salbei Hochflor-Teppich',
+        section: 'general',
+        category: 'carpets',
+        categoryLabel: 'Luxusteppiche',
+        price: 1650,
+        originalPrice: 1850,
+        rating: 4.95,
+        reviewsCount: 27,
+        primaryImage: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=800&auto=format&fit=crop',
+        secondaryImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=800&auto=format&fit=crop',
+        galleryImages: [
+          'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1000&auto=format&fit=crop'
+        ],
+        isBestSeller: true,
+        isNewArrival: true,
+        material: 'Organische Tibet-Schurwolle & Seidenakzente',
+        availableMaterials: ['Tibet-Wolle & Seide'],
+        sizes: ['200 x 300 cm', '250 x 350 cm', '300 x 400 cm'],
+        colors: [
+          { name: 'Sage Green', hex: '#69705A' },
+          { name: 'Soft Cream', hex: '#F4EEE6' }
+        ],
+        roomCategory: 'living-room',
+        description: 'Ein meisterhafter Plüschflor-Teppich mit handkardierter tibetischer Wolle in ruhigen Salbeitönen. Spendet wohlige Wärme und edle Haptik.',
+        careInstructions: [
+          'Regelmäßig sanft absaugen.',
+          'Professionelle Reinigung einmal jährlich empfohlen.'
+        ],
+        shippingInfo: 'Premium White-Glove Lieferung inklusive.',
+        stockInfo: {
+          physicalStock: 8,
+          netStock: 6,
+          inStock: true,
+          statusLabel: 'Auf Lager (6 Einheiten in Dülmen)',
+          warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
+        },
+        deliveryInfo: {
+          averageDays: 3,
+          deliveryText: 'Standard Dispatch: 2–4 Business Days',
+          estimatedDateRange: 'Aug 20 – Aug 23',
+          carrier: 'DHL / DPD Freight White-Glove'
+        }
+      },
+      {
+        id: 'PO-195',
+        sku: 'FE-2194',
+        plentyVariationId: 195,
+        name: 'Echtes Brasilien Natur-Rinderfell Unikat',
+        section: 'general',
+        category: 'naturfelle',
+        categoryLabel: 'Naturfelle',
+        price: 199,
+        originalPrice: 249,
+        rating: 4.9,
+        reviewsCount: 38,
+        primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-01.JPG',
+        secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-02.JPG',
+        galleryImages: [
+          'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-01.JPG',
+          'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-02.JPG'
+        ],
+        isBestSeller: true,
+        isNewArrival: true,
+        material: '100% Natürliches Echtes Rinderfell',
+        availableMaterials: ['100% Natürliches Echtes Rinderfell'],
+        sizes: ['Naturmaß (ca. 200 x 220 cm)'],
+        colors: [],
+        roomCategory: 'living-room',
+        description: 'Exklusives, naturbelassenes Rinderfell mit seidigem Glanz und unverwechselbarer natürlicher Zeichnung. Jedes Stück ist ein einzigartiges Unikat der Natur.',
+        careInstructions: [
+          'Regelmäßig an der frischen Luft ausschütteln.'
+        ],
+        shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+        stockInfo: {
+          physicalStock: 14,
+          netStock: 11,
+          inStock: true,
+          statusLabel: 'Auf Lager (11 Unikate in Dülmen)',
+          warehouseName: 'KS Sales Dülmen Logistikzentrum'
+        },
+        deliveryInfo: {
+          averageDays: 2,
+          deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+          estimatedDateRange: 'Aug 19 – Aug 22',
+          carrier: 'DHL / DPD Paketdienst'
+        }
+      },
+      {
+        id: 'PO-197',
+        sku: 'FE-2192',
+        plentyVariationId: 197,
+        name: 'Echtes Neuseeland Natur-Lammfell Goldbraun',
+        section: 'general',
+        category: 'naturfelle',
+        categoryLabel: 'Naturfelle',
+        price: 79,
+        originalPrice: 99,
+        rating: 4.9,
+        reviewsCount: 92,
+        primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-02.jpg',
+        secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-01.jpg',
+        galleryImages: [
+          'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-02.jpg'
+        ],
+        isBestSeller: true,
+        isNewArrival: false,
+        material: '100% Echtes Neuseeland-Lammfell',
+        availableMaterials: ['100% Echtes Neuseeland-Lammfell'],
+        sizes: ['Naturmaß (ca. 100-110 cm)'],
+        colors: [],
+        roomCategory: 'bedroom',
+        description: 'Samtweiches, echtes Natur-Lammfell für wohlige Wärme auf Sessel, Sofa oder Parkett. Temperaturausgleichend und schadstofffrei.',
+        careInstructions: [
+          'Regelmäßig ausschütteln und sanft aufkämmen.'
+        ],
+        shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+        stockInfo: {
+          physicalStock: 40,
+          netStock: 35,
+          inStock: true,
+          statusLabel: 'Auf Lager (35 Stück in Dülmen)',
+          warehouseName: 'KS Sales Dülmen Logistikzentrum'
+        },
+        deliveryInfo: {
+          averageDays: 2,
+          deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+          estimatedDateRange: 'Aug 19 – Aug 22',
+          carrier: 'DHL / DPD Paketdienst'
+        }
+      }
+    ];
+
+    const combined = [...SERVER_LUXURY_PRODUCTS, ...formattedProducts];
+    const uniqueMap = new Map();
+    combined.forEach(p => uniqueMap.set(p.id, p));
+    const allProducts = Array.from(uniqueMap.values());
+
+    cachedPlentyProducts = allProducts;
     lastCatalogFetchTime = Date.now();
-    console.log(`✅ [PlentyONE Auto-Sync] Successfully loaded & cached ${formattedProducts.length} live products from PlentyONE ERP.`);
-    return formattedProducts;
+    console.log(`✅ [PlentyONE Auto-Sync] Successfully loaded & cached ${allProducts.length} products (Luxury + PlentyONE Live Catalog).`);
+    return allProducts;
   } catch (err) {
     console.error('❌ [PlentyONE Auto-Sync] Sync failed:', err.message);
     return cachedPlentyProducts || [];

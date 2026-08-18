@@ -70,7 +70,7 @@ export function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
-  const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
+  const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(false);
 
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [activeTag, setActiveTag] = useState<string | null>(null);
@@ -94,17 +94,33 @@ export function App() {
   const [visibleCatalogCount, setVisibleCatalogCount] = useState<number>(() => typeof window !== 'undefined' && window.innerWidth < 768 ? 6 : 16);
   const [selected3DProduct, setSelected3DProduct] = useState<Product | null>(null);
 
-  // Load Live PlentyONE Products
+  // Load Live PlentyONE Products & Merge with Luxury Master Catalog
   useEffect(() => {
     let isMounted = true;
     async function loadLiveProducts() {
       try {
-        setIsLoadingProducts(true);
         const liveItems = await plentyoneService.fetchProducts();
-        if (isMounted && liveItems.length > 0) {
-          setProducts(liveItems);
-          if (liveItems[0]) {
-            setWishlistIds([liveItems[0].id, liveItems[2]?.id || liveItems[0].id]);
+        if (isMounted) {
+          if (liveItems && liveItems.length > 0) {
+            const luxuryFallback = FALLBACK_PRODUCTS.filter((p) => !isKidsProduct(p));
+            const liveGeneral = liveItems.filter((p) => !isKidsProduct(p));
+            const liveKids = liveItems.filter(isKidsProduct);
+            const fallbackKids = FALLBACK_PRODUCTS.filter(isKidsProduct);
+
+            const merged = [
+              ...luxuryFallback,
+              ...liveGeneral,
+              ...(liveKids.length > 0 ? liveKids : fallbackKids),
+            ];
+
+            const uniqueMap = new Map<string, Product>();
+            merged.forEach((item) => uniqueMap.set(item.id, item));
+            const finalProducts = Array.from(uniqueMap.values());
+
+            setProducts(finalProducts);
+            if (finalProducts[0]) {
+              setWishlistIds([finalProducts[0].id, finalProducts[2]?.id || finalProducts[0].id]);
+            }
           }
         }
       } catch (err) {
