@@ -1,7 +1,6 @@
 import React from 'react';
 import type { LegalTab } from './LegalModal';
 import type { StoreMode } from '../types';
-import { Sparkles } from 'lucide-react';
 
 interface FooterProps {
   onOpenLegal?: (tab: LegalTab) => void;
@@ -11,8 +10,6 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({
   onOpenLegal,
-  onSwitchMode,
-  currentMode = 'general',
 }) => {
   return (
     <footer className="bg-[#FAF8F5] pt-20 pb-12 border-t border-[#ECE8E2] text-[#2B2B2B]">
@@ -34,38 +31,14 @@ export const Footer: React.FC<FooterProps> = ({
                   LEVINA HOME
                 </span>
                 <span className="text-[9px] tracking-[0.3em] text-[#8B8B8B] uppercase font-sans font-light">
-                  {currentMode === 'kids' ? '★ KIDS SANCTUARY' : 'THE SCANDINAVIAN COLLECTION'}
+                  KINDERTEPPICHE &amp; NATURFELLE
                 </span>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-[#666666] font-light leading-relaxed max-w-sm">
-              {currentMode === 'kids'
-                ? 'Zauberhafte Spielwelten, OEKO-TEX® zertifizierte Kinderteppiche und kuschelige Naturfelle für unbeschwerte Momente im Kinderzimmer.'
-                : 'Bespoke Scandinavian area carpets, handwoven New Zealand wool rugs, and architectural furniture crafted for tranquil, timeless sanctuaries.'}
+              Zauberhafte Spielwelten, OEKO-TEX® zertifizierte Kinderteppiche, kuschelige Naturfelle und hochwertige Wohnteppiche für Ihr Zuhause.
             </p>
-
-            {/* Quick Mode Toggle in Footer */}
-            {onSwitchMode && (
-              <div className="pt-2">
-                {currentMode === 'general' ? (
-                  <button
-                    onClick={() => onSwitchMode('kids')}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#E79685]/15 text-[#B96A3C] hover:bg-[#E79685] hover:text-white border border-[#E79685]/30 text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-xs cursor-pointer group"
-                  >
-                    <Sparkles size={13} className="text-[#E79685] group-hover:text-white transition-colors" />
-                    <span>Switch to Levina Kids Collection &rarr;</span>
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => onSwitchMode('general')}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2B2B2B] text-white hover:bg-[#505744] text-xs font-medium uppercase tracking-wider transition-all duration-300 shadow-xs cursor-pointer group"
-                  >
-                    <span>Switch to General Home Collection &rarr;</span>
-                  </button>
-                )}
-              </div>
-            )}
           </div>
 
           {/* Col 2: Navigation Links */}

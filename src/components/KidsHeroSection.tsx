@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Sparkles, ShieldCheck, Feather, Droplets, Heart, ArrowLeft } from 'lucide-react';
+import { ArrowRight, Sparkles, ShieldCheck, Feather, Droplets, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface KidsHeroSectionProps {
@@ -11,7 +11,6 @@ interface KidsHeroSectionProps {
 export const KidsHeroSection: React.FC<KidsHeroSectionProps> = ({
   onExploreClick,
   onShopCarpetsClick,
-  onBackToGeneralClick,
 }) => {
   const { t } = useTranslation();
 
@@ -32,18 +31,8 @@ export const KidsHeroSection: React.FC<KidsHeroSectionProps> = ({
       <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full pt-2 pb-10">
         <div className="max-w-2xl animate-fade-up space-y-6">
           
-          {/* Playful Floating Badges & Back Button */}
+          {/* Playful Floating Badges */}
           <div className="flex flex-wrap items-center gap-2.5">
-            {onBackToGeneralClick && (
-              <button
-                onClick={onBackToGeneralClick}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#69705A] bg-white/90 hover:bg-[#69705A] hover:text-white px-3.5 py-1.5 rounded-full border border-[#ECE8E2] shadow-xs transition-all cursor-pointer group"
-              >
-                <ArrowLeft size={13} className="group-hover:-translate-x-0.5 transition-transform" />
-                <span>← Main Store (Levina Home)</span>
-              </button>
-            )}
-
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#8EBBB0] bg-[#8EBBB0]/15 px-3.5 py-1.5 rounded-full border border-[#8EBBB0]/30 shadow-xs">
               <Sparkles size={13} className="text-[#8EBBB0]" />
               <span>{t('hero.badgeNonToxic')}</span>

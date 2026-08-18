@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Heart, ShoppingBag, ChevronDown, Sparkles, Tag, Menu, X, Check, ArrowLeft } from 'lucide-react';
+import { Search, Heart, ShoppingBag, ChevronDown, Sparkles, Tag, Menu, X, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import type { StoreMode } from '../types';
@@ -75,7 +75,7 @@ export const NAV_CATEGORIES: NavCategoryItem[] = [
 ];
 
 interface NavbarProps {
-  storeMode: StoreMode;
+  storeMode?: StoreMode;
   cartCount: number;
   wishlistCount: number;
   onOpenCart: () => void;
@@ -85,13 +85,12 @@ interface NavbarProps {
   onOpenIntegrationModal?: () => void;
   onSelectCategory: (category: string) => void;
   onSelectTag?: (tag: string, parentCategory?: string) => void;
-  onSwitchMode: (mode: StoreMode) => void;
+  onSwitchMode?: (mode: StoreMode) => void;
   activeCategory?: string;
   activeTag?: string | null;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
-  storeMode,
   cartCount,
   wishlistCount,
   onOpenCart,
@@ -100,8 +99,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onSelectCategory,
   onSelectTag,
-  onSwitchMode,
-  activeCategory,
   activeTag,
 }) => {
   const { t } = useTranslation();
@@ -172,27 +169,18 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const generalNavLinks = [
-    { label: 'Collections', id: 'featured-collections' },
-    { label: 'Rooms', id: 'shop-by-room' },
-    { label: '3D Studio', id: 'carpet-3d-studio' },
-    { label: 'About', id: 'brand-story' },
-  ];
-
   return (
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? storeMode === 'kids'
-              ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 sm:py-3 shadow-pillowy text-[#2D2B2A]'
-              : 'bg-[#FAF8F5]/95 backdrop-blur-md border-b border-[#ECE8E2] py-3 sm:py-3.5 shadow-xs text-[#2B2B2B]'
+            ? 'bg-[#FDFBF7]/95 backdrop-blur-md border-b border-[#EDE6DC] py-2.5 sm:py-3 shadow-pillowy text-[#2D2B2A]'
             : 'bg-transparent text-[#2B2B2B] py-4 sm:py-5 border-b border-transparent'
         }`}
       >
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 flex items-center justify-between gap-2 sm:gap-4">
           
-          {/* LEFT: Logo (Emblem + Wordmark) & Desktop Nav */}
+          {/* LEFT: Logo (Emblem + Wordmark) */}
           <div className="flex items-center gap-6 xl:gap-8 shrink-0">
             {/* Mobile Menu Toggle Button */}
             <button
@@ -218,141 +206,66 @@ export const Navbar: React.FC<NavbarProps> = ({
                   LEVINA HOME
                 </span>
                 <span className="text-[7.5px] sm:text-[8.5px] tracking-[0.35em] text-[#8B8B8B] uppercase font-sans font-light mt-0.5">
-                  {storeMode === 'kids' ? '★ KIDS SANCTUARY' : 'SCANDINAVIAN COLLECTION'}
+                  KINDERTEPPICHE &amp; NATURFELLE
                 </span>
               </div>
             </button>
-
-            {/* General Mode Desktop Links */}
-            {storeMode === 'general' && (
-              <nav className="hidden lg:flex items-center space-x-6 text-xs tracking-[0.18em] uppercase font-medium">
-                {generalNavLinks.map((link) => (
-                  <button
-                    key={link.id}
-                    onClick={() => {
-                      if (link.id === 'brand-story') {
-                        const el = document.getElementById('brand-story');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        return;
-                      }
-                      if (link.id === 'carpet-3d-studio') {
-                        const el = document.getElementById('carpet-3d-studio');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        return;
-                      }
-                      if (link.id === 'shop-by-room') {
-                        const el = document.getElementById('shop-by-room');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        return;
-                      }
-                      if (link.id === 'featured-collections') {
-                        const el = document.getElementById('featured-collections');
-                        if (el) el.scrollIntoView({ behavior: 'smooth' });
-                        return;
-                      }
-                      onSelectCategory(link.id);
-                    }}
-                    className={`transition-all duration-300 relative py-1 hover:text-[#B96A3C] cursor-pointer ${
-                      activeCategory === link.id
-                        ? 'text-[#B96A3C] font-semibold after:content-[""] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1.5px] after:bg-[#B96A3C]'
-                        : 'text-[#2B2B2B]/80'
-                    }`}
-                  >
-                    {link.label}
-                  </button>
-                ))}
-              </nav>
-            )}
           </div>
 
-          {/* CENTER: Kids Mode Navigation Tags with Dropdowns */}
-          {storeMode === 'kids' && (
-            <nav className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-2.5 flex-1 max-w-2xl mx-auto">
-              {NAV_CATEGORIES.map((cat) => {
-                const isOpen = activeDropdown === cat.id;
-                const isSelected = activeTag === cat.label || (activeTag && cat.items.some(item => typeof item === 'string' ? item === activeTag : item.name === activeTag));
+          {/* CENTER: Main Categories (Kinderteppiche, Naturfelle, Shaggy, Sale) with Dropdowns */}
+          <nav className="hidden lg:flex items-center justify-center gap-2 xl:gap-3 flex-1 max-w-2xl mx-auto">
+            {NAV_CATEGORIES.map((cat) => {
+              const isOpen = activeDropdown === cat.id;
+              const isSelected = activeTag === cat.label || (activeTag && cat.items.some(item => typeof item === 'string' ? item === activeTag : item.name === activeTag));
 
-                return (
-                  <div
-                    key={cat.id}
-                    className="relative"
-                    onMouseEnter={() => handleMouseEnter(cat.id)}
-                    onMouseLeave={handleMouseLeave}
+              return (
+                <div
+                  key={cat.id}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(cat.id)}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <button
+                    onClick={() => handleCategoryHeaderClick(cat)}
+                    className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
+                      cat.isSale
+                        ? 'bg-[#E79685]/15 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/40 shadow-xs'
+                        : isSelected
+                        ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage'
+                        : isScrolled
+                        ? 'text-[#2D2B2A] hover:bg-white hover:text-[#8EBBB0] border border-transparent hover:border-[#EDE6DC]'
+                        : 'text-[#2D2B2A] bg-white/60 hover:bg-white hover:text-[#8EBBB0] border border-white/70 shadow-2xs backdrop-blur-xs'
+                    }`}
                   >
-                    <button
-                      onClick={() => handleCategoryHeaderClick(cat)}
-                      className={`px-3.5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-200 flex items-center gap-1.5 cursor-pointer ${
-                        cat.isSale
-                          ? 'bg-[#E79685]/15 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/40 shadow-xs'
-                          : isSelected
-                          ? 'bg-[#8EBBB0] text-white shadow-pillowy-sage'
-                          : isScrolled
-                          ? 'text-[#2D2B2A] hover:bg-white hover:text-[#8EBBB0] border border-transparent hover:border-[#EDE6DC]'
-                          : 'text-[#2D2B2A] bg-white/60 hover:bg-white hover:text-[#8EBBB0] border border-white/70 shadow-2xs backdrop-blur-xs'
+                    {cat.isSale && <Tag size={13} className="shrink-0" />}
+                    <span>{cat.label}</span>
+                    <ChevronDown
+                      size={13}
+                      className={`transition-transform duration-200 opacity-70 ${
+                        isOpen ? 'rotate-180 text-current' : ''
                       }`}
+                    />
+                  </button>
+
+                  {/* Dropdown Menu Container */}
+                  {isOpen && (
+                    <div
+                      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 animate-fade-in"
+                      onMouseEnter={() => handleMouseEnter(cat.id)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      {cat.isSale && <Tag size={13} className="shrink-0" />}
-                      <span>{cat.label}</span>
-                      <ChevronDown
-                        size={13}
-                        className={`transition-transform duration-200 opacity-70 ${
-                          isOpen ? 'rotate-180 text-current' : ''
-                        }`}
-                      />
-                    </button>
-
-                    {/* Dropdown Menu Container */}
-                    {isOpen && (
-                      <div
-                        className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 animate-fade-in"
-                        onMouseEnter={() => handleMouseEnter(cat.id)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        <div className="bg-white/98 backdrop-blur-md rounded-2xl border border-[#EDE6DC] shadow-pillowy p-3.5 min-w-[220px] max-w-[420px]">
-                          
-                          {/* Kinderteppiche Dropdown: 2-Column Grid */}
-                          {cat.id === 'kinderteppiche' && (
-                            <div>
-                              <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
-                                <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
-                                  {cat.label} Kollektionen
-                                </span>
-                                <span className="text-[10px] text-[#9E9891]">{cat.items.length} Serien</span>
-                              </div>
-                              <div className="grid grid-cols-2 gap-1 min-w-[340px]">
-                                {cat.items.map((item) => {
-                                  const itemName = typeof item === 'string' ? item : item.name;
-                                  const isItemActive = activeTag === itemName;
-
-                                  return (
-                                    <button
-                                      key={itemName}
-                                      onClick={() => handleTagClick(itemName, cat.categoryKey)}
-                                      className={`px-3 py-2 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center justify-between cursor-pointer group ${
-                                        isItemActive
-                                          ? 'bg-[#8EBBB0]/15 text-[#8EBBB0] font-bold'
-                                          : 'text-[#6B6661] hover:text-[#2D2B2A] hover:bg-[#F7F3EB]'
-                                      }`}
-                                    >
-                                      <span className="truncate group-hover:translate-x-0.5 transition-transform">
-                                        {itemName}
-                                      </span>
-                                      {isItemActive && <Check size={12} className="text-[#8EBBB0] shrink-0 ml-1" />}
-                                    </button>
-                                  );
-                                })}
-                              </div>
+                      <div className="bg-white/98 backdrop-blur-md rounded-2xl border border-[#EDE6DC] shadow-pillowy p-3.5 min-w-[220px] max-w-[420px]">
+                        
+                        {/* Kinderteppiche Dropdown: 2-Column Grid */}
+                        {cat.id === 'kinderteppiche' && (
+                          <div>
+                            <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
+                                {cat.label} Kollektionen
+                              </span>
+                              <span className="text-[10px] text-[#9E9891]">{cat.items.length} Serien</span>
                             </div>
-                          )}
-
-                          {/* Felle Dropdown: Clean Vertical List */}
-                          {cat.id === 'felle' && (
-                            <div className="space-y-1 min-w-[200px]">
-                              <div className="px-2.5 pb-2 mb-1.5 border-b border-[#EDE6DC]">
-                                <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
-                                  Naturfelle
-                                </span>
-                              </div>
+                            <div className="grid grid-cols-2 gap-1 min-w-[340px]">
                               {cat.items.map((item) => {
                                 const itemName = typeof item === 'string' ? item : item.name;
                                 const isItemActive = activeTag === itemName;
@@ -361,120 +274,133 @@ export const Navbar: React.FC<NavbarProps> = ({
                                   <button
                                     key={itemName}
                                     onClick={() => handleTagClick(itemName, cat.categoryKey)}
-                                    className={`w-full px-3 py-2.5 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center justify-between cursor-pointer group ${
+                                    className={`px-3 py-2 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center justify-between cursor-pointer group ${
                                       isItemActive
                                         ? 'bg-[#8EBBB0]/15 text-[#8EBBB0] font-bold'
                                         : 'text-[#6B6661] hover:text-[#2D2B2A] hover:bg-[#F7F3EB]'
                                     }`}
                                   >
-                                    <span className="group-hover:translate-x-0.5 transition-transform">
+                                    <span className="truncate group-hover:translate-x-0.5 transition-transform">
                                       {itemName}
                                     </span>
-                                    {isItemActive && <Check size={12} className="text-[#8EBBB0] shrink-0" />}
+                                    {isItemActive && <Check size={12} className="text-[#8EBBB0] shrink-0 ml-1" />}
                                   </button>
                                 );
                               })}
                             </div>
-                          )}
+                          </div>
+                        )}
 
-                          {/* Shaggy Dropdown: 3-Column Color Swatches Grid */}
-                          {cat.id === 'shaggy' && (
-                            <div>
-                              <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
-                                <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
-                                  Shaggy Farbpalette
-                                </span>
-                                <span className="text-[10px] text-[#9E9891]">9 Farbtöne</span>
-                              </div>
-                              <div className="grid grid-cols-3 gap-1.5 min-w-[280px]">
-                                {cat.items.map((item) => {
-                                  const colorItem = typeof item === 'string' ? { name: item, hex: '#CBD5E1' } : item;
-                                  const isItemActive = activeTag === colorItem.name || activeTag === `Shaggy ${colorItem.name}`;
-
-                                  return (
-                                    <button
-                                      key={colorItem.name}
-                                      onClick={() => handleTagClick(colorItem.name, cat.categoryKey)}
-                                      className={`p-2 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center gap-2 cursor-pointer group ${
-                                        isItemActive
-                                          ? 'bg-[#8EBBB0]/15 text-[#8EBBB0] font-bold'
-                                          : 'text-[#6B6661] hover:text-[#2D2B2A] hover:bg-[#F7F3EB]'
-                                      }`}
-                                      title={`Shaggy ${colorItem.name}`}
-                                    >
-                                      <span
-                                        className={`w-3.5 h-3.5 rounded-full shrink-0 shadow-2xs ${
-                                          colorItem.border ? 'border border-[#EDE6DC]' : ''
-                                        }`}
-                                        style={{ backgroundColor: colorItem.hex }}
-                                      />
-                                      <span className="capitalize text-[11px] truncate group-hover:translate-x-0.5 transition-transform">
-                                        {colorItem.name}
-                                      </span>
-                                    </button>
-                                  );
-                                })}
-                              </div>
+                        {/* Felle Dropdown: Clean Vertical List */}
+                        {cat.id === 'felle' && (
+                          <div className="space-y-1 min-w-[200px]">
+                            <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
+                                100% Echte Naturfelle
+                              </span>
                             </div>
-                          )}
+                            {cat.items.map((item) => {
+                              const itemName = typeof item === 'string' ? item : item.name;
+                              const isItemActive = activeTag === itemName;
 
-                          {/* Sale Dropdown: Accented Badges */}
-                          {cat.id === 'sale' && (
-                            <div className="space-y-1 min-w-[200px]">
-                              <div className="px-2.5 pb-2 mb-1.5 border-b border-[#EDE6DC] flex items-center gap-1 text-[#E79685]">
-                                <Sparkles size={12} />
-                                <span className="text-[10px] uppercase font-bold tracking-wider">
-                                  Sale Aktionen
-                                </span>
-                              </div>
+                              return (
+                                <button
+                                  key={itemName}
+                                  onClick={() => handleTagClick(itemName, cat.categoryKey)}
+                                  className={`w-full px-3 py-2.5 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center justify-between cursor-pointer ${
+                                    isItemActive
+                                      ? 'bg-[#8EBBB0]/15 text-[#8EBBB0] font-bold'
+                                      : 'text-[#6B6661] hover:text-[#2D2B2A] hover:bg-[#F7F3EB]'
+                                  }`}
+                                >
+                                  <span>{itemName}</span>
+                                  {isItemActive && <Check size={12} className="text-[#8EBBB0]" />}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        {/* Shaggy Dropdown: Color Palette Grid */}
+                        {cat.id === 'shaggy' && (
+                          <div>
+                            <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
+                                Hochflor Farbwelten
+                              </span>
+                              <span className="text-[10px] text-[#9E9891]">9 Farben</span>
+                            </div>
+                            <div className="grid grid-cols-3 gap-1.5 min-w-[280px]">
                               {cat.items.map((item) => {
-                                const itemName = typeof item === 'string' ? item : item.name;
-                                const isItemActive = activeTag === `Sale ${itemName}` || activeTag === itemName;
+                                const colorItem = item as ShaggyColor;
+                                const isItemActive = activeTag === colorItem.name;
 
                                 return (
                                   <button
-                                    key={itemName}
-                                    onClick={() => handleTagClick(`Sale ${itemName}`, cat.categoryKey)}
-                                    className={`w-full px-3 py-2.5 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center justify-between cursor-pointer group ${
+                                    key={colorItem.name}
+                                    onClick={() => handleTagClick(colorItem.name, cat.categoryKey)}
+                                    className={`p-2 rounded-xl text-left text-xs transition-all duration-150 flex items-center gap-2 cursor-pointer group ${
                                       isItemActive
-                                        ? 'bg-[#E79685]/15 text-[#E79685] font-bold'
-                                        : 'text-[#6B6661] hover:text-[#E79685] hover:bg-[#F7F3EB]'
+                                        ? 'bg-[#8EBBB0]/15 text-[#8EBBB0] font-bold'
+                                        : 'text-[#6B6661] hover:text-[#2D2B2A] hover:bg-[#F7F3EB]'
                                     }`}
                                   >
-                                    <span className="group-hover:translate-x-0.5 transition-transform">
-                                      Sale &bull; {itemName}
-                                    </span>
-                                    <Tag size={12} className="text-[#E79685] shrink-0 opacity-80" />
+                                    <span
+                                      className="w-3.5 h-3.5 rounded-full shrink-0 border border-[#EDE6DC] shadow-2xs group-hover:scale-110 transition-transform"
+                                      style={{ backgroundColor: colorItem.hex }}
+                                    />
+                                    <span className="truncate capitalize">{colorItem.name}</span>
                                   </button>
                                 );
                               })}
                             </div>
-                          )}
+                          </div>
+                        )}
 
-                        </div>
+                        {/* Sale Dropdown */}
+                        {cat.id === 'sale' && (
+                          <div className="space-y-1 min-w-[220px]">
+                            <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
+                              <span className="text-[10px] uppercase font-bold tracking-wider text-[#E79685] flex items-center gap-1">
+                                <Sparkles size={11} /> Reduzierte Angebote
+                              </span>
+                            </div>
+                            {cat.items.map((item) => {
+                              const itemName = typeof item === 'string' ? item : item.name;
+                              const saleTag = `Sale - ${itemName}`;
+                              const isItemActive = activeTag === saleTag;
+
+                              return (
+                                <button
+                                  key={itemName}
+                                  onClick={() => handleTagClick(saleTag, cat.categoryKey)}
+                                  className={`w-full px-3 py-2.5 rounded-xl text-left text-xs font-semibold transition-all duration-150 flex items-center justify-between cursor-pointer ${
+                                    isItemActive
+                                      ? 'bg-[#E79685]/15 text-[#E79685] font-bold'
+                                      : 'text-[#6B6661] hover:text-[#E79685] hover:bg-[#F7F3EB]'
+                                  }`}
+                                >
+                                  <span>{itemName} im Sale</span>
+                                  <span className="text-[10px] bg-[#E79685]/15 text-[#E79685] px-1.5 py-0.5 rounded font-bold">
+                                    %
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+
                       </div>
-                    )}
-                  </div>
-                );
-              })}
-            </nav>
-          )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </nav>
 
-          {/* RIGHT: Switcher & Action Icons */}
+          {/* RIGHT: Action Icons */}
           <div className="flex items-center space-x-1.5 sm:space-x-2 md:space-x-3 text-[#2D2B2A] shrink-0 justify-end">
             
-            {/* RETURN TO MAIN STORE (When in Kids Mode) */}
-            {storeMode === 'kids' && (
-              <button
-                onClick={() => onSwitchMode('general')}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 hover:bg-[#69705A] text-[#2B2B2B] hover:text-white border border-[#EDE6DC] hover:border-[#69705A] text-xs font-bold tracking-wider uppercase transition-all duration-300 shadow-2xs hover:scale-105 cursor-pointer group"
-                title="Return to General Scandinavian Home Storefront"
-              >
-                <ArrowLeft size={13} className="group-hover:-translate-x-0.5 transition-transform" />
-                <span>Main Store</span>
-              </button>
-            )}
-
             {/* Language Switcher in Right */}
             <div className="flex items-center">
               <LanguageSwitcher />
@@ -507,13 +433,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Wishlist Button */}
             <button
               onClick={onOpenWishlist}
-              className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group hidden sm:block cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
+              className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
               title={t('nav.wishlist')}
               aria-label={t('nav.wishlist')}
             >
-              <Heart size={17} strokeWidth={1.8} />
+              <Heart size={17} strokeWidth={1.8} className={wishlistCount > 0 ? "fill-[#E79685] text-[#E79685]" : ""} />
               {wishlistCount > 0 && (
-                <span className="absolute top-0.5 right-0.5 bg-[#B96A3C] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-xs">
+                <span className="absolute -top-1 -right-1 bg-[#E79685] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
                   {wishlistCount}
                 </span>
               )}
@@ -522,21 +448,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Cart Button */}
             <button
               onClick={onOpenCart}
-              className="p-2 px-2.5 sm:px-3 rounded-full bg-white/90 hover:bg-[#B96A3C] text-[#2D2B2A] hover:text-white transition-all duration-300 relative group flex items-center gap-1.5 sm:gap-2 border border-[#EDE6DC] shadow-pillowy cursor-pointer backdrop-blur-xs"
+              className="p-2 sm:p-2.5 rounded-full bg-[#2D2B2A] text-white hover:bg-[#8EBBB0] transition-all relative group cursor-pointer shadow-2xs"
               title={t('nav.cart')}
               aria-label={t('nav.cart')}
             >
-              <div className="relative">
-                <ShoppingBag size={17} strokeWidth={1.8} />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#B96A3C] group-hover:bg-[#E79685] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-xs">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-wider hidden sm:inline">
-                {t('nav.cart')}
-              </span>
+              <ShoppingBag size={17} strokeWidth={1.8} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-[#E79685] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center animate-bounce shadow-xs">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
           </div>
@@ -546,124 +467,85 @@ export const Navbar: React.FC<NavbarProps> = ({
         {isMobileMenuOpen && (
           <div className="lg:hidden bg-[#FAF8F5] border-b border-[#ECE8E2] px-4 py-4 space-y-4 shadow-pillowy max-h-[80vh] overflow-y-auto animate-fade-in">
             
-            {/* Return button if in Kids Mode */}
-            {storeMode === 'kids' && (
-              <div className="p-1.5 bg-[#EDE6DC] rounded-xl flex items-center gap-1">
-                <button
-                  onClick={() => {
-                    onSwitchMode('general');
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full py-2 rounded-lg text-xs font-bold uppercase tracking-wider bg-white text-[#2B2B2B] shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <ArrowLeft size={13} />
-                  <span>Return to Main Store</span>
-                </button>
+            {/* Categories */}
+            <div className="space-y-2">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-[#8EBBB0] px-2 pt-1">
+                Kategorien &amp; Kollektionen
               </div>
-            )}
 
-            {/* General Mode Mobile Links */}
-            {storeMode === 'general' ? (
-              <div className="space-y-1">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-[#8B8B8B] px-2 pt-1 pb-1">
-                  Explore Sanctuary
-                </div>
-                {generalNavLinks.map((link) => (
-                  <button
-                    key={link.id}
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      const el = document.getElementById(link.id);
-                      if (el) el.scrollIntoView({ behavior: 'smooth' });
-                      onSelectCategory(link.id);
-                    }}
-                    className="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-[#2B2B2B] hover:bg-white transition-colors cursor-pointer"
-                  >
-                    {link.label}
-                  </button>
-                ))}
-              </div>
-            ) : (
-              /* Kids Mode Categories */
-              <div className="space-y-2">
-                <div className="text-[11px] font-bold uppercase tracking-wider text-[#8EBBB0] px-2 pt-1">
-                  Kids Kategorien &amp; Kollektionen
-                </div>
+              {NAV_CATEGORIES.map((cat) => {
+                const isExpanded = mobileExpandedCat === cat.id;
 
-                {NAV_CATEGORIES.map((cat) => {
-                  const isExpanded = mobileExpandedCat === cat.id;
+                return (
+                  <div key={cat.id} className="bg-white rounded-2xl border border-[#EDE6DC] overflow-hidden">
+                    <button
+                      onClick={() => setMobileExpandedCat(isExpanded ? null : cat.id)}
+                      className={`w-full px-4 py-3 text-left text-xs font-bold uppercase tracking-wider flex items-center justify-between transition-colors cursor-pointer ${
+                        cat.isSale ? 'text-[#E79685] bg-[#E79685]/5' : 'text-[#2D2B2A]'
+                      }`}
+                    >
+                      <span className="flex items-center gap-2">
+                        {cat.isSale && <Tag size={13} />}
+                        {cat.label}
+                      </span>
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                      />
+                    </button>
 
-                  return (
-                    <div key={cat.id} className="bg-white rounded-2xl border border-[#EDE6DC] overflow-hidden">
-                      <button
-                        onClick={() => setMobileExpandedCat(isExpanded ? null : cat.id)}
-                        className={`w-full px-4 py-3 text-left text-xs font-bold uppercase tracking-wider flex items-center justify-between transition-colors cursor-pointer ${
-                          cat.isSale ? 'text-[#E79685] bg-[#E79685]/5' : 'text-[#2D2B2A]'
-                        }`}
-                      >
-                        <span className="flex items-center gap-2">
-                          {cat.isSale && <Tag size={13} />}
-                          {cat.label}
-                        </span>
-                        <ChevronDown
-                          size={14}
-                          className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                        />
-                      </button>
+                    {isExpanded && (
+                      <div className="p-3 pt-0 border-t border-[#EDE6DC]/60 bg-[#FDFBF7]/50 space-y-1">
+                        <button
+                          onClick={() => handleCategoryHeaderClick(cat)}
+                          className="w-full text-left text-xs font-bold text-[#8EBBB0] py-2 px-3 rounded-xl hover:bg-white cursor-pointer"
+                        >
+                          Alle {cat.label} ansehen &rarr;
+                        </button>
 
-                      {isExpanded && (
-                        <div className="p-3 pt-0 border-t border-[#EDE6DC]/60 bg-[#FDFBF7]/50 space-y-1">
-                          <button
-                            onClick={() => handleCategoryHeaderClick(cat)}
-                            className="w-full text-left text-xs font-bold text-[#8EBBB0] py-2 px-3 rounded-xl hover:bg-white cursor-pointer"
-                          >
-                            Alle {cat.label} ansehen &rarr;
-                          </button>
+                        {cat.id === 'shaggy' ? (
+                          <div className="grid grid-cols-2 gap-1.5 pt-1">
+                            {cat.items.map((item) => {
+                              const colorItem = typeof item === 'string' ? { name: item, hex: '#CBD5E1' } : item;
 
-                          {cat.id === 'shaggy' ? (
-                            <div className="grid grid-cols-2 gap-1.5 pt-1">
-                              {cat.items.map((item) => {
-                                const colorItem = typeof item === 'string' ? { name: item, hex: '#CBD5E1' } : item;
+                              return (
+                                <button
+                                  key={colorItem.name}
+                                  onClick={() => handleTagClick(colorItem.name, cat.categoryKey)}
+                                  className="p-2 rounded-xl text-left text-xs text-[#6B6661] hover:text-[#2D2B2A] hover:bg-white flex items-center gap-2 cursor-pointer"
+                                >
+                                  <span
+                                    className="w-3 h-3 rounded-full shrink-0 border border-[#EDE6DC]"
+                                    style={{ backgroundColor: colorItem.hex }}
+                                  />
+                                  <span className="capitalize">{colorItem.name}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 pt-1">
+                            {cat.items.map((item) => {
+                              const itemName = typeof item === 'string' ? item : item.name;
 
-                                return (
-                                  <button
-                                    key={colorItem.name}
-                                    onClick={() => handleTagClick(colorItem.name, cat.categoryKey)}
-                                    className="p-2 rounded-xl text-left text-xs text-[#6B6661] hover:text-[#2D2B2A] hover:bg-white flex items-center gap-2 cursor-pointer"
-                                  >
-                                    <span
-                                      className="w-3 h-3 rounded-full shrink-0 border border-[#EDE6DC]"
-                                      style={{ backgroundColor: colorItem.hex }}
-                                    />
-                                    <span className="capitalize">{colorItem.name}</span>
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 pt-1">
-                              {cat.items.map((item) => {
-                                const itemName = typeof item === 'string' ? item : item.name;
-
-                                return (
-                                  <button
-                                    key={itemName}
-                                    onClick={() => handleTagClick(itemName, cat.categoryKey)}
-                                    className="px-3 py-2 rounded-xl text-left text-xs text-[#6B6661] hover:text-[#2D2B2A] hover:bg-white truncate cursor-pointer"
-                                  >
-                                    {itemName}
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+                              return (
+                                <button
+                                  key={itemName}
+                                  onClick={() => handleTagClick(itemName, cat.categoryKey)}
+                                  className="px-3 py-2 rounded-xl text-left text-xs text-[#6B6661] hover:text-[#2D2B2A] hover:bg-white truncate cursor-pointer"
+                                >
+                                  {itemName}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         )}
       </header>

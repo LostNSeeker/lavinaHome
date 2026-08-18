@@ -3,7 +3,6 @@ import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { FeaturedCollections } from './components/FeaturedCollections';
 import { Carpet3DStudio } from './components/Carpet3DStudio';
-import { BestSellersSlider } from './components/BestSellersSlider';
 import { ParallaxBanner } from './components/ParallaxBanner';
 import { SplitEditorialBanner } from './components/SplitEditorialBanner';
 import { ShopByRoom } from './components/ShopByRoom';
@@ -34,8 +33,8 @@ import type { Product, CartItem, StoreMode } from './types';
 import { SlidersHorizontal } from 'lucide-react';
 
 export function App() {
-  // Store Mode State: Default to 'general' (Scandinavian Home), switchable to 'kids' (Kids Rugs)
-  const [storeMode, setStoreMode] = useState<StoreMode>('general');
+  // Store Mode State: Default to 'kids' (Specialized Kids Rugs, Felle & Carpets)
+  const [storeMode, setStoreMode] = useState<StoreMode>('kids');
   
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
@@ -296,13 +295,9 @@ export function App() {
       }
     }
 
-    // 2. Mode-specific partition when no tag is selected
+    // 2. Default partition: show kids catalog and live products
     if (!activeTag && activeCategory === 'all' && !activeRoom) {
-      if (storeMode === 'kids') {
-        if (p.section === 'general') return false;
-      } else {
-        if (p.section === 'kids') return false;
-      }
+      if (p.section === 'general') return false;
     }
 
     // 3. Category & Room Filters
@@ -418,15 +413,6 @@ export function App() {
               />
             </div>
 
-            {/* Best Sellers Slider */}
-            <BestSellersSlider
-              products={products.filter((p) => (storeMode === 'kids' ? p.section !== 'general' : p.section !== 'kids'))}
-              onSelectProduct={navigateToProduct}
-              onQuickAdd={handleQuickAdd}
-              wishlistIds={wishlistIds}
-              onToggleWishlist={handleToggleWishlist}
-            />
-
             {/* Catalog Grid View */}
             <section id="catalog-grid" className="py-24 bg-[#FAF8F5] border-b border-[#ECE8E2]">
               <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-12">
@@ -435,7 +421,7 @@ export function App() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-[#ECE8E2]">
                   <div>
                     <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-                      {storeMode === 'kids' ? 'Levina Kids Playful Sanctuaries' : 'PlentyONE Master Catalog'}
+                      Curated Collections &amp; Carpets
                     </span>
                     <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#2B2B2B] capitalize">
                       {activeTag
@@ -444,9 +430,7 @@ export function App() {
                         ? `Room: ${activeRoom}`
                         : activeCategory !== 'all'
                         ? `${activeCategory} Collection`
-                        : storeMode === 'kids'
-                        ? 'Kids Nursery & Playroom Catalog'
-                        : 'Scandinavian Home Catalog'}
+                        : 'Collections & Carpets'}
                     </h2>
                   </div>
 
