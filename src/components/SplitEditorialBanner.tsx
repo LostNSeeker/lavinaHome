@@ -18,6 +18,7 @@ interface ManufakturStep {
   badge: string;
   statNumber: string;
   statLabel: string;
+  highlightTag: string;
 }
 
 const MANUFAKTUR_STEPS: ManufakturStep[] = [
@@ -25,12 +26,13 @@ const MANUFAKTUR_STEPS: ManufakturStep[] = [
     id: 'step-manufacturing',
     stepNumber: '01',
     title: 'Traditionelle Webkunst & Manufaktur',
-    subtitle: 'Meisterhafte Handarbeit am Webstuhl',
-    description: 'Vom ersten Schurwollfaden bis zum vollendeten Meisterstück entsteht jeder Teppich mit meisterhafter Präzision von Hand. Jahrzehntelange Erfahrung und echtes Handwerk prägen jeden Arbeitsgang.',
+    subtitle: 'Meisterhafte Handarbeit am Holzwebstuhl',
+    description: 'Vom ersten Schurwollfaden bis zum vollendeten Meisterstück entsteht jeder Teppich mit meisterhafter Präzision von Hand. Jahrzehntelange Erfahrung und Fingerspitzengefühl prägen jeden Arbeitsgang.',
     videoSrc: '/manufacturing.mp4',
     badge: '01. Handwebkunst',
     statNumber: '100%',
     statLabel: 'Traditionelle Handarbeit',
+    highlightTag: 'Holzwebstuhl-Präzision',
   },
   {
     id: 'step-luxury',
@@ -42,6 +44,7 @@ const MANUFAKTUR_STEPS: ManufakturStep[] = [
     badge: '02. Reine Naturwolle',
     statNumber: 'GOTS',
     statLabel: 'Bio-Qualität & Naturfasern',
+    highlightTag: 'Reine Neuseeland-Wolle',
   },
   {
     id: 'step-carpet',
@@ -53,17 +56,19 @@ const MANUFAKTUR_STEPS: ManufakturStep[] = [
     badge: '03. Handveredelung',
     statNumber: 'Premium',
     statLabel: 'Robuste Kantenverstärkung',
+    highlightTag: 'Handgekettelte Ränder',
   },
   {
     id: 'step-family',
     stepNumber: '04',
     title: 'Lebendige Geborgenheit & Wohnkomfort',
     subtitle: 'Schadstofffreie Wohlfühloase für die Familie',
-    description: 'Reine Naturmaterialien schenken Ihrem Zuhause Wärme, beruhigende Akustik und ein gesundes Raumklima – ideal für gemütliche Stunden mit Ihren Liebsten.',
+    description: 'Reine Naturmaterialien schenken Ihrem Zuhause wohlige Wärme, beruhigende Akustik und ein gesundes Raumklima – ideal für gemütliche Stunden mit Ihren Liebsten.',
     videoSrc: '/featuring_family.mp4',
     badge: '04. Wohngefühl',
     statNumber: '0%',
     statLabel: 'Frei von Chemiefarben',
+    highlightTag: 'Familienfreundlich & Sicher',
   },
 ];
 
@@ -73,14 +78,14 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
 }) => {
   const { t } = useTranslation();
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [trackProgress, setTrackProgress] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(true);
   const [isInViewport, setIsInViewport] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLElement | null>(null);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Synchronize playback of the active video
+  // Synchronize video playback
   const updateVideoPlayback = useCallback((stepIndex: number, shouldPlay: boolean) => {
     videoRefs.current.forEach((videoEl, index) => {
       if (!videoEl) return;
@@ -94,7 +99,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
     });
   }, []);
 
-  // IntersectionObserver to observe if the section is in view
+  // IntersectionObserver to observe if section is in viewport
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -105,7 +110,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
           updateVideoPlayback(activeStep, true);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) {
@@ -115,39 +120,33 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
     return () => observer.disconnect();
   }, [activeStep, isPlaying, updateVideoPlayback]);
 
-  // Scroll listener to update active step when scrolling through the cards
+  // Scroll listener for calculating scroll progress inside the pinned track
   useEffect(() => {
     if (storeMode !== 'general') return;
 
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      if (rect.top > window.innerHeight || rect.bottom < 0) return;
+      const trackHeight = rect.height - window.innerHeight;
+      if (trackHeight <= 0) return;
 
-      const triggerLine = window.innerHeight * 0.45;
-      let currentBest = activeStep;
-      let minDistance = Infinity;
+      const scrolled = -rect.top;
+      const progress = Math.max(0, Math.min(1, scrolled / trackHeight));
+      setTrackProgress(progress);
 
-      stepRefs.current.forEach((el, index) => {
-        if (!el) return;
-        const r = el.getBoundingClientRect();
-        const dist = Math.abs(r.top - triggerLine);
-        if (dist < minDistance && r.top < window.innerHeight * 0.75) {
-          minDistance = dist;
-          currentBest = index;
-        }
-      });
+      const stepCount = MANUFAKTUR_STEPS.length;
+      // Map progress smoothly: 0..0.25 -> 0, 0.25..0.5 -> 1, 0.5..0.75 -> 2, 0.75..1 -> 3
+      const stepIndex = Math.min(stepCount - 1, Math.floor(progress * stepCount));
 
-      if (currentBest !== activeStep) {
-        setActiveStep(currentBest);
-      }
+      setActiveStep(stepIndex);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [activeStep, storeMode]);
+  }, [storeMode]);
 
-  // Whenever activeStep changes or section enters viewport, update playing video
+  // Update active video when activeStep or viewport changes
   useEffect(() => {
     if (storeMode === 'general' && isInViewport) {
       updateVideoPlayback(activeStep, isPlaying);
@@ -156,8 +155,12 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
 
   const handleStepClick = (index: number) => {
     setActiveStep(index);
-    if (stepRefs.current[index]) {
-      stepRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (sectionRef.current) {
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionTop = window.scrollY + rect.top;
+      const trackHeight = rect.height - window.innerHeight;
+      const targetScroll = sectionTop + ((index + 0.1) / MANUFAKTUR_STEPS.length) * trackHeight;
+      window.scrollTo({ top: targetScroll, behavior: 'smooth' });
     }
   };
 
@@ -177,229 +180,246 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
     handleStepClick(prevIndex);
   };
 
+  const currentStep = MANUFAKTUR_STEPS[activeStep] || MANUFAKTUR_STEPS[0];
+
   if (storeMode === 'general') {
     return (
       <section
         ref={sectionRef}
         id="manufaktur-story"
-        className="py-24 bg-[#FAF8F5] overflow-hidden border-b border-[#ECE8E2] relative"
+        className="relative bg-[#FAF8F5] border-b border-[#ECE8E2]"
+        style={{ height: '320vh' }}
       >
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          
-          {/* Header */}
-          <div className="max-w-3xl mb-12 sm:mb-16">
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#69705A] font-semibold bg-[#69705A]/15 px-3 py-1 rounded-full w-fit mb-3">
-              <Sparkles size={14} className="text-[#69705A]" />
-              <span>Handgewebte Manufaktur</span>
-            </div>
-
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#2B2B2B] leading-[1.12] mb-4">
-              Meisterhafte Webkunst &amp; <span className="italic text-[#B96A3C]">Wohnkomfort</span>
-            </h2>
-
-            <p className="text-sm md:text-base text-[#666666] font-light leading-relaxed max-w-2xl">
-              Erleben Sie die Entstehung unserer handgewebten Luxusteppiche. Scrollen Sie durch die einzelnen Stationen unserer traditionellen Handwerkskunst.
-            </p>
-          </div>
-
-          {/* Scrollytelling Two-Column Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start relative">
+        {/* Sticky Viewport Container: Pinned throughout the 320vh scroll track */}
+        <div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 w-full pt-16 pb-8">
             
-            {/* LEFT: Scrollable Story Steps (5 Cols) */}
-            <div className="lg:col-span-5 space-y-12 sm:space-y-20 py-4">
+            {/* Scrollytelling Two-Column Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               
-              {/* Quick Step Bar Navigation */}
-              <div className="sticky top-24 z-20 bg-[#FAF8F5]/95 backdrop-blur-md py-3 -mx-2 px-2 border-b border-[#ECE8E2]/80 flex items-center justify-between gap-2">
-                <span className="text-[11px] uppercase tracking-wider font-semibold text-[#69705A]">
-                  Kapitel {activeStep + 1} von {MANUFAKTUR_STEPS.length}
-                </span>
-                <div className="flex items-center gap-1.5">
-                  {MANUFAKTUR_STEPS.map((step, idx) => (
-                    <button
-                      key={step.id}
-                      onClick={() => handleStepClick(idx)}
-                      className={`h-2 transition-all duration-300 rounded-full cursor-pointer ${
-                        activeStep === idx ? 'w-8 bg-[#B96A3C]' : 'w-2 bg-[#D9C5A7] hover:bg-[#69705A]'
-                      }`}
-                      title={`Zu Schritt ${idx + 1}: ${step.title}`}
-                      aria-label={`Schritt ${idx + 1}`}
-                    />
-                  ))}
+              {/* LEFT COLUMN: Dynamic Replacing Text Box (5 Cols) */}
+              <div className="lg:col-span-5 flex flex-col justify-center space-y-5 sm:space-y-6">
+                
+                {/* Header & Section Badge */}
+                <div>
+                  <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#69705A] font-semibold bg-[#69705A]/15 px-3.5 py-1 rounded-full w-fit mb-2.5">
+                    <Sparkles size={13} className="text-[#69705A]" />
+                    <span>Handgewebte Manufaktur</span>
+                  </div>
+                  <h2 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-normal text-[#2B2B2B] leading-[1.12]">
+                    Meisterhafte Webkunst &amp; <span className="italic text-[#B96A3C]">Komfort</span>
+                  </h2>
                 </div>
-              </div>
 
-              {/* 4 Interactive Story Cards */}
-              {MANUFAKTUR_STEPS.map((step, idx) => {
-                const isActive = activeStep === idx;
+                {/* 4 Segmented Progress Bars for Scroll Feedback */}
+                <div className="space-y-1.5 pt-1">
+                  <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-[#8B8B8B] font-medium">
+                    <span className="text-[#69705A] font-bold">Station {activeStep + 1} von 4</span>
+                    <span>{currentStep.highlightTag}</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-2">
+                    {MANUFAKTUR_STEPS.map((step, idx) => {
+                      const isPast = idx < activeStep;
+                      const isCurrent = idx === activeStep;
+                      // Sub-progress within current step
+                      const stepSubProgress = Math.max(0, Math.min(1, (trackProgress * 4) - idx));
 
-                return (
-                  <div
-                    key={step.id}
-                    ref={(el) => { stepRefs.current[idx] = el; }}
-                    onClick={() => handleStepClick(idx)}
-                    className={`p-6 sm:p-8 rounded-[4px] border transition-all duration-500 cursor-pointer ${
-                      isActive
-                        ? 'bg-white border-[#B96A3C]/60 shadow-md translate-x-1 sm:translate-x-2'
-                        : 'bg-white/60 border-[#ECE8E2] hover:bg-white hover:border-[#69705A]/40 shadow-2xs opacity-80 hover:opacity-100'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <span className={`text-xs font-serif font-bold tracking-widest ${isActive ? 'text-[#B96A3C]' : 'text-[#8B8B8B]'}`}>
-                        PHASE {step.stepNumber}
+                      return (
+                        <button
+                          key={step.id}
+                          onClick={() => handleStepClick(idx)}
+                          className="h-1.5 bg-[#EFE7DC] rounded-full overflow-hidden relative cursor-pointer group"
+                          title={`Springe zu Phase ${idx + 1}: ${step.title}`}
+                        >
+                          <div
+                            className="h-full bg-[#B96A3C] transition-all duration-150"
+                            style={{
+                              width: isPast ? '100%' : isCurrent ? `${Math.max(15, stepSubProgress * 100)}%` : '0%',
+                            }}
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* The Replacing Story Card Box */}
+                <div
+                  key={currentStep.id}
+                  className="bg-white p-6 sm:p-7 rounded-[6px] border border-[#ECE8E2] shadow-md transition-all duration-500 animate-fade-in relative overflow-hidden"
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-serif font-bold tracking-widest text-[#B96A3C]">
+                      PHASE {currentStep.stepNumber}
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-[2px] bg-[#FAF8F5] text-[#69705A] font-semibold border border-[#ECE8E2]">
+                      {currentStep.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="font-serif text-xl sm:text-2xl text-[#2B2B2B] font-normal mb-1 line-clamp-1">
+                    {currentStep.title}
+                  </h3>
+                  <h4 className="text-xs uppercase tracking-wider text-[#B96A3C] font-semibold mb-3">
+                    {currentStep.subtitle}
+                  </h4>
+
+                  <p className="text-xs sm:text-sm text-[#666666] font-light leading-relaxed mb-4">
+                    {currentStep.description}
+                  </p>
+
+                  <div className="pt-3 border-t border-[#ECE8E2] flex items-center justify-between text-xs">
+                    <div>
+                      <span className="font-serif text-lg font-medium text-[#2B2B2B] block leading-none">
+                        {currentStep.statNumber}
                       </span>
-                      <span className="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-[2px] bg-[#FAF8F5] text-[#69705A] font-medium border border-[#ECE8E2]">
-                        {step.badge}
+                      <span className="text-[10px] uppercase text-[#8B8B8B] tracking-wider">
+                        {currentStep.statLabel}
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-xl sm:text-2xl text-[#2B2B2B] font-normal mb-1">
-                      {step.title}
-                    </h3>
-                    <h4 className="text-xs uppercase tracking-wider text-[#B96A3C] font-semibold mb-3">
-                      {step.subtitle}
-                    </h4>
-
-                    <p className="text-xs sm:text-sm text-[#666666] font-light leading-relaxed mb-5">
-                      {step.description}
-                    </p>
-
-                    <div className="pt-3 border-t border-[#ECE8E2] flex items-center justify-between text-xs">
-                      <div>
-                        <span className="font-serif text-lg font-medium text-[#2B2B2B] block leading-none">
-                          {step.statNumber}
-                        </span>
-                        <span className="text-[10px] uppercase text-[#8B8B8B] tracking-wider">
-                          {step.statLabel}
-                        </span>
-                      </div>
-                      
-                      <div className={`flex items-center gap-1 font-medium transition-colors ${isActive ? 'text-[#B96A3C]' : 'text-[#8B8B8B]'}`}>
-                        <span>{isActive ? 'Aktive Ansicht' : 'Video ansehen'}</span>
-                        <ChevronRight size={14} className={isActive ? 'translate-x-0.5' : ''} />
-                      </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={handlePrevStep}
+                        className="p-1.5 rounded-full bg-[#FAF8F5] hover:bg-[#ECE8E2] text-[#2B2B2B] transition-colors cursor-pointer border border-[#ECE8E2]"
+                        title="Vorherige Station"
+                        aria-label="Vorherige Station"
+                      >
+                        <ChevronLeft size={14} />
+                      </button>
+                      <button
+                        onClick={handleNextStep}
+                        className="p-1.5 rounded-full bg-[#2B2B2B] hover:bg-[#B96A3C] text-white transition-colors cursor-pointer"
+                        title="Nächste Station"
+                        aria-label="Nächste Station"
+                      >
+                        <ChevronRight size={14} />
+                      </button>
                     </div>
                   </div>
-                );
-              })}
-
-              {/* Bottom CTA */}
-              <div className="pt-4">
-                <button
-                  onClick={onExploreClick}
-                  className="bg-[#2B2B2B] hover:bg-[#69705A] text-white px-8 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] shadow-sm hover:scale-105 transition-all duration-300 inline-flex items-center gap-3 cursor-pointer group"
-                >
-                  <Compass size={14} />
-                  <span>Teppich-Kollektion entdecken</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-
-            </div>
-
-            {/* RIGHT: Sticky Video Showcase (7 Cols) */}
-            <div className="lg:col-span-7 sticky top-24 z-10">
-              <div className="relative aspect-[16/10] sm:aspect-[16/10] rounded-[6px] overflow-hidden bg-[#2B2B2B] shadow-lg border border-[#ECE8E2]">
-                
-                {/* 4 Video Layers stacked with crossfade */}
-                {MANUFAKTUR_STEPS.map((step, idx) => {
-                  const isActive = activeStep === idx;
-
-                  return (
-                    <div
-                      key={step.id}
-                      className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                        isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-                      }`}
-                    >
-                      <video
-                        ref={(el) => { videoRefs.current[idx] = el; }}
-                        src={step.videoSrc}
-                        playsInline
-                        muted
-                        loop
-                        preload="metadata"
-                        className="w-full h-full object-cover object-center"
-                        aria-label={step.title}
-                      />
-                    </div>
-                  );
-                })}
-
-                {/* Subtle Cinematic Vignette */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2B2B2B]/75 via-transparent to-[#2B2B2B]/20 pointer-events-none z-20" />
-
-                {/* Floating Top Badge */}
-                <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
-                  <span className="bg-black/60 backdrop-blur-md text-white text-[11px] uppercase tracking-wider px-3 py-1 rounded-[2px] font-medium border border-white/20 flex items-center gap-1.5 shadow-xs">
-                    <Sparkles size={12} className="text-[#D9C5A7]" />
-                    <span>{MANUFAKTUR_STEPS[activeStep].badge}</span>
-                  </span>
                 </div>
 
-                {/* Video Controls Overlay */}
-                <div className="absolute top-4 right-4 z-30 flex items-center gap-1.5">
+                {/* Chapter Quick Tabs & Primary Button */}
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {MANUFAKTUR_STEPS.map((step, idx) => (
+                      <button
+                        key={step.id}
+                        onClick={() => handleStepClick(idx)}
+                        className={`px-3 py-1.5 rounded-full text-[11px] tracking-wider uppercase font-semibold transition-all cursor-pointer ${
+                          activeStep === idx
+                            ? 'bg-[#2B2B2B] text-white shadow-xs'
+                            : 'bg-[#EFE7DC] text-[#666666] hover:bg-[#D9C5A7] hover:text-[#2B2B2B]'
+                        }`}
+                      >
+                        {step.stepNumber} {step.badge.split('. ')[1] || step.badge}
+                      </button>
+                    ))}
+                  </div>
+
                   <button
-                    onClick={handleTogglePlay}
-                    className="p-2 rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 text-white transition-all cursor-pointer border border-white/20 shadow-xs"
-                    title={isPlaying ? 'Pause' : 'Abspielen'}
-                    aria-label={isPlaying ? 'Pause' : 'Abspielen'}
+                    onClick={onExploreClick}
+                    className="bg-[#B96A3C] hover:bg-[#A75D36] text-white px-5 py-2.5 text-xs tracking-[0.18em] font-medium uppercase rounded-[4px] shadow-xs hover:scale-105 transition-all duration-300 inline-flex items-center gap-2 cursor-pointer group"
                   >
-                    {isPlaying ? <Pause size={14} /> : <Play size={14} className="translate-x-0.5" />}
+                    <Compass size={13} />
+                    <span>Kollektion entdecken</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
 
-                {/* Bottom Overlay Info & Step Switchers */}
-                <div className="absolute bottom-4 left-4 right-4 z-30 flex items-end justify-between gap-4 text-white">
-                  <div>
-                    <span className="text-[10px] tracking-[0.25em] uppercase text-[#D9C5A7] font-semibold block mb-0.5">
-                      Handgewebte Manufaktur — {MANUFAKTUR_STEPS[activeStep].stepNumber} / 04
-                    </span>
-                    <h4 className="font-serif text-base sm:text-xl font-normal drop-shadow-sm line-clamp-1">
-                      {MANUFAKTUR_STEPS[activeStep].title}
-                    </h4>
-                  </div>
-
-                  {/* Prev / Next Navigation Arrows */}
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button
-                      onClick={handlePrevStep}
-                      className="p-2 rounded-[2px] bg-black/60 backdrop-blur-md hover:bg-black/90 text-white transition-all cursor-pointer border border-white/20 shadow-xs"
-                      title="Vorheriges Video"
-                      aria-label="Vorheriges Video"
-                    >
-                      <ChevronLeft size={16} />
-                    </button>
-                    <button
-                      onClick={handleNextStep}
-                      className="p-2 rounded-[2px] bg-black/60 backdrop-blur-md hover:bg-black/90 text-white transition-all cursor-pointer border border-white/20 shadow-xs"
-                      title="Nächstes Video"
-                      aria-label="Nächstes Video"
-                    >
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
-                </div>
-
               </div>
 
-              {/* Video Progress Bar Underneath */}
-              <div className="mt-3 bg-white/80 rounded-[4px] border border-[#ECE8E2] p-3 flex items-center justify-between text-xs text-[#666666]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-[#69705A] animate-pulse" />
-                  <span className="font-medium text-[#2B2B2B]">
-                    Aktive Manufaktur-Aufnahme: {MANUFAKTUR_STEPS[activeStep].title}
+              {/* RIGHT COLUMN: Sticky Pinned Video Showcase (7 Cols) */}
+              <div className="lg:col-span-7">
+                <div className="relative aspect-[16/10] sm:aspect-[16/10] rounded-[6px] overflow-hidden bg-[#1A1A1A] shadow-xl border border-[#ECE8E2]">
+                  
+                  {/* 4 Video Layers stacked with smooth crossfade */}
+                  {MANUFAKTUR_STEPS.map((step, idx) => {
+                    const isActive = activeStep === idx;
+
+                    return (
+                      <div
+                        key={step.id}
+                        className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                          isActive ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                        }`}
+                      >
+                        <video
+                          ref={(el) => { videoRefs.current[idx] = el; }}
+                          src={step.videoSrc}
+                          playsInline
+                          muted
+                          loop
+                          preload="metadata"
+                          className="w-full h-full object-cover object-center"
+                          aria-label={step.title}
+                        />
+                      </div>
+                    );
+                  })}
+
+                  {/* Subtle Cinematic Vignette */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/85 via-transparent to-[#1A1A1A]/25 pointer-events-none z-20" />
+
+                  {/* Top Floating Badge */}
+                  <div className="absolute top-4 left-4 z-30 flex items-center gap-2">
+                    <span className="bg-black/60 backdrop-blur-md text-white text-[11px] uppercase tracking-wider px-3 py-1 rounded-[2px] font-medium border border-white/20 flex items-center gap-1.5 shadow-xs">
+                      <Sparkles size={12} className="text-[#D9C5A7]" />
+                      <span>{currentStep.badge}</span>
+                    </span>
+                  </div>
+
+                  {/* Video Play/Pause Control */}
+                  <div className="absolute top-4 right-4 z-30 flex items-center gap-1.5">
+                    <button
+                      onClick={handleTogglePlay}
+                      className="p-2 rounded-full bg-black/60 backdrop-blur-md hover:bg-black/80 text-white transition-all cursor-pointer border border-white/20 shadow-xs"
+                      title={isPlaying ? 'Pause' : 'Abspielen'}
+                      aria-label={isPlaying ? 'Pause' : 'Abspielen'}
+                    >
+                      {isPlaying ? <Pause size={14} /> : <Play size={14} className="translate-x-0.5" />}
+                    </button>
+                  </div>
+
+                  {/* Bottom Video Info & Step Indicators */}
+                  <div className="absolute bottom-4 left-4 right-4 z-30 flex items-end justify-between gap-4 text-white">
+                    <div>
+                      <span className="text-[10px] tracking-[0.25em] uppercase text-[#D9C5A7] font-semibold block mb-0.5">
+                        Manufaktur-Einblick — {currentStep.stepNumber} / 04
+                      </span>
+                      <h4 className="font-serif text-base sm:text-xl font-normal drop-shadow-sm line-clamp-1">
+                        {currentStep.title}
+                      </h4>
+                    </div>
+
+                    {/* Step Indicators */}
+                    <div className="flex items-center gap-1.5 shrink-0 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-[2px] border border-white/20">
+                      {MANUFAKTUR_STEPS.map((_, i) => (
+                        <span
+                          key={i}
+                          className={`h-1.5 rounded-full transition-all duration-300 ${
+                            i === activeStep ? 'w-5 bg-[#B96A3C]' : 'w-1.5 bg-white/40'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                </div>
+
+                {/* Video Live Badge Underneath */}
+                <div className="mt-2.5 bg-white/80 rounded-[4px] border border-[#ECE8E2] p-2.5 flex items-center justify-between text-xs text-[#666666]">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#69705A] animate-pulse" />
+                    <span className="font-medium text-[#2B2B2B] truncate">
+                      Aktive Aufnahme: {currentStep.title} ({currentStep.subtitle})
+                    </span>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-wider text-[#8B8B8B] shrink-0 font-medium pl-2">
+                    HD 1080p
                   </span>
                 </div>
-                <div className="flex items-center gap-1">
-                  {MANUFAKTUR_STEPS.map((_, i) => (
-                    <span
-                      key={i}
-                      className={`h-1.5 rounded-full transition-all duration-300 ${
-                        i === activeStep ? 'w-6 bg-[#B96A3C]' : 'w-2 bg-[#D9C5A7]'
-                      }`}
-                    />
-                  ))}
-                </div>
+
               </div>
 
             </div>
