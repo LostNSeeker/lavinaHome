@@ -170,20 +170,21 @@
     "inStock": "In Stock",
     "madeToOrder": "Made to Order",
     "quickView": "Quick View",
-    "cartButton": "+ Cart",
+    "cartButton": "Cart",
     "moreProducts": "More Products ({{count}} More)",
     "daysDelivery": "2–4 Days"
   },
   "cart": {
-    "title": "Your Nursery Cart",
+    "title": "Cart",
     "itemsCount": "{{count}} items",
-    "addForFreeShipping": "Add {{amount}} for free kid-safe nursery delivery",
-    "freeShippingUnlocked": "You unlocked free white-glove nursery delivery!",
-    "emptyTitle": "Your cart is currently empty",
-    "emptySubtitle": "Explore our cozy nursery rugs and organic play pieces for your little dreamer.",
+    "itemAdded": "Added to your cart!",
+    "addForFreeShipping": "Add {{amount}} for free delivery",
+    "freeShippingUnlocked": "Free delivery unlocked!",
+    "emptyTitle": "Your cart is empty",
+    "emptySubtitle": "Explore our delightful kids carpets, plush shaggys, and natural furs.",
     "size": "Size",
     "color": "Color",
-    "taxesIncluded": "Taxes & Safety Pack",
+    "taxesIncluded": "Taxes included",
     "included": "Included",
     "subtotal": "Subtotal",
     "checkout": "Proceed to Checkout",
@@ -360,11 +361,15 @@
     }
   },
   "categories": {
-    "carpets": "Nursery Carpets",
-    "rugs": "Playmats & Rugs",
-    "furniture": "Montessori Furniture",
-    "decor": "Whimsical Décor",
-    "textiles": "Organic Textiles",
-    "kitchen": "Toddler Tableware"
+    "carpets": "Kids Carpets",
+    "naturfelle": "Naturfelle",
+    "felle": "Naturfelle",
+    "shaggy": "Shaggy Rugs",
+    "rugs": "Living Rugs",
+    "accessories": "Care & Accessories",
+    "furniture": "Furniture",
+    "decor": "Décor",
+    "textiles": "Textiles",
+    "kitchen": "Accessories"
   }
 }

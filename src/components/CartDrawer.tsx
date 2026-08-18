@@ -111,15 +111,17 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       </div>
 
                       <div className="text-[11px] text-[#6B6661] font-normal space-y-0.5">
-                        <p>{t('cart.size')}: {item.selectedSize}</p>
-                        <p className="flex items-center gap-1.5">
-                          {t('cart.color')}:
-                          <span
-                            className="w-2.5 h-2.5 rounded-full inline-block border border-[#EDE6DC]"
-                            style={{ backgroundColor: item.selectedColor.hex }}
-                          />
-                          {item.selectedColor.name}
-                        </p>
+                        {item.selectedSize && <p>{t('cart.size')}: {item.selectedSize}</p>}
+                        {item.selectedColor?.name && item.product.colors && item.product.colors.length > 0 && (
+                          <p className="flex items-center gap-1.5">
+                            {t('cart.color')}:
+                            <span
+                              className="w-2.5 h-2.5 rounded-full inline-block border border-[#EDE6DC]"
+                              style={{ backgroundColor: item.selectedColor.hex }}
+                            />
+                            {item.selectedColor.name}
+                          </p>
+                        )}
                       </div>
                     </div>
 

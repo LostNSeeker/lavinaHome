@@ -67,14 +67,22 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
   const [addedToast, setAddedToast] = useState<boolean>(false);
 
+  const isCarpetProduct = product.category !== 'naturfelle' && 
+                          product.category !== 'accessories' && 
+                          (product.category === 'carpets' || product.category === 'rugs' || (product.name || '').toLowerCase().includes('teppich') || (product.name || '').toLowerCase().includes('shaggy'));
+
   // Sync state whenever product changes
   useEffect(() => {
     if (product) {
       const initialImg = product.primaryImage || product.secondaryImage || product.galleryImages?.[0] || '';
       setActiveImage(initialImg);
-      setSelectedSize(product.sizes?.[0] || '120 x 180 cm');
-      setSelectedColor(product.colors?.[0] || { name: 'Natural', hex: '#FAF8F5' });
-      setSelectedMaterial(product.material || product.availableMaterials?.[0] || 'Organic Wool');
+      setSelectedSize(product.sizes?.[0] || 'Standard');
+      if (product.colors && product.colors.length > 0) {
+        setSelectedColor(product.colors[0]);
+      } else {
+        setSelectedColor({ name: '', hex: '' });
+      }
+      setSelectedMaterial(product.material || product.availableMaterials?.[0] || 'Reine Naturfaser');
       setQuantity(1);
       setIsImageLoading(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -116,7 +124,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             <Check size={14} />
           </div>
           <div>
-            <p className="text-xs font-bold">{t('cart.itemAdded', { defaultValue: 'Added to your bag!' })}</p>
+            <p className="text-xs font-bold">{t('cart.itemAdded', { defaultValue: 'Dem Warenkorb hinzugefügt!' })}</p>
             <p className="text-[11px] text-[#A5CCC3]">{product.name} ({quantity}x)</p>
           </div>
         </div>
@@ -213,8 +221,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 )}
               </div>
 
-              {/* 3D Studio Quick View Link */}
-              {onViewIn3D && (
+              {/* 3D Studio Quick View Link (Only for Carpets) */}
+              {onViewIn3D && isCarpetProduct && (
                 <button
                   onClick={() => onViewIn3D(product)}
                   className="absolute bottom-5 right-5 bg-white/95 hover:bg-white text-[#2D2B2A] hover:text-[#8EBBB0] text-xs uppercase tracking-wider font-bold px-4 py-2.5 rounded-full shadow-pillowy flex items-center gap-2 border border-[#EDE6DC] transition-all hover:scale-105 cursor-pointer z-10"
@@ -492,8 +500,8 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 <span>{t('productDetail.buyNow', { defaultValue: 'Buy Now — Express Checkout' })}</span>
               </button>
 
-              {/* 3D Carpet Studio */}
-              {onViewIn3D && (
+              {/* 3D Carpet Studio (Only for Carpets) */}
+              {onViewIn3D && isCarpetProduct && (
                 <button
                   onClick={() => onViewIn3D(product)}
                   className="w-full bg-[#8EBBB0]/15 hover:bg-[#8EBBB0]/25 text-[#4D7A70] border border-[#8EBBB0]/40 py-3 text-xs uppercase tracking-wider font-bold rounded-full flex items-center justify-center gap-2 transition-all hover:scale-[1.01] cursor-pointer"

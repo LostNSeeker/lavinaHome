@@ -39,13 +39,21 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
       const initialImg = product.primaryImage || product.secondaryImage || product.galleryImages?.[0] || '';
       setActiveImage(initialImg);
       setSelectedSize(product.sizes?.[0] || 'Standard');
-      setSelectedColor(product.colors?.[0] || { name: 'Natural', hex: '#FAF8F5' });
-      setSelectedMaterial(product.material || '');
+      if (product.colors && product.colors.length > 0) {
+        setSelectedColor(product.colors[0]);
+      } else {
+        setSelectedColor({ name: '', hex: '' });
+      }
+      setSelectedMaterial(product.material || product.availableMaterials?.[0] || '');
       setIsImageLoading(true);
     }
   }, [product]);
 
   if (!product) return null;
+
+  const isCarpetProduct = product.category !== 'naturfelle' && 
+                          product.category !== 'accessories' && 
+                          (product.category === 'carpets' || product.category === 'rugs' || (product.name || '').toLowerCase().includes('teppich') || (product.name || '').toLowerCase().includes('shaggy'));
 
   const gallery = [product.primaryImage, product.secondaryImage, ...(product.galleryImages || [])].filter(Boolean);
   const uniqueGallery = Array.from(new Set(gallery));
@@ -269,8 +277,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                 <span>{t('productDetail.addToCart', { price: `€${product.price.toLocaleString()}` })}</span>
               </button>
 
-              {/* View in 3D Carpet Studio (2D to 3D Projection) */}
-              {onViewIn3D && (
+              {/* View in 3D Carpet Studio (Only for Carpets) */}
+              {onViewIn3D && isCarpetProduct && (
                 <button
                   onClick={() => {
                     onViewIn3D(product);

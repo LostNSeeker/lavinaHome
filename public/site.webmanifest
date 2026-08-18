@@ -8,7 +8,7 @@
   "theme_color": "#FDFBF7",
   "icons": [
     {
-      "src": "/Levina_home_logo.png",
+      "src": "/levina_logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"

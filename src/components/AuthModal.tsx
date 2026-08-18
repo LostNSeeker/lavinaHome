@@ -107,7 +107,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
           <div className="space-y-6">
             <div className="text-center pb-5 border-b border-[#EDE6DC]">
               <img
-                src="/Logo Levinahome Kids.png"
+                src="/levina_logo.png"
                 alt="Levinahome"
                 className="h-16 w-auto object-contain mx-auto mb-4"
               />
@@ -190,9 +190,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
             {/* Header Tabs */}
             <div className="text-center pb-4 mb-6 border-b border-[#EDE6DC]">
               <img
-                src="/Logo Levinahome Kids.png"
+                src="/levina_logo.png"
                 alt="Levinahome"
-                className="h-20 sm:h-24 w-auto object-contain mx-auto mb-3"
+                className="h-16 sm:h-20 w-auto object-contain mx-auto mb-3"
               />
               <h2 className="font-heading text-2xl sm:text-3xl text-[#2D2B2A] font-medium">
                 {mode === 'signin' 

@@ -1,13 +1,15 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
+import { FeaturedCollections } from './components/FeaturedCollections';
 import { Carpet3DStudio } from './components/Carpet3DStudio';
 import { BestSellersSlider } from './components/BestSellersSlider';
 import { ParallaxBanner } from './components/ParallaxBanner';
 import { SplitEditorialBanner } from './components/SplitEditorialBanner';
-import { NewArrivalsGrid } from './components/NewArrivalsGrid';
 import { ShopByRoom } from './components/ShopByRoom';
 import { SlidingMarqueeGallery } from './components/SlidingMarqueeGallery';
+import { BrandStory } from './components/BrandStory';
+import { InstagramGallery } from './components/InstagramGallery';
 import { Newsletter } from './components/Newsletter';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './components/CartDrawer';
@@ -19,17 +21,24 @@ import { AuthModal } from './components/AuthModal';
 import { IntegrationStatusModal } from './components/IntegrationStatusModal';
 import { LegalModal, type LegalTab } from './components/LegalModal';
 
-import { ROOMS } from './data/mockData';
+import {
+  GENERAL_COLLECTIONS,
+  KIDS_COLLECTIONS,
+  GENERAL_ROOMS,
+  KIDS_ROOMS,
+  INSTAGRAM_GALLERY,
+  PRODUCTS as FALLBACK_PRODUCTS
+} from './data/mockData';
 import { plentyoneService } from './services/plentyoneService';
-import type { Product, CartItem } from './types';
-import { SlidersHorizontal, RefreshCw } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import type { Product, CartItem, StoreMode } from './types';
+import { SlidersHorizontal } from 'lucide-react';
 
 export function App() {
-  const { t } = useTranslation();
-  const [products, setProducts] = useState<Product[]>([]);
+  // Store Mode State: Default to 'general' (Scandinavian Home), switchable to 'kids' (Kids Rugs)
+  const [storeMode, setStoreMode] = useState<StoreMode>('general');
+  
+  const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
-  const [plentySource, setPlentySource] = useState<string>('');
 
   // Routing State
   const [currentView, setCurrentView] = useState<'home' | 'product'>('home');
@@ -54,7 +63,7 @@ export function App() {
   // Category view filter state
   const [priceFilter, setPriceFilter] = useState<number>(3000);
   const [selectedMaterialFilter, setSelectedMaterialFilter] = useState<string>('all');
-  const [visibleCatalogCount, setVisibleCatalogCount] = useState<number>(() => typeof window !== 'undefined' && window.innerWidth < 768 ? 5 : 15);
+  const [visibleCatalogCount, setVisibleCatalogCount] = useState<number>(() => typeof window !== 'undefined' && window.innerWidth < 768 ? 6 : 16);
   const [selected3DProduct, setSelected3DProduct] = useState<Product | null>(null);
 
   // Load Live PlentyONE Products
@@ -66,25 +75,25 @@ export function App() {
         const liveItems = await plentyoneService.fetchProducts();
         if (isMounted && liveItems.length > 0) {
           setProducts(liveItems);
-          setPlentySource(t('liveStatus.source'));
           if (liveItems[0]) {
             setWishlistIds([liveItems[0].id, liveItems[2]?.id || liveItems[0].id]);
           }
         }
       } catch (err) {
-        console.warn('Failed to load live items, using fallback:', err);
+        console.warn('Failed to load live PlentyONE items, using fallback:', err);
       } finally {
         if (isMounted) setIsLoadingProducts(false);
       }
     }
     loadLiveProducts();
     return () => { isMounted = false; };
-  }, [t]);
+  }, []);
 
-  // Sync URL hash with view state
+  // Sync URL hash with view state & store mode
   const syncRouteFromHash = useCallback(() => {
     if (typeof window === 'undefined') return;
     const hash = window.location.hash;
+
     if (hash.startsWith('#/product/')) {
       const prodId = decodeURIComponent(hash.replace('#/product/', ''));
       if (prodId) {
@@ -98,8 +107,19 @@ export function App() {
         }
       }
     }
-    // If not a product route or product not found
+
+    if (hash.startsWith('#/kids')) {
+      setStoreMode('kids');
+      setCurrentView('home');
+      setSelectedProduct(null);
+      return;
+    }
+
+    // Default to home / general
     if (!hash.startsWith('#/product/')) {
+      if (hash === '#/' || hash === '') {
+        setStoreMode('general');
+      }
       setCurrentView('home');
       setSelectedProduct(null);
     }
@@ -115,6 +135,18 @@ export function App() {
     };
   }, [syncRouteFromHash]);
 
+  // Mode Switcher Handler
+  const handleSwitchStoreMode = (mode: StoreMode) => {
+    setStoreMode(mode);
+    setActiveCategory('all');
+    setActiveTag(null);
+    setActiveRoom(null);
+    if (typeof window !== 'undefined') {
+      window.location.hash = mode === 'kids' ? '#/kids' : '#/';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   // Navigation Handlers
   const navigateToProduct = (product: Product) => {
     setSelectedProduct(product);
@@ -129,7 +161,7 @@ export function App() {
     setCurrentView('home');
     setSelectedProduct(null);
     if (typeof window !== 'undefined') {
-      window.location.hash = '#/';
+      window.location.hash = storeMode === 'kids' ? '#/kids' : '#/';
     }
   };
 
@@ -181,8 +213,8 @@ export function App() {
   const handleQuickAdd = (product: Product) => {
     handleAddToCart(
       product,
-      product.sizes?.[0] || '120 x 180 cm',
-      product.colors?.[0] || { name: 'Pastel Sage', hex: '#8EBBB0' },
+      product.sizes?.[0] || (storeMode === 'kids' ? '120 x 180 cm' : '160 x 230 cm'),
+      product.colors?.[0] || { name: 'Natural', hex: '#FAF8F5' },
       product.material || 'Organic Wool',
       1
     );
@@ -215,20 +247,21 @@ export function App() {
 
   const wishlistProducts = products.filter((p) => wishlistIds.includes(p.id));
 
-  // Filtered Products for Catalog View
+  // Filtered Products for Catalog View based on Store Mode & Active Filters
   const displayedProducts = products.filter((p) => {
+    // 1. Tag Filtering (Kids categories, Shaggy, Naturfelle, Character lines)
     if (activeTag) {
       const tagLower = activeTag.toLowerCase();
       const nameLower = (p.name || '').toLowerCase();
       const descLower = (p.description || '').toLowerCase();
       const matLower = (p.material || '').toLowerCase();
       const idLower = (p.id || '').toLowerCase();
-      const colorNames = (p.colors || []).map(c => c.name.toLowerCase()).join(' ');
+      const colorNames = (p.colors || []).map((c) => c.name.toLowerCase()).join(' ');
 
       if (activeTag === 'Kinderteppiche') {
         if (p.category !== 'carpets' && p.category !== 'rugs' && !nameLower.includes('teppich') && !nameLower.includes('carpet')) return false;
-      } else if (activeTag === 'Felle') {
-        if (!nameLower.includes('fell') && !descLower.includes('fell') && !idLower.includes('fe-')) return false;
+      } else if (activeTag === 'Naturfelle' || activeTag === 'Felle') {
+        if (p.category !== 'naturfelle' && !nameLower.includes('fell') && !descLower.includes('fell') && !idLower.includes('fe-')) return false;
       } else if (activeTag === 'Rinderfelle') {
         if (!nameLower.includes('rinderfell') && !nameLower.includes('rinder') && !descLower.includes('rinder') && !idLower.includes('fe-2194')) return false;
       } else if (activeTag === 'Lammfelle') {
@@ -242,37 +275,50 @@ export function App() {
           if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-')) return false;
         }
       } else {
-        // Tag matching for character lines, brands, colorways
-        const matches = nameLower.includes(tagLower) ||
-                        descLower.includes(tagLower) ||
-                        matLower.includes(tagLower) ||
-                        colorNames.includes(tagLower) ||
-                        (tagLower.includes('lillifee') && (nameLower.includes('lillifee') || idLower.includes('lk-401') || idLower.includes('lk-402'))) ||
-                        (tagLower.includes('sharky') && (nameLower.includes('sharky') || idLower.includes('lk-415') || idLower.includes('lk-416'))) ||
-                        (tagLower.includes('felix') && (nameLower.includes('felix') || idLower.includes('lk-404') || idLower.includes('lk-407'))) ||
-                        (tagLower.includes('lieben sieben') && (nameLower.includes('lieben') || idLower.includes('lk-408') || idLower.includes('lk-409'))) ||
-                        (tagLower.includes('t-rex') && (nameLower.includes('rex') || nameLower.includes('dino') || idLower.includes('lk-410'))) ||
-                        (tagLower.includes('pferdefreunde') && (nameLower.includes('pferd') || idLower.includes('lk-411'))) ||
-                        (tagLower.includes('baby glück') && (nameLower.includes('glück') || idLower.includes('bg-'))) ||
-                        (tagLower.includes('mondbär') && (nameLower.includes('mond') || nameLower.includes('bär') || idLower.includes('lk-418'))) ||
-                        (tagLower.includes('bobby car') && (nameLower.includes('bobby') || nameLower.includes('car') || idLower.includes('bc-101') || idLower.includes('bc-102'))) ||
-                        (tagLower.includes('rock star') && (nameLower.includes('rock') || nameLower.includes('star') || idLower.includes('bc-103'))) ||
-                        (tagLower.includes('bc kids') && (nameLower.includes('bc') || idLower.includes('bc-104')));
+        const matches =
+          nameLower.includes(tagLower) ||
+          descLower.includes(tagLower) ||
+          matLower.includes(tagLower) ||
+          colorNames.includes(tagLower) ||
+          (tagLower.includes('lillifee') && (nameLower.includes('lillifee') || idLower.includes('lk-401') || idLower.includes('lk-402'))) ||
+          (tagLower.includes('felix') && (nameLower.includes('felix') || idLower.includes('lk-404'))) ||
+          (tagLower.includes('sharky') && (nameLower.includes('sharky') || idLower.includes('lk-408'))) ||
+          (tagLower.includes('sieben') && (nameLower.includes('sieben') || idLower.includes('lk-409'))) ||
+          (tagLower.includes('t-rex') && (nameLower.includes('t-rex') || idLower.includes('lk-410'))) ||
+          (tagLower.includes('pferd') && (nameLower.includes('pferd') || idLower.includes('lk-411'))) ||
+          (tagLower.includes('glück') && (nameLower.includes('glück') || idLower.includes('lk-415') || idLower.includes('lk-416'))) ||
+          (tagLower.includes('bobby') && (nameLower.includes('bobby') || idLower.includes('lk-418'))) ||
+          (tagLower.includes('mondbär') && (nameLower.includes('mondbär') || idLower.includes('bg-714'))) ||
+          (tagLower.includes('rock star') && (nameLower.includes('rock') || idLower.includes('bg-715'))) ||
+          (tagLower.includes('bc kids') && (nameLower.includes('bc') || idLower.includes('bc-101')));
+
         if (!matches) return false;
       }
-    } else if (activeCategory !== 'all' && p.category !== activeCategory) {
-      return false;
     }
+
+    // 2. Mode-specific partition when no tag is selected
+    if (!activeTag && activeCategory === 'all' && !activeRoom) {
+      if (storeMode === 'kids') {
+        if (p.section === 'general') return false;
+      } else {
+        if (p.section === 'kids') return false;
+      }
+    }
+
+    // 3. Category & Room Filters
+    if (activeCategory !== 'all' && p.category !== activeCategory) return false;
     if (activeRoom && p.roomCategory !== activeRoom) return false;
     if (p.price > priceFilter) return false;
     if (selectedMaterialFilter !== 'all' && !p.material.toLowerCase().includes(selectedMaterialFilter.toLowerCase())) return false;
+
     return true;
   });
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2D2B2A] flex flex-col font-sans selection:bg-[#E79685]/30 selection:text-[#2D2B2A]">
-      {/* Navigation Bar */}
+    <div className="min-h-screen bg-[#FAF8F5] text-[#2B2B2B] flex flex-col font-sans selection:bg-[#B96A3C]/20 selection:text-[#505744]">
+      {/* Main Navigation Bar */}
       <Navbar
+        storeMode={storeMode}
         cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
         wishlistCount={wishlistIds.length}
         onOpenCart={() => setIsCartOpen(true)}
@@ -280,351 +326,363 @@ export function App() {
         onOpenSearch={() => setIsSearchOpen(true)}
         onOpenAuth={() => setIsAuthOpen(true)}
         onOpenIntegrationModal={() => setIsIntegrationOpen(true)}
+        onSwitchMode={handleSwitchStoreMode}
         onSelectCategory={(cat) => {
-          navigateHome();
+          if (cat === 'about') {
+            const el = document.getElementById('brand-story');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+            return;
+          }
           setActiveCategory(cat);
           setActiveTag(null);
           setActiveRoom(null);
-          setVisibleCatalogCount(6);
           if (cat !== 'all') {
-            setTimeout(() => {
-              const el = document.getElementById('catalog-grid') || document.getElementById('best-sellers');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }, 60);
+            const el = document.getElementById('catalog-grid');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
           }
         }}
         onSelectTag={(tag, parentCat) => {
-          navigateHome();
-          if (!tag) {
-            setActiveCategory('all');
-            setActiveTag(null);
-          } else {
-            setActiveCategory(parentCat || 'carpets');
-            setActiveTag(tag);
-          }
+          setActiveTag(tag || null);
+          if (parentCat) setActiveCategory(parentCat);
           setActiveRoom(null);
-          setVisibleCatalogCount(6);
-          setTimeout(() => {
-            const el = document.getElementById('catalog-grid') || document.getElementById('best-sellers');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 60);
         }}
         activeCategory={activeCategory}
         activeTag={activeTag}
       />
 
-      {/* Main Content Area */}
-      <main className={`flex-1 ${currentView === 'product' ? 'pt-24 sm:pt-28' : 'pt-0'}`}>
+      {/* Main View Router */}
+      <main className="flex-1">
         {currentView === 'product' && selectedProduct ? (
-          /* ================= DEDICATED PRODUCT DETAIL PAGE VIEW ================= */
           <ProductDetailPage
             product={selectedProduct}
             allProducts={products}
             onBack={navigateHome}
             onNavigateHome={navigateHome}
-            onAddToCart={(prod, size, color, mat, qty = 1) => handleAddToCart(prod, size, color, mat, qty)}
-            onBuyNow={(prod, size, color, mat, qty = 1) => handleBuyNow(prod, size, color, mat, qty)}
+            onAddToCart={handleAddToCart}
+            onBuyNow={handleBuyNow}
             isWishlisted={wishlistIds.includes(selectedProduct.id)}
             onToggleWishlist={handleToggleWishlist}
+            onSelectRelatedProduct={navigateToProduct}
             onViewIn3D={(prod) => {
               setSelected3DProduct(prod);
-              navigateHome();
+              setCurrentView('home');
               setTimeout(() => {
                 const el = document.getElementById('carpet-3d-studio');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }, 100);
+              }, 150);
             }}
-            onSelectRelatedProduct={(prod) => navigateToProduct(prod)}
           />
         ) : (
-          /* ================= HOMEPAGE / CATALOG VIEW ================= */
           <>
-            {/* Full Viewport Hero Section */}
+            {/* Hero Section (General or Kids depending on storeMode) */}
             <HeroSection
+              storeMode={storeMode}
               onExploreClick={() => {
                 setActiveCategory('all');
                 setActiveTag(null);
                 setActiveRoom(null);
-                const el = document.getElementById('best-sellers');
+                const el = document.getElementById('featured-collections');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
               onShopCarpetsClick={() => {
                 setActiveCategory('carpets');
-                setActiveTag('Kinderteppiche');
+                setActiveTag(null);
                 setActiveRoom(null);
-                setVisibleCatalogCount(6);
+                const el = document.getElementById('catalog-grid');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              onOpenKidsClick={() => handleSwitchStoreMode('kids')}
+              onBackToGeneralClick={() => handleSwitchStoreMode('general')}
+            />
+
+            {/* Featured Collections Slider */}
+            <FeaturedCollections
+              collections={storeMode === 'kids' ? KIDS_COLLECTIONS : GENERAL_COLLECTIONS}
+              storeMode={storeMode}
+              onSelectCategory={(slug) => {
+                setActiveCategory(slug);
+                setActiveTag(null);
+                setActiveRoom(null);
                 const el = document.getElementById('catalog-grid');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             />
 
-            {/* Live Status Pill */}
-            <div className="bg-[#8EBBB0]/15 border-y border-[#8EBBB0]/30 py-2.5 px-6 text-center text-xs text-[#6C9F93] flex items-center justify-center gap-2 font-semibold">
-              {isLoadingProducts ? (
-                <>
-                  <RefreshCw size={13} className="animate-spin text-[#E79685]" />
-                  <span>{t('liveStatus.loading')}</span>
-                </>
-              ) : (
-                <>
-                  <span className="w-2 h-2 rounded-full bg-[#8EBBB0] animate-pulse" />
-                  <span>{plentySource || t('liveStatus.source')} &bull; <strong>{products.length}</strong> {t('liveStatus.ready')}</span>
-                </>
-              )}
+            {/* Interactive 3D WebGL Carpet Studio */}
+            <div id="carpet-3d-studio">
+              <Carpet3DStudio
+                products={products}
+                isLoading={isLoadingProducts}
+                selectedProductFor3D={selected3DProduct}
+                onAddToCart={handleAddToCart}
+              />
             </div>
 
-            {/* Interactive 3D WebGL Carpet Studio (2D Product Image to 3D Projection) */}
-            <Carpet3DStudio
-              products={products}
-              isLoading={isLoadingProducts}
-              selectedProductFor3D={selected3DProduct}
-              onAddToCart={handleAddToCart}
+            {/* Best Sellers Slider */}
+            <BestSellersSlider
+              products={products.filter((p) => (storeMode === 'kids' ? p.section !== 'general' : p.section !== 'kids'))}
+              onSelectProduct={navigateToProduct}
+              onQuickAdd={handleQuickAdd}
+              wishlistIds={wishlistIds}
+              onToggleWishlist={handleToggleWishlist}
             />
 
-            {/* Catalog Grid View (Filtered by Category/Room/Tag when user selects filter) */}
-            {activeCategory !== 'all' || activeRoom || activeTag ? (
-              <section id="catalog-grid" className="py-24 bg-[#FDFBF7] border-b border-[#EDE6DC]">
-                <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-12">
-                  
-                  {/* Category Banner Header */}
-                  <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-[#EDE6DC]">
-                    <div>
-                      <span className="text-xs uppercase tracking-wider text-[#8EBBB0] font-bold block mb-2 bg-[#8EBBB0]/15 w-fit px-3.5 py-1 rounded-full">
-                        {activeTag ? 'Kollektion & Filter' : activeRoom ? t('catalog.spaceCollection') : t('catalog.collectionCatalog')}
-                      </span>
-                      <h2 className="font-heading text-3xl sm:text-5xl font-medium text-[#2D2B2A] capitalize">
-                        {activeTag
-                          ? activeTag
-                          : activeRoom 
-                          ? `${t('catalog.space')} ${t(`rooms.${activeRoom}.name`, { defaultValue: activeRoom })}` 
-                          : `${t(`categories.${activeCategory}`, { defaultValue: activeCategory })} ${t('catalog.collection')}`
-                        }
-                      </h2>
-                    </div>
+            {/* Catalog Grid View */}
+            <section id="catalog-grid" className="py-24 bg-[#FAF8F5] border-b border-[#ECE8E2]">
+              <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-12">
+                
+                {/* Catalog Header */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-[#ECE8E2]">
+                  <div>
+                    <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
+                      {storeMode === 'kids' ? 'Levina Kids Playful Sanctuaries' : 'PlentyONE Master Catalog'}
+                    </span>
+                    <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#2B2B2B] capitalize">
+                      {activeTag
+                        ? activeTag
+                        : activeRoom
+                        ? `Room: ${activeRoom}`
+                        : activeCategory !== 'all'
+                        ? `${activeCategory} Collection`
+                        : storeMode === 'kids'
+                        ? 'Kids Nursery & Playroom Catalog'
+                        : 'Scandinavian Home Catalog'}
+                    </h2>
+                  </div>
 
+                  {/* Clear / Reset Filters */}
+                  {(activeCategory !== 'all' || activeTag || activeRoom || selectedMaterialFilter !== 'all') && (
                     <button
                       onClick={() => {
                         setActiveCategory('all');
                         setActiveTag(null);
                         setActiveRoom(null);
-                        setVisibleCatalogCount(6);
                         setPriceFilter(3000);
                         setSelectedMaterialFilter('all');
                       }}
-                      className="text-xs uppercase tracking-wider text-[#E79685] hover:underline self-start md:self-auto font-bold cursor-pointer"
+                      className="text-xs uppercase tracking-[0.2em] font-medium text-[#B96A3C] hover:underline cursor-pointer flex items-center gap-1.5"
                     >
-                      {t('catalog.clearFilters')}
+                      <span>Reset all filters &times;</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Filter Controls Bar */}
+                <div className="flex flex-wrap items-center justify-between gap-4 py-6 text-xs text-[#666666]">
+                  <div className="flex items-center gap-2">
+                    <SlidersHorizontal size={14} className="text-[#69705A]" />
+                    <span className="font-medium uppercase tracking-wider text-[#2B2B2B]">
+                      Showing {Math.min(visibleCatalogCount, displayedProducts.length)} of {displayedProducts.length} Items
+                    </span>
+                  </div>
+
+                  {/* Material Filter Quick Chips */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => setSelectedMaterialFilter('all')}
+                      className={`px-3 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all cursor-pointer ${
+                        selectedMaterialFilter === 'all'
+                          ? 'bg-[#2B2B2B] text-white font-medium'
+                          : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
+                      }`}
+                    >
+                      All Materials
+                    </button>
+                    <button
+                      onClick={() => setSelectedMaterialFilter('wool')}
+                      className={`px-3 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all cursor-pointer ${
+                        selectedMaterialFilter === 'wool'
+                          ? 'bg-[#2B2B2B] text-white font-medium'
+                          : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
+                      }`}
+                    >
+                      Pure Wool
+                    </button>
+                    <button
+                      onClick={() => setSelectedMaterialFilter('shaggy')}
+                      className={`px-3 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all cursor-pointer ${
+                        selectedMaterialFilter === 'shaggy'
+                          ? 'bg-[#2B2B2B] text-white font-medium'
+                          : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
+                      }`}
+                    >
+                      Plush Shaggy
+                    </button>
+                    <button
+                      onClick={() => setSelectedMaterialFilter('fell')}
+                      className={`px-3 py-1.5 rounded-full text-[11px] tracking-wider uppercase transition-all cursor-pointer ${
+                        selectedMaterialFilter === 'fell'
+                          ? 'bg-[#2B2B2B] text-white font-medium'
+                          : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
+                      }`}
+                    >
+                      Naturfell
                     </button>
                   </div>
+                </div>
 
-                  {/* Filter Sidebar & Product Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 pt-8">
-                    
-                    {/* Accordion Filter Sidebar */}
-                    <div className="space-y-6 bg-white p-6 rounded-3xl border border-[#EDE6DC] shadow-pillowy h-fit">
-                      <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#2D2B2A] font-bold pb-4 border-b border-[#EDE6DC]">
-                        <SlidersHorizontal size={16} className="text-[#8EBBB0]" />
-                        <span>{t('catalog.filters')}</span>
-                      </div>
-
-                      {/* Price Range */}
-                      <div className="space-y-2">
-                        <div className="flex justify-between text-xs text-[#2D2B2A]">
-                          <span className="font-medium">{t('catalog.maxPrice')}</span>
-                          <span className="font-bold text-[#E79685]">€{priceFilter.toLocaleString()}</span>
-                        </div>
-                        <input
-                          type="range"
-                          min="40"
-                          max="3000"
-                          step="20"
-                          value={priceFilter}
-                          onChange={(e) => setPriceFilter(Number(e.target.value))}
-                          className="w-full accent-[#E79685] cursor-pointer"
-                        />
-                      </div>
-
-                      {/* Material Filter */}
-                      <div className="space-y-2 pt-2 border-t border-[#EDE6DC]">
-                        <span className="text-xs font-semibold text-[#2D2B2A] block">{t('catalog.material')}</span>
-                        <select
-                          value={selectedMaterialFilter}
-                          onChange={(e) => setSelectedMaterialFilter(e.target.value)}
-                          className="w-full bg-[#FDFBF7] border border-[#EDE6DC] text-xs text-[#2D2B2A] p-2.5 rounded-xl outline-none"
+                {/* Products Grid */}
+                {displayedProducts.length === 0 ? (
+                  <div className="text-center py-20 bg-white/70 rounded-[2px] border border-[#ECE8E2] p-8 space-y-4">
+                    <p className="text-base text-[#666666] font-light">
+                      No products match your selected filters in this section.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setActiveCategory('all');
+                        setActiveTag(null);
+                        setActiveRoom(null);
+                        setSelectedMaterialFilter('all');
+                      }}
+                      className="px-6 py-2.5 bg-[#B96A3C] text-white text-xs uppercase tracking-widest rounded-[2px] hover:bg-[#A75D36] transition-colors cursor-pointer"
+                    >
+                      Show All Catalog Items
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+                    {displayedProducts.slice(0, visibleCatalogCount).map((product) => (
+                      <div
+                        key={product.id}
+                        className="group flex flex-col bg-white rounded-[2px] overflow-hidden border border-[#ECE8E2] hover:border-[#B96A3C]/40 transition-all duration-300 shadow-xs hover:shadow-md"
+                      >
+                        {/* Product Image Container */}
+                        <div
+                          onClick={() => navigateToProduct(product)}
+                          className="relative aspect-square overflow-hidden bg-[#EFE7DC] cursor-pointer"
                         >
-                          <option value="all">{t('catalog.allMaterials')}</option>
-                          <option value="wool">{t('catalog.wool')}</option>
-                          <option value="linen">{t('catalog.linen')}</option>
-                          <option value="cotton">{t('catalog.cotton')}</option>
-                          <option value="oak">{t('catalog.oak')}</option>
-                        </select>
-                      </div>
-                    </div>
+                          <img
+                            src={product.primaryImage}
+                            alt={product.name}
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            loading="lazy"
+                          />
 
-                    {/* Filtered Product Cards */}
-                    <div className="lg:col-span-3">
-                      {isLoadingProducts ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                          {Array.from({ length: 6 }).map((_, idx) => (
-                            <div
-                              key={idx}
-                              className="bg-white p-4 rounded-3xl border border-[#EDE6DC] animate-pulse space-y-4 shadow-xs"
-                            >
-                              <div className="aspect-[3/4] bg-[#F7F3EB] rounded-2xl w-full" />
-                              <div className="h-3 bg-[#F7F3EB] rounded w-2/3" />
-                              <div className="h-4 bg-[#F7F3EB] rounded w-full" />
-                            </div>
-                          ))}
-                        </div>
-                      ) : displayedProducts.length === 0 ? (
-                        <div className="text-center py-20 bg-white rounded-3xl border border-[#EDE6DC] shadow-pillowy">
-                          <p className="font-heading text-2xl text-[#2D2B2A] mb-2 font-medium">{t('catalog.noProductsFound')}</p>
-                          <p className="text-xs text-[#6B6661] max-w-sm mx-auto font-normal mb-6">
-                            {t('catalog.noProductsHint')}
-                          </p>
-                          <button
-                            onClick={() => {
-                              setPriceFilter(3000);
-                              setSelectedMaterialFilter('all');
-                              setVisibleCatalogCount(6);
-                            }}
-                            className="bg-[#8EBBB0] text-white text-xs uppercase tracking-wider font-bold px-6 py-3 rounded-full cursor-pointer shadow-pillowy-sage"
-                          >
-                            {t('catalog.resetFilters')}
-                          </button>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {displayedProducts.slice(0, visibleCatalogCount).map((product) => (
-                              <div
-                                key={product.id}
-                                className="group bg-white p-4 rounded-3xl border border-[#EDE6DC] hover:border-[#8EBBB0]/60 transition-all flex flex-col justify-between shadow-pillowy"
-                              >
-                                <div>
-                                  <div 
-                                    onClick={() => navigateToProduct(product)}
-                                    className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[#F7F3EB] p-2.5 sm:p-3 flex items-center justify-center mb-4 cursor-pointer"
-                                  >
-                                    <img
-                                      src={product.primaryImage}
-                                      alt={product.name}
-                                      loading="lazy"
-                                      onError={(e) => {
-                                        (e.currentTarget as HTMLImageElement).src = '/LI-112.jpg';
-                                      }}
-                                      className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 drop-shadow-xs"
-                                    />
-                                    {product.stockInfo && (
-                                      <span className="absolute top-2.5 left-2.5 bg-white/95 backdrop-blur-xs text-[10px] uppercase tracking-wider font-bold text-[#8EBBB0] px-2.5 py-1 rounded-full shadow-xs">
-                                        {product.stockInfo.inStock ? t('catalog.inStock') : t('catalog.madeToOrder')}
-                                      </span>
-                                    )}
-                                    <div className="absolute inset-0 w-full h-full bg-[#2D2B2A]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs uppercase tracking-wider font-bold">
-                                      {t('search.view', { defaultValue: 'View Details' })}
-                                    </div>
-                                  </div>
-                                  <span className="text-[10px] text-[#8EBBB0] uppercase tracking-wider block font-bold">
-                                    {product.categoryLabel}
-                                  </span>
-                                  <h3
-                                    onClick={() => navigateToProduct(product)}
-                                    className="font-heading text-base text-[#2D2B2A] hover:text-[#E79685] transition-colors cursor-pointer line-clamp-1 font-medium"
-                                  >
-                                    {product.name}
-                                  </h3>
-                                </div>
-                                
-                                <div className="flex justify-between items-center pt-3 border-t border-[#EDE6DC] mt-3">
-                                  <div>
-                                    <span className="text-sm font-bold text-[#E79685] block">€{product.price.toLocaleString()}</span>
-                                    <span className="text-[10px] text-[#9E9891] block">{product.deliveryInfo?.estimatedDateRange || t('catalog.daysDelivery')}</span>
-                                  </div>
-                                  <button
-                                    onClick={() => handleQuickAdd(product)}
-                                    className="bg-[#E79685] hover:bg-[#D47B68] text-white text-[11px] uppercase tracking-wider font-bold px-4 py-2 rounded-full transition-all shadow-pillowy-coral cursor-pointer"
-                                  >
-                                    {t('catalog.cartButton')}
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
+                          {/* Top Badges */}
+                          <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10">
+                            {product.isBestSeller && (
+                              <span className="bg-[#B96A3C] text-white text-[9.5px] uppercase tracking-wider px-2 py-0.5 rounded-[2px] font-medium shadow-xs">
+                                Bestseller
+                              </span>
+                            )}
+                            {product.section === 'kids' && (
+                              <span className="bg-[#8EBBB0] text-white text-[9.5px] uppercase tracking-wider px-2 py-0.5 rounded-[2px] font-medium shadow-xs">
+                                Kids Safe
+                              </span>
+                            )}
                           </div>
 
-                          {/* Load More Button for Space / Category */}
-                          {displayedProducts.length > visibleCatalogCount && (
-                            <div className="text-center pt-10">
-                              <button
-                                onClick={() => setVisibleCatalogCount((prev) => prev + (window.innerWidth < 768 ? 5 : 15))}
-                                className="bg-[#E79685] hover:bg-[#D47B68] text-white px-8 py-3.5 text-xs uppercase tracking-wider font-bold rounded-full transition-all shadow-pillowy-coral hover:scale-105 cursor-pointer"
-                              >
-                                {t('catalog.moreProducts', { count: displayedProducts.length - visibleCatalogCount })}
-                              </button>
-                            </div>
-                          )}
+                          {/* Wishlist Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleWishlist(product);
+                            }}
+                            className={`absolute top-3 right-3 z-10 p-2 rounded-full backdrop-blur-md transition-colors cursor-pointer ${
+                              wishlistIds.includes(product.id)
+                                ? 'bg-white text-[#B96A3C]'
+                                : 'bg-white/80 hover:bg-white text-[#2B2B2B]'
+                            }`}
+                            title="Add to Wishlist"
+                          >
+                            <span className={wishlistIds.includes(product.id) ? 'fill-current' : ''}>
+                              ♥
+                            </span>
+                          </button>
                         </div>
-                      )}
-                    </div>
 
+                        {/* Product Info */}
+                        <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                          <div>
+                            <span className="text-[10px] tracking-[0.2em] uppercase text-[#8B8B8B] font-medium block mb-1">
+                              {product.categoryLabel || product.category}
+                            </span>
+                            <h3
+                              onClick={() => navigateToProduct(product)}
+                              className="font-serif text-base text-[#2B2B2B] group-hover:text-[#B96A3C] transition-colors cursor-pointer font-normal line-clamp-1"
+                            >
+                              {product.name}
+                            </h3>
+                            <p className="text-xs text-[#666666] font-light line-clamp-1 mt-1">
+                              {product.material}
+                            </p>
+                          </div>
+
+                          <div className="pt-2 border-t border-[#ECE8E2] flex items-center justify-between">
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-sm font-medium text-[#2B2B2B]">
+                                €{product.price.toLocaleString()}
+                              </span>
+                              {product.originalPrice && product.originalPrice > product.price && (
+                                <span className="text-xs text-[#8B8B8B] line-through">
+                                  €{product.originalPrice.toLocaleString()}
+                                </span>
+                              )}
+                            </div>
+
+                            <button
+                              onClick={() => handleQuickAdd(product)}
+                              className="text-xs text-[#B96A3C] hover:text-[#505744] font-medium uppercase tracking-wider cursor-pointer hover:underline"
+                            >
+                              + Quick Add
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
+                )}
 
-                </div>
-              </section>
-            ) : null}
+                {/* Load More Button */}
+                {displayedProducts.length > visibleCatalogCount && (
+                  <div className="text-center pt-12">
+                    <button
+                      onClick={() => setVisibleCatalogCount((prev) => prev + 8)}
+                      className="px-8 py-3.5 bg-[#2B2B2B] hover:bg-[#505744] text-white text-xs uppercase tracking-[0.2em] font-medium rounded-[2px] transition-all cursor-pointer"
+                    >
+                      Load More Pieces ({displayedProducts.length - visibleCatalogCount} remaining)
+                    </button>
+                  </div>
+                )}
+              </div>
+            </section>
 
-            {/* Best Sellers Slider */}
-            <BestSellersSlider
-              products={products}
-              wishlistIds={wishlistIds}
-              isLoading={isLoadingProducts}
-              onToggleWishlist={handleToggleWishlist}
-              onQuickAdd={handleQuickAdd}
-              onSelectProduct={(product) => navigateToProduct(product)}
-            />
+            {/* Split Editorial / Craftsmanship Banner */}
+            <SplitEditorialBanner onExploreClick={() => {
+              const el = document.getElementById('catalog-grid');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }} />
 
-            {/* Scroll-Driven Parallax 3D Banner */}
-            <ParallaxBanner
-              onExploreClick={() => {
-                const el = document.getElementById('best-sellers');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
-
-            {/* Split Editorial Banner */}
-            <SplitEditorialBanner
-              onExploreClick={() => {
-                const el = document.getElementById('best-sellers');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
-
-            {/* New Arrivals Grid */}
-            <NewArrivalsGrid
-              products={products}
-              wishlistIds={wishlistIds}
-              isLoading={isLoadingProducts}
-              onToggleWishlist={handleToggleWishlist}
-              onQuickAdd={handleQuickAdd}
-              onSelectProduct={(product) => navigateToProduct(product)}
-            />
-
-            {/* Shop By Room */}
+            {/* Shop by Room Sanctuary */}
             <ShopByRoom
-              rooms={ROOMS}
-              onSelectRoom={(roomSlug) => {
-                setActiveRoom(roomSlug);
+              rooms={storeMode === 'kids' ? KIDS_ROOMS : GENERAL_ROOMS}
+              storeMode={storeMode}
+              onSelectRoom={(slug) => {
+                setActiveRoom(slug);
                 setActiveCategory('all');
-                setVisibleCatalogCount(6);
+                setActiveTag(null);
                 const el = document.getElementById('catalog-grid');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
             />
 
-            {/* Continuous Sliding Marquee Gallery */}
-            <SlidingMarqueeGallery
-              products={products}
-              onSelectProduct={(product) => navigateToProduct(product)}
+            {/* Brand Philosophy & Craftsmanship */}
+            <BrandStory storeMode={storeMode} />
+
+            {/* Sliding Marquee Gallery */}
+            <SlidingMarqueeGallery products={products} onSelectProduct={navigateToProduct} />
+
+            {/* Curated Instagram Sanctuary Inspiration */}
+            <InstagramGallery
+              posts={INSTAGRAM_GALLERY}
+              onSelectProduct={navigateToProduct}
             />
+
+            {/* Parallax Quote Banner */}
+            <ParallaxBanner onExploreClick={() => {
+              const el = document.getElementById('carpet-3d-studio');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }} />
 
             {/* Newsletter Subscription */}
             <Newsletter />
@@ -632,16 +690,14 @@ export function App() {
         )}
       </main>
 
-      {/* Footer */}
+      {/* Global Footer */}
       <Footer
-        onSelectCategory={(cat) => {
-          navigateHome();
-          setActiveCategory(cat);
-        }}
         onOpenLegal={(tab) => {
           setLegalTab(tab);
           setIsLegalOpen(true);
         }}
+        onSwitchMode={handleSwitchStoreMode}
+        currentMode={storeMode}
       />
 
       {/* Drawers & Modals */}
@@ -662,22 +718,31 @@ export function App() {
         onClose={() => setIsWishlistOpen(false)}
         wishlistProducts={wishlistProducts}
         onRemoveWishlist={handleToggleWishlist}
-        onSelectProduct={(prod) => navigateToProduct(prod)}
         onQuickAdd={handleQuickAdd}
+        onSelectProduct={(prod) => {
+          setIsWishlistOpen(false);
+          navigateToProduct(prod);
+        }}
       />
 
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         products={products}
-        onSelectProduct={(prod) => navigateToProduct(prod)}
+        onSelectProduct={(prod) => {
+          setIsSearchOpen(false);
+          navigateToProduct(prod);
+        }}
       />
 
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}
         cartItems={cartItems}
-        onClearCart={() => setCartItems([])}
+        onClearCart={() => {
+          setCartItems([]);
+          setIsCheckoutOpen(false);
+        }}
       />
 
       <AuthModal
@@ -692,8 +757,8 @@ export function App() {
 
       <LegalModal
         isOpen={isLegalOpen}
-        initialTab={legalTab}
         onClose={() => setIsLegalOpen(false)}
+        initialTab={legalTab}
       />
     </div>
   );

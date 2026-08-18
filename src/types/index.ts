@@ -1,3 +1,5 @@
+export type StoreMode = 'general' | 'kids';
+
 export interface ProductStockInfo {
   physicalStock: number;
   netStock: number;
@@ -19,7 +21,8 @@ export interface Product {
   itemId?: number | string;
   sku?: string;
   name: string;
-  category: 'carpets' | 'rugs' | 'furniture' | 'decor' | 'textiles' | 'kitchen';
+  section?: 'general' | 'kids' | 'both';
+  category: 'carpets' | 'rugs' | 'naturfelle' | 'shaggy' | 'furniture' | 'decor' | 'textiles' | 'kitchen' | 'accessories' | string;
   categoryLabel: string;
   price: number;
   originalPrice?: number;
@@ -34,7 +37,7 @@ export interface Product {
   availableMaterials: string[];
   sizes: string[];
   colors: { name: string; hex: string }[];
-  roomCategory: 'bedroom' | 'living-room' | 'dining' | 'office' | 'kids';
+  roomCategory: 'bedroom' | 'living-room' | 'dining' | 'office' | 'kids' | string;
   description: string;
   careInstructions: string[];
   shippingInfo: string;
@@ -57,7 +60,8 @@ export interface CollectionCategory {
   tagline: string;
   description: string;
   image: string;
-  categorySlug: 'carpets' | 'rugs' | 'furniture' | 'decor' | 'textiles' | 'kitchen';
+  categorySlug: 'carpets' | 'rugs' | 'naturfelle' | 'shaggy' | 'furniture' | 'decor' | 'textiles' | 'kitchen' | 'accessories' | string;
+  section?: 'general' | 'kids';
 }
 
 export interface ShopRoom {
@@ -66,6 +70,7 @@ export interface ShopRoom {
   tagline: string;
   image: string;
   roomSlug: 'bedroom' | 'living-room' | 'dining' | 'office' | 'kids';
+  section?: 'general' | 'kids';
 }
 
 export interface InstagramPost {

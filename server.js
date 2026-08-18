@@ -531,13 +531,24 @@ async function syncPlentyoneCatalog() {
     }
 
     // 4. Map PlentyONE Variations to Storefront Product Model
-    const categoryOptions = ['carpets', 'rugs', 'furniture', 'decor', 'textiles', 'kitchen'];
-    const roomOptions = ['bedroom', 'living-room', 'dining', 'office', 'kids'];
+    // 4. Map PlentyONE Variations to Storefront Product Model
+    const SHAGGY_COLORS = [
+      { name: 'weiß', hex: '#FFFFFF' },
+      { name: 'aubergine', hex: '#4A154B' },
+      { name: 'rot', hex: '#C53030' },
+      { name: 'silber', hex: '#CBD5E1' },
+      { name: 'schwarz', hex: '#1A202C' },
+      { name: 'mocca', hex: '#5C3D2E' },
+      { name: 'violett', hex: '#805AD5' },
+      { name: 'bordeaux', hex: '#800020' },
+      { name: 'beige', hex: '#D9C5A7' }
+    ];
 
     const formattedProducts = variations.map((v, index) => {
       const text = v.variationTexts?.[0] || {};
       const salesPrice = v.variationSalesPrices?.[0]?.price || (49 + (index % 5) * 20);
       const originalPrice = Math.round(salesPrice * 1.25);
+      const sku = (v.number || `SKU-${v.id}`).toUpperCase();
       
       // Resolve authentic PlentyONE images
       const itemImages = imageMap[v.itemId] || PLENTY_ITEM_IMAGE_REGISTRY[String(v.itemId)] || [];
@@ -546,9 +557,10 @@ async function syncPlentyoneCatalog() {
       const gallery = itemImages.length > 0 ? itemImages : [primaryImg, secondaryImg];
 
       const cleanTitle = text.name || text.name1 || v.model || `Levina Artisanal Piece #${v.number || v.id}`;
+      const titleLower = cleanTitle.toLowerCase();
+      const skuLower = sku.toLowerCase();
       const stock = stockMap[v.itemId] || { physicalStock: 15, netStock: 12, warehouseId: 1 };
       const inStock = stock.netStock > 0;
-
 
       // Delivery calculation based on PlentyONE availability
       const avgDays = v.availability === 1 ? 2 : v.availability === 5 ? 4 : 3;
@@ -560,20 +572,105 @@ async function syncPlentyoneCatalog() {
       
       const estimatedDateRange = `${minDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${maxDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
 
-      // Category assignment
-      const catIndex = (v.itemId || index) % categoryOptions.length;
-      const roomIndex = (v.itemId || index) % roomOptions.length;
-      const category = categoryOptions[catIndex];
-      const roomCategory = roomOptions[roomIndex];
+      // Accurate Product Type & Category Detection
+      const isShaggy = skuLower.startsWith('sh-') || titleLower.includes('shaggy');
+      const isFell = skuLower.startsWith('fe-') || titleLower.includes('fell') || titleLower.includes('lammfell') || titleLower.includes('rinderfell') || titleLower.includes('schaffell');
+      const isPflege = skuLower.startsWith('pf-') || titleLower.includes('pflege') || titleLower.includes('reiniger');
+      const isKids = skuLower.startsWith('lk-') || skuLower.startsWith('bc-') || skuLower.startsWith('bg-') || 
+                    titleLower.includes('lillifee') || titleLower.includes('felix') || titleLower.includes('sharky') || 
+                    titleLower.includes('sieben') || titleLower.includes('t-rex') || titleLower.includes('pferd') || 
+                    titleLower.includes('glück') || titleLower.includes('bobby') || titleLower.includes('mondbär') ||
+                    titleLower.includes('kinder');
+
+      let category = 'carpets';
+      let categoryLabel = 'Kinderteppiche';
+      let roomCategory = 'kids';
+      let sizes = ['100 x 120 cm', '150 x 120 cm'];
+      let colors = [];
+      let material = '100% Weicher Soft-Polyacryl Flor, OEKO-TEX® Standard 100';
+      let availableMaterials = ['100% Weicher Soft-Polyacryl Flor'];
+      let careInstructions = [
+        'Regelmäßig mit handelsüblichem Staubsauger absaugen.',
+        'Punktuelle Flecken sofort mit feuchtem Tuch und milder Seifenlauge abtupfen.',
+        '100% schadstofffrei und für Fußbodenheizung geeignet.',
+        'Allergikerfreundlich & strapazierfähig für unbeschwertes Spielen.'
+      ];
+
+      if (isShaggy) {
+        category = 'carpets';
+        categoryLabel = 'Shaggy Teppiche';
+        roomCategory = 'living-room';
+        sizes = ['60 x 110 cm', '80 x 150 cm', '120 x 170 cm', '160 x 230 cm', '200 x 290 cm'];
+        colors = SHAGGY_COLORS;
+        material = '100% Soft-Touch Hochflor Polypropylen / Mikrofaser';
+        availableMaterials = ['100% Soft-Touch Hochflor Mikrofaser'];
+        careInstructions = [
+          'Regelmäßig ausschütteln und mit glatter Düse absaugen.',
+          'Flauschiger Hochflor mit ca. 30-35 mm Florhöhe für maximalen Komfort.',
+          'Fußbodenheizungsgeeignet, antistatisch und extrem strapazierfähig.'
+        ];
+      } else if (isFell) {
+        category = 'naturfelle';
+        categoryLabel = 'Naturfelle';
+        roomCategory = 'bedroom';
+        sizes = ['Naturmaß (ca. 100-110 cm)'];
+        colors = []; // Naturfelle have no color options
+        const isRinderfell = skuLower.includes('2194') || titleLower.includes('rinder');
+        material = isRinderfell ? '100% Natürliches Echtes Rinderfell' : '100% Echtes Neuseeland-Lammfell';
+        availableMaterials = isRinderfell ? ['100% Natürliches Echtes Rinderfell'] : ['100% Echtes Medizinisches Lammfell', '100% Echtes Neuseeland-Lammfell'];
+        careInstructions = [
+          'Regelmäßig an der frischen Luft ausschütteln und sanft lüften.',
+          'Mit einer weichen Fellbürste sanft in Wuchsrichtung aufkämmen.',
+          'Leichte Verschmutzungen punktuell mit feuchtem Tuch und milder Wollseife entfernen.',
+          'Vor direkter starker Sonneneinstrahlung und Heizkörpern schützen.'
+        ];
+      } else if (isPflege) {
+        category = 'accessories';
+        categoryLabel = 'Pflege & Zubehör';
+        roomCategory = 'living-room';
+        sizes = ['500 ml Flasche'];
+        colors = [];
+        material = 'Ökologisches Spezialreiniger-Konzentrat';
+        availableMaterials = ['Ökologisches Konzentrat'];
+        careInstructions = [
+          'Kindersicher verschlossen, trocken und kühl lagern.',
+          'Vor Gebrauch an unauffälliger Stelle auf Farbechtheit prüfen.'
+        ];
+      } else if (!isKids) {
+        // Wohn- & Designteppiche (LI-, LS-, GA-)
+        category = 'carpets';
+        categoryLabel = 'Wohnteppiche';
+        roomCategory = (index % 2 === 0) ? 'living-room' : 'dining';
+        sizes = ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm'];
+        colors = [];
+        material = 'Reine Neuseeland Schurwolle & Naturfaser-Mischung';
+        availableMaterials = ['Reine Neuseeland Schurwolle', 'Bio-Baumwolle & Jute Blend'];
+        careInstructions = [
+          'Regelmäßig mit glatter Düse ohne rotierende Bürste absaugen.',
+          'Flüssigkeiten sofort mit einem sauberen, saugfähigen Tuch abtupfen.',
+          'Professionelle Teppichreinigung bei Bedarf empfohlen.'
+        ];
+      }
+
+      const defaultDescription = isFell 
+        ? (titleLower.includes('rinder') ? 'Exklusives, naturbelassenes Rinderfell mit seidigem Glanz und unverwechselbarer natürlicher Zeichnung. Jedes Stück ist ein einzigartiges Unikat der Natur.' : 'Samtweiches, echtes Natur-Lammfell für unvergleichliche Gemütlichkeit und wohlige Wärme im Baby- und Wohnbereich.')
+        : isShaggy 
+        ? 'Kuschelweicher Hochflor-Shaggy mit extra dichter Faserstruktur. Bringt wohlige Wärme und stilvolle Eleganz in jedes Zuhause.'
+        : isKids
+        ? 'Kindgerechter, weicher Spielteppich aus schadstoffgeprüften Fasern. Perfekt für kleine Kinderfüße, fantasievolles Spielen und gemütliche Lesestunden.'
+        : 'Meisterhaft gewebter Teppich aus hochwertigen Fasern für ein stilvolles und gemütliches Wohnambiente.';
+
+      const section = isKids ? 'kids' : (isShaggy || isFell) ? 'both' : 'general';
 
       return {
         id: `PO-${v.id}`,
         plentyVariationId: v.id,
         itemId: v.itemId,
-        sku: v.number || `SKU-${v.id}`,
+        sku: sku,
         name: cleanTitle,
+        section: section,
         category: category,
-        categoryLabel: category.charAt(0).toUpperCase() + category.slice(1),
+        categoryLabel: categoryLabel,
         price: salesPrice,
         originalPrice: originalPrice,
         rating: 4.8 + ((index % 3) * 0.1),
@@ -583,40 +680,26 @@ async function syncPlentyoneCatalog() {
         galleryImages: gallery,
         isBestSeller: index % 3 === 0,
         isNewArrival: index % 2 === 0,
-        material: text.description?.includes('Polyester') ? '100% Ultra-Soft Polyester & Cotton' : 'Pure Hand-Spun New Zealand Wool',
-        availableMaterials: [
-          'Pure Hand-Spun New Zealand Wool',
-          'Organic Linen & Raw Silk Blend',
-          'Recycled Fine Cotton & Jute'
-        ],
-        sizes: ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm', '240 x 340 cm'],
-        colors: [
-          { name: 'Warm Alabaster', hex: '#FAF8F5' },
-          { name: 'Nordic Clay', hex: '#B96A3C' },
-          { name: 'Copenhagen Moss', hex: '#69705A' },
-          { name: 'Dune Sand', hex: '#D9C5A7' }
-        ],
+        material: material,
+        availableMaterials: availableMaterials,
+        sizes: sizes,
+        colors: colors,
         roomCategory: roomCategory,
-        description: text.description ? text.description.replace(/<[^>]*>?/gm, ' ') : 'Handcrafted by master artisans using time-honored heritage techniques. Designed for serene, sophisticated living spaces.',
-        careInstructions: [
-          'Vacuum regularly using gentle suction without rotating beater brush.',
-          'Blot spills immediately with a clean, undyed cloth and lukewarm water.',
-          'Professional eco-friendly carpet cleaning recommended once a year.',
-          'Rotate 180 degrees every six months to ensure even wear.'
-        ],
-        shippingInfo: 'Complimentary White-Glove delivery & in-room placement from our Dülmen hub.',
+        description: text.description ? text.description.replace(/<[^>]*>?/gm, ' ') : defaultDescription,
+        careInstructions: careInstructions,
+        shippingInfo: 'Kostenloser Premium-Versand direkt aus unserem Dülmen Logistikzentrum.',
         stockInfo: {
           physicalStock: stock.physicalStock,
           netStock: stock.netStock,
           inStock: inStock,
-          statusLabel: stock.netStock > 5 ? `In Stock (${stock.netStock} units at Dülmen Depot)` : stock.netStock > 0 ? `Low Stock — Only ${stock.netStock} left` : 'Made to Order — Dispatches in 7 days',
-          warehouseName: 'KS Sales Dülmen Central Depot (Industriestr. 23)'
+          statusLabel: stock.netStock > 5 ? `Auf Lager (${stock.netStock} Stück in Dülmen)` : stock.netStock > 0 ? `Geringer Bestand — Nur ${stock.netStock} verfügbar` : 'Auftragsfertigung — Versandfertig in 7 Tagen',
+          warehouseName: 'KS Sales Dülmen Logistikzentrum (Industriestr. 23)'
         },
         deliveryInfo: {
           averageDays: avgDays,
-          deliveryText: `Standard Dispatch: ${avgDays}–${avgDays + 2} Business Days`,
+          deliveryText: `Standard-Lieferung: ${avgDays}–${avgDays + 2} Werktage`,
           estimatedDateRange: estimatedDateRange,
-          carrier: 'DHL / DPD Freight White-Glove'
+          carrier: 'DHL / DPD Paketdienst'
         }
       };
     });

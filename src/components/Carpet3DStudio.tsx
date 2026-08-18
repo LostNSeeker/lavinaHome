@@ -38,12 +38,12 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
   const { t } = useTranslation();
   const mountRef = useRef<HTMLDivElement>(null);
 
-  // Filter carpet and rug products from store catalog
+  // Filter authentic carpet and rug products from store catalog (excluding Naturfelle & accessories)
   const carpetProducts = useMemo(() => {
     const list = products.filter(
-      (p) => p.category === 'carpets' || p.category === 'rugs'
+      (p) => p.category !== 'naturfelle' && p.category !== 'accessories' && (p.category === 'carpets' || p.category === 'rugs' || (p.name || '').toLowerCase().includes('teppich') || (p.name || '').toLowerCase().includes('shaggy'))
     );
-    return list.length > 0 ? list : products;
+    return list.length > 0 ? list : products.filter((p) => p.category !== 'naturfelle');
   }, [products]);
 
   // Selected product for texture projection

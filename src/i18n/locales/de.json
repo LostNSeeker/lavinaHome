@@ -170,17 +170,18 @@
     "inStock": "Auf Lager",
     "madeToOrder": "Auftragsfertigung",
     "quickView": "Schnellansicht",
-    "cartButton": "+ Korb",
+    "cartButton": "Warenkorb",
     "moreProducts": "Weitere Produkte ({{count}} weitere)",
     "daysDelivery": "2–4 Tage"
   },
   "cart": {
-    "title": "Ihr Kinderzimmer-Warenkorb",
+    "title": "Warenkorb",
     "itemsCount": "{{count}} Artikel",
-    "addForFreeShipping": "Noch {{amount}} für kostenlosen, kindersicheren Versand hinzufügen",
-    "freeShippingUnlocked": "Kostenlose Premium-Kinderzimmer-Lieferung freigeschaltet!",
+    "itemAdded": "Dem Warenkorb hinzugefügt!",
+    "addForFreeShipping": "Noch {{amount}} für kostenlosen Versand hinzufügen",
+    "freeShippingUnlocked": "Kostenlose Premium-Lieferung freigeschaltet!",
     "emptyTitle": "Ihr Warenkorb ist noch leer",
-    "emptySubtitle": "Entdecken Sie unsere gemütlichen Kinderteppiche und Bio-Spielsachen für Ihren kleinen Träumer.",
+    "emptySubtitle": "Entdecken Sie unsere zauberhaften Kinderteppiche, kuscheligen Shaggys und edlen Naturfelle.",
     "size": "Größe",
     "color": "Farbe",
     "taxesIncluded": "Inkl. MwSt. & Sicherheitspaket",
@@ -361,10 +362,14 @@
   },
   "categories": {
     "carpets": "Kinderteppiche",
-    "rugs": "Spielmatten & Läufer",
-    "furniture": "Montessori-Möbel",
-    "decor": "Zauberhafte Deko",
-    "textiles": "Bio-Textilien",
-    "kitchen": "Kinder-Geschirr"
+    "naturfelle": "Naturfelle",
+    "felle": "Naturfelle",
+    "shaggy": "Shaggy Teppiche",
+    "rugs": "Wohnteppiche",
+    "accessories": "Pflege & Zubehör",
+    "furniture": "Möbel",
+    "decor": "Deko",
+    "textiles": "Textilien",
+    "kitchen": "Accessoires"
   }
 }

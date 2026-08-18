@@ -5,7 +5,7 @@
 
 User-agent: *
 Allow: /
-Allow: /Levina_home_logo.png
+Allow: /levina_logo.png
 Allow: /LI-112.jpg
 Allow: /sitemap.xml
 Allow: /site.webmanifest
