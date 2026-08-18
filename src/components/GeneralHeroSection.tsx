@@ -3,13 +3,12 @@ import { ArrowRight, Sparkles, Compass } from 'lucide-react';
 
 interface GeneralHeroSectionProps {
   onExploreClick: () => void;
-  onShopCarpetsClick: () => void;
+  onShopCarpetsClick?: () => void;
   onOpenKidsClick: () => void;
 }
 
 export const GeneralHeroSection: React.FC<GeneralHeroSectionProps> = ({
   onExploreClick,
-  onShopCarpetsClick,
   onOpenKidsClick,
 }) => {
   return (
@@ -30,44 +29,36 @@ export const GeneralHeroSection: React.FC<GeneralHeroSectionProps> = ({
         <div className="max-w-2xl animate-fade-up">
           
           {/* Subtle German Badge */}
-          <div className="mb-4">
+          <div className="mb-3">
             <span className="inline-block text-xs font-medium uppercase tracking-[0.35em] text-[#69705A]">
-              Levina Home Luxus-Teppiche &amp; Manufaktur
+              Handgefertigte Manufaktur
             </span>
           </div>
 
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal text-[#2B2B2B] leading-[1.1] tracking-tight mb-6">
-            Luxus-Teppiche &amp; Wohnkomfort <br />
-            <span className="italic font-light text-[#505744]">Handgefertigte Gemütlichkeit für Ihr Zuhause.</span>
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-normal text-[#2B2B2B] leading-[1.12] tracking-tight mb-4">
+            Luxus &amp; Zeitloser Komfort
           </h1>
 
-          <p className="text-base md:text-lg text-[#666666] font-light leading-relaxed mb-8 max-w-lg">
-            Wunderschöne Räume. Besondere Momente. Handgewebte Naturwolle, samtweiche Shaggys und echte Naturfelle für anspruchsvolles Wohnen und puren Wohlfühlkomfort.
+          <p className="text-base md:text-lg text-[#666666] font-light leading-relaxed mb-7 max-w-md">
+            Handgewebte Schurwolle und edle Naturfelle für anspruchsvolles Wohnen.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3.5">
             <button
               onClick={onExploreClick}
-              className="bg-[#B96A3C] hover:bg-[#A75D36] text-white px-8 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] shadow-sm hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-3 group cursor-pointer"
+              className="bg-[#B96A3C] hover:bg-[#A75D36] text-white px-7 py-3.5 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] shadow-sm hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-2.5 group cursor-pointer"
             >
               <Compass size={15} />
               <span>Kollektion entdecken</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </button>
-
-            <button
-              onClick={onShopCarpetsClick}
-              className="border border-[#69705A] text-[#43463D] hover:bg-[#69705A] hover:text-white px-7 py-4 text-xs tracking-[0.2em] font-medium uppercase rounded-[4px] transition-all duration-300 text-center cursor-pointer"
-            >
-              Teppiche ansehen
+              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
               onClick={onOpenKidsClick}
-              className="bg-[#FAF8F5]/90 hover:bg-[#E79685] hover:text-white text-[#2B2B2B] border border-[#E79685]/50 px-6 py-4 text-xs tracking-[0.15em] font-medium uppercase rounded-[4px] shadow-xs hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer group"
+              className="bg-white/90 hover:bg-[#E79685] hover:text-white text-[#2B2B2B] border border-[#E79685]/40 px-5 py-3.5 text-xs tracking-[0.15em] font-medium uppercase rounded-[4px] shadow-2xs hover:-translate-y-[2px] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer group"
             >
               <Sparkles size={14} className="text-[#E79685] group-hover:text-white transition-colors" />
-              <span>🧸 Zur Kinderwelt</span>
+              <span>🧸 Kinderwelt</span>
             </button>
           </div>
         </div>

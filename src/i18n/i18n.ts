@@ -4,7 +4,11 @@ import deTranslations from './locales/de.json';
 import enTranslations from './locales/en.json';
 
 const savedLanguage = typeof window !== 'undefined' ? localStorage.getItem('levina_language') : null;
-const initialLanguage = savedLanguage === 'en' || savedLanguage === 'de' ? savedLanguage : 'de';
+const initialLanguage = savedLanguage === 'en' ? 'en' : 'de';
+
+if (typeof window !== 'undefined') {
+  document.documentElement.lang = initialLanguage;
+}
 
 i18n
   .use(initReactI18next)
