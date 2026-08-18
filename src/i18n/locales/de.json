@@ -121,10 +121,10 @@
   },
   "parallax": {
     "badge": "Gute-Nacht-Geschichten & Zauber",
-    "quote1": "\"Wo sanfte Gute-Nacht-Träume",
-    "quoteHighlight": "auf den weichsten Wolken beginnen.\"",
-    "description": "Erleben Sie unseren interaktiven 3D-Konfigurator für Kinderzimmer. Ungefärbte Bio-Schurwolle aus Neuseeland für friedlichen Schlaf.",
-    "exploreStudio": "3D-Kinderzimmer-Studio öffnen"
+    "quote1": "„Wo sanfte Gute-Nacht-Träume",
+    "quoteHighlight": "auf den weichsten Wolken beginnen.“",
+    "description": "Jeder Levina Home Teppich wird aus reiner, schadstofffreier Bio-Schurwolle handgewebt. Beruhigende, kuschelweiche Texturen für Gute-Nacht-Geschichten und geborgene Familienmomente.",
+    "exploreStudio": "Kollektion entdecken"
   },
   "editorial": {
     "badge": "Sicher für kleine Entdecker",
@@ -161,19 +161,40 @@
   },
   "brandStory": {
     "badge": "Unsere Philosophie & Sichere Handwerkskunst",
-    "quote": "\"Wir glauben, dass jedes Kinderzimmer eine sanfte Oase sein sollte – natürlich weich, sicher zum Erkunden und voller Wunder.\"",
+    "quote": "„Sanfte Geborgenheit & sichere Wunder für kleine Entdecker.“",
+    "subtitle": "Schadstoffgeprüft mit wolkenweicher Polsterung für erste Schritte und große Träume.",
+    "tagToxicFree": "100% Schadstofffrei & Babysicher",
+    "tagOekoTex": "OEKO-TEX® Zertifiziert",
+    "tagCushioning": "Wolkenweiche Polsterung",
+    "tagNaturalWool": "Reine Bio-Schurwolle",
+    "tagZeroChemicals": "0% Chemiefarben",
+    "tagPlantWax": "Natürliches Pflanzenwachs",
     "pillar1Title": "100% Schadstofffreie Fasern",
-    "pillar1Desc": "Wir verwenden ungefärbte Neuseelandwolle, zertifiziertes Bio-Leinen und europäische Harthölzer mit kindersicherem Pflanzenwachs-Finish.",
+    "pillar1Desc": "Ungefärbte Bio-Wolle und speichelfeste Pflanzenwachse für maximale Sicherheit.",
     "pillar2Title": "Meisterhafte Handwebung",
-    "pillar2Desc": "Jeder Teppich wird wochenlang von Meisterhand getuftet mit extra dichter Polsterung, um Stürze sanft abzufedern.",
+    "pillar2Desc": "Extra dichte Polsterung federt erste Schritte und Stürze sanft ab.",
     "pillar3Title": "Wächst mit Ihrem Kind",
-    "pillar3Desc": "Zeitlose Formen und langlebige Fasern, die harmonisch vom Babyzimmer ins Schulkindzimmer übergehen."
+    "pillar3Desc": "Robuste, langlebige Fasern vom ersten Krabbeln bis zum Schulkindzimmer."
   },
   "collections": {
-    "badge": "Kuratierte Spielwelten",
-    "title": "Kinder- & Baby-Kollektionen",
-    "subtitle": "Frei von Chemikalien und synthetischen Farbstoffen. Reine, haptische Bio-Texturen für kleine Füße.",
-    "collection": "Kollektion"
+    "badge": "Zauberhafte Welten",
+    "title": "Entdecke Kinderteppiche",
+    "subtitle": "100% schadstoffgeprüft & kinderfreundlich für kuschelige Spiel- und Wohlfühlräume.",
+    "collection": "Kollektion",
+    "categories": {
+      "col-kids-1": {
+        "title": "Kinderteppiche & Spielwelten",
+        "tagline": "Lillifee, Felix, Sharky & T-Rex – 100% schadstoffgeprüft."
+      },
+      "col-kids-2": {
+        "title": "Babyfelle & Kuschelmatten",
+        "tagline": "100% naturbelassene Lammfelle, unvergleichlich weich & wärmend."
+      },
+      "col-kids-3": {
+        "title": "Bunte Kinder-Shaggys",
+        "tagline": "Kuscheliger Hochflor in fröhlichen Farben."
+      }
+    }
   },
   "instagram": {
     "badge": "@LEVINA.KIDS",
@@ -483,13 +504,20 @@
   },
   "generalBrandStory": {
     "badge": "Unsere Philosophie & Handwerkskunst",
-    "quote": "„Wir glauben, dass ein Zuhause Geborgenheit schenken sollte – natürlich, langlebig und voller Wärme.“",
+    "quote": "„Natürliche Geborgenheit, zeitlose Wärme & reine Handwerkskunst.“",
+    "subtitle": "Ethisch handgefertigt aus reiner Naturwolle mit meisterhafter Webtradition.",
+    "tagToxicFree": "100% Schadstofffrei & Rein",
+    "tagOekoTex": "OEKO-TEX® Zertifiziert",
+    "tagNaturalWool": "100% Reine Naturwolle",
+    "tagHandmade": "Meisterhafte Handarbeit",
+    "tagZeroChemicals": "0% Chemische Farbstoffe",
+    "tagHypoallergenic": "Natürlich Allergikerfreundlich",
     "pillar1Title": "100% Schadstofffrei",
-    "pillar1Desc": "Wir verwenden ungebleichte Naturwolle, OEKO-TEX® zertifizierte Textilien und geprüfte Naturmaterialien für ein gesundes Wohnklima.",
+    "pillar1Desc": "Ungebleichte Naturwolle und OEKO-TEX® Fasern für ein gesundes, reines Wohnklima.",
     "pillar2Title": "Traditionelle Handwerkskunst",
-    "pillar2Desc": "Jeder Teppich wird mit höchster Sorgfalt gewebt und geknüpft – für fühlbare Qualität, die Generationen überdauert.",
+    "pillar2Desc": "Mit höchster Sorgfalt von Hand gewebt und geknüpft für fühlbaren Luxus.",
     "pillar3Title": "Nachhaltig & Zeitlos",
-    "pillar3Desc": "Zeitlose Ästhetik statt kurzlebiger Trends: Langlebige Begleiter für anspruchsvolles, bewusstes Wohnen."
+    "pillar3Desc": "Ethische Naturmaterialien und zeitlose Ästhetik für bewusstes Wohnen."
   },
   "generalCatalog": {
     "title": "Kollektionen & Luxusteppiche",
@@ -508,5 +536,49 @@
     "badge": "Wohnwelten",
     "title": "Nach Wohnwelt Gestalten",
     "subtitle": "Harmonisch abgestimmte Teppiche, Naturfelle und Textilien für jeden Raum."
+  },
+  "generalCollections": {
+    "badge": "Ausgewählte Kollektionen",
+    "title": "Entdecke Kollektionen",
+    "subtitle": "Reine Naturfasern und geprüfte Textilien für ein gesundes, behagliches Zuhause.",
+    "collection": "Kollektion",
+    "categories": {
+      "col-gen-1": {
+        "title": "Handgewebte Luxusteppiche",
+        "tagline": "Gefertigt aus 100% Bio-Schurwolle und edlen Naturfasern."
+      },
+      "col-gen-2": {
+        "title": "Echte Naturfelle & Lammfelle",
+        "tagline": "100% naturbelassene Lamm- und Rinderfelle für wohligen Komfort."
+      },
+      "col-gen-3": {
+        "title": "Shaggy Hochflor-Teppiche",
+        "tagline": "Kuschelweicher Hochflor in eleganten Farbnuancen."
+      },
+      "col-gen-4": {
+        "title": "Moderne Wohnteppiche",
+        "tagline": "Organische Webstrukturen und harmonische Naturtöne."
+      }
+    }
+  },
+  "generalInstagram": {
+    "badge": "ECHTE WOHNOASEN & STORIES",
+    "title": "Inspiration aus echten Wohnoasen",
+    "subtitle": "Erfahre, wie achtsames Wohndesign und Naturteppiche echte Wohnräume in Oasen der Ruhe verwandeln.",
+    "readStory": "Story lesen",
+    "readArticle": "Wohnoasen-Journal entdecken",
+    "journalHeader": "Sanctuary Home Tour & Wohndesign-Journal",
+    "curatedBy": "Kuriert von",
+    "location": "Ort",
+    "readTime": "Lesezeit",
+    "spaceStory": "Die Raumgeschichte & Raumvision",
+    "materialNotes": "Fühlbare Haptik & Raumakustik",
+    "proTips": "Styling-Tipps der Einrichtungsexperten",
+    "colorPalette": "Farbharmonie & Nuancen",
+    "featuredArtisanPiece": "Ausgewähltes Meisterstück in diesem Zuhause",
+    "viewProduct": "Teppichdetails & Manufaktur ansehen",
+    "shareStory": "Story teilen",
+    "storyCopied": "Link zur Wohnoasen-Story kopiert!",
+    "close": "Journal schließen"
   }
 }

@@ -16,7 +16,7 @@ export const Newsletter: React.FC = () => {
   };
 
   return (
-    <section className="py-24 bg-[#FDFBF7] border-b border-[#EDE6DC]">
+    <section className="py-24 bg-[#FAF8F5]">
       <div className="max-w-[850px] mx-auto px-6 text-center space-y-6 animate-fade-up bg-white p-8 sm:p-12 rounded-3xl border-2 border-dashed border-[#8EBBB0]/40 shadow-pillowy">
         <span className="text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-semibold bg-[#8EBBB0]/15 px-4 py-1.5 rounded-full inline-flex items-center gap-1.5">
           <Sparkles size={13} />

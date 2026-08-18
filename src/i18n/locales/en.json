@@ -123,8 +123,8 @@
     "badge": "Storytime & Bedtime Magic",
     "quote1": "\"Where gentle bedtime dreams",
     "quoteHighlight": "begin on the softest clouds.\"",
-    "description": "Experience our interactive 3D spatial customizer designed for kids' rooms and nurseries. Un-dyed New Zealand organic wool loomed for sweet slumbers.",
-    "exploreStudio": "Explore 3D Nursery Studio"
+    "description": "Every Levina Home carpet is hand-loomed with pure, non-toxic organic wool washed solely in fresh mountain spring waters. Soft, soothing textures crafted for bedtime stories and cozy family moments.",
+    "exploreStudio": "Discover Bedtime Collection"
   },
   "editorial": {
     "badge": "Safe for Little Explorers",
@@ -161,19 +161,40 @@
   },
   "brandStory": {
     "badge": "Our Philosophy & Safe Craftsmanship",
-    "quote": "\"We believe every nursery should be a gentle haven—naturally soft, safe to explore, and full of wonder.\"",
+    "quote": "\"Gentle comfort & safe wonder for little explorers.\"",
+    "subtitle": "Pure organic fibers and cloud-soft cushioning designed for every tumble and dream.",
+    "tagToxicFree": "100% Toxic-Free & Baby-Safe",
+    "tagOekoTex": "OEKO-TEX® Certified",
+    "tagCushioning": "Cloud-Soft Cushioning",
+    "tagNaturalWool": "Pure Organic Wool",
+    "tagZeroChemicals": "0% Chemical Dyes",
+    "tagPlantWax": "Plant-Based Wax Finish",
     "pillar1Title": "100% Non-Toxic Fibers",
-    "pillar1Desc": "We source un-dyed New Zealand wool, certified organic flax linens, and European hardwoods coated with child-safe vegetable wax.",
+    "pillar1Desc": "Un-dyed organic wool and plant-based finishes safe for curious hands and mouths.",
     "pillar2Title": "Master Hand-Loomers",
-    "pillar2Desc": "Every rug is hand-tufted over weeks by master artisans, embedding high-density cushioning to soften every toddler tumble.",
+    "pillar2Desc": "High-density cushioning hand-tufted to gently soften every toddler tumble.",
     "pillar3Title": "Made to Grow Up With",
-    "pillar3Desc": "Timeless shapes and durable fibers that transition seamlessly from baby nursery to creative big-kid playrooms."
+    "pillar3Desc": "Timeless, durable fibers designed to transition gracefully through every childhood stage."
   },
   "collections": {
     "badge": "Curated Play Spaces",
     "title": "Kids & Nursery Collections",
-    "subtitle": "Zero chemicals or synthetic dyes. Pure, organic tactile textures crafted for little feet.",
-    "collection": "Collection"
+    "subtitle": "100% certified non-toxic & child-safe for cozy playrooms and gentle comfort.",
+    "collection": "Collection",
+    "categories": {
+      "col-kids-1": {
+        "title": "Kids Rugs & Play Worlds",
+        "tagline": "Whimsical motifs & 100% certified child-safe materials."
+      },
+      "col-kids-2": {
+        "title": "Baby Sheepskins & Snuggle Mats",
+        "tagline": "100% natural un-dyed sheepskin, incomparably soft and warm."
+      },
+      "col-kids-3": {
+        "title": "Playful Kids Shaggies",
+        "tagline": "Plush, cloud-soft high pile in cheerful pastel colors."
+      }
+    }
   },
   "instagram": {
     "badge": "@LEVINA.KIDS",
@@ -483,13 +504,20 @@
   },
   "generalBrandStory": {
     "badge": "Our Philosophy & Craftsmanship",
-    "quote": "\"We believe that a home should offer sanctuary – natural, enduring, and full of warmth.\"",
+    "quote": "\"Natural sanctuary, timeless warmth & pure enduring comfort.\"",
+    "subtitle": "Ethically hand-crafted with 100% natural wool and master weaving tradition.",
+    "tagToxicFree": "100% Toxic-Free & Pure",
+    "tagOekoTex": "OEKO-TEX® Certified",
+    "tagNaturalWool": "100% Organic Wool",
+    "tagHandmade": "Artisan Hand-Knotted",
+    "tagZeroChemicals": "0% Chemical Dyes",
+    "tagHypoallergenic": "Naturally Hypoallergenic",
     "pillar1Title": "100% Non-Toxic",
-    "pillar1Desc": "We use unbleached natural wool, OEKO-TEX® certified textiles, and verified natural materials for a healthy indoor atmosphere.",
-    "pillar2Title": "Traditional Craftsmanship",
-    "pillar2Desc": "Every carpet is woven and knotted with utmost care—for tactile quality that lasts across generations.",
+    "pillar1Desc": "Unbleached natural wool and OEKO-TEX® certified fibers for a pure, healthy home.",
+    "pillar2Title": "Master Craftsmanship",
+    "pillar2Desc": "Handwoven and knotted with generational mastery for enduring tactile luxury.",
     "pillar3Title": "Sustainable & Timeless",
-    "pillar3Desc": "Timeless aesthetics over fleeting trends: Enduring companions for conscious, refined living."
+    "pillar3Desc": "Ethically sourced natural fibers crafted for conscious, lifelong living."
   },
   "generalCatalog": {
     "title": "Collections & Luxury Carpets",
@@ -508,5 +536,49 @@
     "badge": "Living Sanctuaries",
     "title": "Shop by Living Space",
     "subtitle": "Harmoniously coordinated carpets, natural hides, and textiles for every room."
+  },
+  "generalCollections": {
+    "badge": "Featured Collections",
+    "title": "Explore Collections",
+    "subtitle": "Pure natural fibers and certified textiles for a healthy, serene home.",
+    "collection": "Collection",
+    "categories": {
+      "col-gen-1": {
+        "title": "Handwoven Luxury Carpets",
+        "tagline": "Crafted from 100% organic wool and noble natural fibers."
+      },
+      "col-gen-2": {
+        "title": "Genuine Natural Hides & Sheepskins",
+        "tagline": "100% natural lambskin and cowhide for warm tactile comfort."
+      },
+      "col-gen-3": {
+        "title": "Shaggy High-Pile Rugs",
+        "tagline": "Ultra-soft plush high pile in sophisticated earthy tones."
+      },
+      "col-gen-4": {
+        "title": "Modern Living Rugs",
+        "tagline": "Organic woven textures and harmonious natural hues."
+      }
+    }
+  },
+  "generalInstagram": {
+    "badge": "LIVING SANCTUARY STORIES",
+    "title": "Inspiration from Real Sanctuaries",
+    "subtitle": "Discover how mindful interior design and organic wool carpets transform real homes into serene sanctuaries.",
+    "readStory": "Read Sanctuary Story",
+    "readArticle": "Explore Sanctuary Journal",
+    "journalHeader": "Sanctuary Home Tour & Design Journal",
+    "curatedBy": "Curated by",
+    "location": "Location",
+    "readTime": "Read Time",
+    "spaceStory": "The Space Story & Vision",
+    "materialNotes": "Tactile & Acoustic Experience",
+    "proTips": "Curator's Pro Styling Advice",
+    "colorPalette": "Color Harmony & Swatches",
+    "featuredArtisanPiece": "Featured Artisan Piece in this Home",
+    "viewProduct": "Explore Carpet Details",
+    "shareStory": "Share Story",
+    "storyCopied": "Sanctuary story link copied!",
+    "close": "Close Journal"
   }
 }

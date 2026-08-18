@@ -37,12 +37,29 @@ export interface Product {
   availableMaterials: string[];
   sizes: string[];
   colors: { name: string; hex: string }[];
+  brandCategory?: string;
+  brandLogo?: string;
   roomCategory: 'bedroom' | 'living-room' | 'dining' | 'office' | 'kids' | string;
   description: string;
   careInstructions: string[];
   shippingInfo: string;
   stockInfo?: ProductStockInfo;
   deliveryInfo?: ProductDeliveryInfo;
+}
+
+export interface BrandCategory {
+  id: string;
+  slug: string;
+  name: string;
+  nameEn?: string;
+  logo: string;
+  image: string;
+  tagline: string;
+  taglineEn?: string;
+  description: string;
+  descriptionEn?: string;
+  themeColor: string;
+  itemCount: number;
 }
 
 export interface CartItem {
@@ -73,13 +90,32 @@ export interface ShopRoom {
   section?: 'general' | 'kids';
 }
 
+export interface ColorSwatch {
+  name: string;
+  hex: string;
+}
+
 export interface InstagramPost {
   id: string;
   image: string;
   title: string;
+  titleEn?: string;
   roomName: string;
+  roomNameEn?: string;
   likes: number;
   taggedProducts: Product[];
+  curator?: string;
+  location?: string;
+  readTime?: string;
+  storyDe?: string;
+  storyEn?: string;
+  quoteDe?: string;
+  quoteEn?: string;
+  acousticNotesDe?: string;
+  acousticNotesEn?: string;
+  stylingTipDe?: string;
+  stylingTipEn?: string;
+  palette?: ColorSwatch[];
 }
 
 export interface User {

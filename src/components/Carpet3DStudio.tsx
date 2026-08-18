@@ -756,7 +756,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
   // Full Skeleton / Loader State while products are fetching (only if no products exist yet)
   if (isLoading && carpetProducts.length === 0) {
     return (
-      <section id="carpet-3d-studio" className="py-20 sm:py-28 bg-[#FDFBF7] border-b border-[#EDE6DC] overflow-hidden">
+    <section id="carpet-3d-studio" className="py-20 sm:py-28 bg-[#FAF8F5] overflow-hidden">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-8">
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-bold mb-2 bg-[#8EBBB0]/15 px-3.5 py-1 rounded-full">
             <RefreshCw size={13} className="animate-spin text-[#8EBBB0]" />
@@ -794,7 +794,7 @@ export const Carpet3DStudio: React.FC<Carpet3DStudioProps> = ({
   }
 
   return (
-    <section id="carpet-3d-studio" className="py-20 sm:py-28 bg-[#FDFBF7] border-b border-[#EDE6DC] overflow-hidden">
+    <section id="carpet-3d-studio" className="py-20 sm:py-28 bg-[#FAF8F5] overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-semibold mb-2 bg-[#8EBBB0]/15 px-3.5 py-1 rounded-full">

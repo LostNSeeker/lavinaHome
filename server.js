@@ -652,6 +652,59 @@ async function syncPlentyoneCatalog() {
         ];
       }
 
+      let brandCategory = 'shaggy';
+      let brandLogo = '/text_levinaHome.png';
+
+      if (titleLower.includes('lillifee') || skuLower.includes('lk-401') || skuLower.includes('lk-402')) {
+        brandCategory = 'lillifee';
+        brandLogo = '/Logo_jpg_Lillifee.jpg';
+      } else if (titleLower.includes('felix') || skuLower.includes('lk-404') || skuLower.includes('lk-407')) {
+        brandCategory = 'felix';
+        brandLogo = '/Logo_jpg_Felix.jpg';
+      } else if (titleLower.includes('sharky') || skuLower.includes('lk-408')) {
+        brandCategory = 'sharky';
+        brandLogo = '/Logo_jpg_Sharky.jpg';
+      } else if (titleLower.includes('sieben') || skuLower.includes('lk-409')) {
+        brandCategory = 'die-lieben-sieben';
+        brandLogo = '/Logo_jpg_DL7.jpg';
+      } else if (titleLower.includes('pferd') || skuLower.includes('lk-411') || skuLower.includes('pf-')) {
+        brandCategory = 'pferdefreunde';
+        brandLogo = '/Logo_Pferdefreunde_zweizeilig.jpg';
+      } else if (titleLower.includes('glück') || skuLower.includes('lk-415') || skuLower.includes('lk-416') || skuLower.includes('bg-710') || skuLower.includes('bg-711') || skuLower.includes('bg-712') || skuLower.includes('bg-713')) {
+        brandCategory = 'baby-glueck';
+        brandLogo = '/Logo_jpg_Baby-Glueck.jpg';
+      } else if (titleLower.includes('t-rex') || skuLower.includes('lk-410')) {
+        brandCategory = 't-rex-world';
+        brandLogo = '/Logo_T-Rex-World.png';
+      } else if (titleLower.includes('rock star') || skuLower.includes('bg-715') || skuLower.includes('rsb')) {
+        brandCategory = 'rock-star-baby';
+        brandLogo = '/RSB LOGO .jpg';
+      } else if (titleLower.includes('bc kids') || skuLower.includes('bc-')) {
+        brandCategory = 'bc-kids';
+        brandLogo = '/Logo_BC_Kids.jpg';
+      } else if (titleLower.includes('mondbär') || titleLower.includes('mondbaer') || skuLower.includes('bg-714') || skuLower.includes('mb-')) {
+        brandCategory = 'mondbaer';
+        brandLogo = '/Logo_jpg_Mondbaer.jpg';
+      } else if (titleLower.includes('pummel') || titleLower.includes('einhorn')) {
+        brandCategory = 'pummeleinhorn';
+        brandLogo = '/Logo Levinahome Kids.png';
+      } else if (titleLower.includes('grimm') || skuLower.includes('grm-')) {
+        brandCategory = 'grimmliis';
+        brandLogo = '/favicon.svg';
+      } else if (titleLower.includes('garden') || skuLower.includes('ga-')) {
+        brandCategory = 'spiegelburg-garden';
+        brandLogo = '/Logo_Pferdefreunde_zweizeilig.jpg';
+      } else if (titleLower.includes('lovely') || skuLower.includes('lk-')) {
+        brandCategory = 'lovely-kids';
+        brandLogo = '/Logo Levinahome Kids.png';
+      } else if (isFell || titleLower.includes('flokati') || skuLower.includes('fe-')) {
+        brandCategory = 'flokati';
+        brandLogo = '/Levina_home_logo.png';
+      } else {
+        brandCategory = 'shaggy';
+        brandLogo = '/text_levinaHome.png';
+      }
+
       const defaultDescription = isFell 
         ? (titleLower.includes('rinder') ? 'Exklusives, naturbelassenes Rinderfell mit seidigem Glanz und unverwechselbarer natürlicher Zeichnung. Jedes Stück ist ein einzigartiges Unikat der Natur.' : 'Samtweiches, echtes Natur-Lammfell für unvergleichliche Gemütlichkeit und wohlige Wärme im Baby- und Wohnbereich.')
         : isShaggy 
@@ -670,6 +723,8 @@ async function syncPlentyoneCatalog() {
         name: cleanTitle,
         section: section,
         category: category,
+        brandCategory: brandCategory,
+        brandLogo: brandLogo,
         categoryLabel: categoryLabel,
         price: salesPrice,
         originalPrice: originalPrice,

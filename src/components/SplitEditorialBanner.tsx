@@ -192,7 +192,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
       <section
         ref={sectionRef}
         id="manufaktur-story"
-        className="relative bg-[#FAF8F5] border-b border-[#ECE8E2]"
+        className="relative bg-[#FAF8F5]"
         style={{ height: '320vh' }}
       >
         {/* Sticky Viewport Container: Pinned throughout the 320vh scroll track */}
@@ -440,7 +440,7 @@ export const SplitEditorialBanner: React.FC<SplitEditorialBannerProps> = ({
 
   // Kids Sanctuary Story
   return (
-    <section className="py-24 bg-[#FDFBF7] overflow-hidden border-b border-[#EDE6DC]">
+    <section className="py-24 bg-[#FAF8F5] overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           

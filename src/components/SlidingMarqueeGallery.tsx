@@ -17,7 +17,7 @@ export const SlidingMarqueeGallery: React.FC<SlidingMarqueeGalleryProps> = ({
   const marqueeItems = [...products, ...products, ...products];
 
   return (
-    <section className="py-20 bg-[#FDFBF7] overflow-hidden border-b border-[#EDE6DC]">
+    <section className="py-20 bg-[#FAF8F5] overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-8 text-center space-y-2">
         <span className="text-xs uppercase tracking-[0.25em] text-[#8EBBB0] font-semibold block bg-[#8EBBB0]/15 w-fit mx-auto px-3.5 py-1 rounded-full">
           {t('marquee.badge')}
@@ -30,8 +30,8 @@ export const SlidingMarqueeGallery: React.FC<SlidingMarqueeGalleryProps> = ({
       {/* Infinite Horizontal Sliding Marquee */}
       <div className="relative w-full overflow-hidden flex py-4">
         {/* Gradient Edges */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#FDFBF7] to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#FDFBF7] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#FAF8F5] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#FAF8F5] to-transparent z-10 pointer-events-none" />
 
         <div className="flex gap-6 animate-[marquee_90s_linear_infinite] hover:[animation-play-state:paused] shrink-0">
           {marqueeItems.map((prod, index) => (
