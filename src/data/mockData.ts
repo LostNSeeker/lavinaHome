@@ -12,18 +12,18 @@ export const GENERAL_COLLECTIONS: CollectionCategory[] = [
   },
   {
     id: 'col-gen-2',
-    title: 'Minimalist Accent Rugs',
-    tagline: 'Organic geometry meets Scandinavian warmth.',
-    description: 'Low-pile hand-knotted accent rugs perfect for entryways, living spaces, and study rooms.',
+    title: 'Moderne Akzent-Teppiche',
+    tagline: 'Organische Formen treffen auf wohlige Gemütlichkeit.',
+    description: 'Flachflor- und Handwebteppiche, ideal für Wohnzimmer, Flur und Arbeitsbereiche.',
     image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?q=80&w=1200&auto=format&fit=crop',
     categorySlug: 'rugs',
     section: 'general'
   },
   {
     id: 'col-gen-3',
-    title: 'Bespoke Wooden Furniture',
-    tagline: 'Solid oak, ash, and hand-sanded linen upholstery.',
-    description: 'Timeless seating and sculptural wooden tables built by Scandinavian artisans.',
+    title: 'Handgefertigte Holzmöbel',
+    tagline: 'Massive Eiche, Esche und feine Leinenpolsterung.',
+    description: 'Zeitlose Sitzmöbel und skulpturale Holztische von Meisterhand gefertigt.',
     image: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=1200&auto=format&fit=crop',
     categorySlug: 'furniture',
     section: 'general'
@@ -48,9 +48,9 @@ export const GENERAL_COLLECTIONS: CollectionCategory[] = [
   },
   {
     id: 'col-gen-6',
-    title: 'Scandinavian Kitchen & Dining',
-    tagline: 'Stoneware, olive wood boards, and linen table wraps.',
-    description: 'Understated tableware for intimate dinners and cozy morning rituals.',
+    title: 'Küche & Essbereich',
+    tagline: 'Steingut, Olivenholz-Bretter und Leinen-Tischwäsche.',
+    description: 'Edles Tischgeschirr für gemeinsame Abendessen und gemütliche Morgenstunden.',
     image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200&auto=format&fit=crop',
     categorySlug: 'kitchen',
     section: 'general'
@@ -257,7 +257,7 @@ export const GENERAL_PRODUCTS: Product[] = [
       { name: 'Desert Sand', hex: '#D9C5A7' }
     ],
     roomCategory: 'bedroom',
-    description: 'Inspired by Scandinavian archipelagos, the Malmö Accent Rug weaves rich terracotta tones into a low-pile organic structure that warms any hardwood floor.',
+    description: 'Der Malmö Akzentteppich vereint warme Terrakotta-Töne mit einer flach gewebten Struktur für jedes Parkett.',
     careInstructions: [
       'Rotate every 6 months to ensure even wear.',
       'Do not pull loose ends; clip carefully with scissors.'

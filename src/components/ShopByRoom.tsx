@@ -39,16 +39,16 @@ export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, storeMode = 'gene
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-            {storeMode === 'kids' ? t('shopByRoom.badge', 'Kinderzimmer Styling') : 'Curated Spaces'}
+            {storeMode === 'kids' ? t('shopByRoom.badge', 'Kinderzimmer Styling') : 'Wohnwelten'}
           </span>
           <h2 className="font-serif text-3xl md:text-5xl font-normal text-[#2B2B2B]">
-            {storeMode === 'kids' ? t('shopByRoom.title', 'Nach Raum Gestalten') : 'Shop by Room Sanctuary'}
+            {storeMode === 'kids' ? t('shopByRoom.title', 'Nach Raum Gestalten') : 'Nach Wohnwelt Gestalten'}
           </h2>
         </div>
         <p className="text-xs text-[#666666] tracking-widest uppercase max-w-xs font-light">
           {storeMode === 'kids'
-            ? t('shopByRoom.subtitle', 'Harmonized cloud rugs, toddler seating, and organic textiles.')
-            : 'Harmonized wool carpets, sculpted seating, and tactile accessories for every room.'}
+            ? t('shopByRoom.subtitle', 'Harmonisch abgestimmte Wolkenteppiche, Spielmöbel und Bio-Textilien.')
+            : 'Harmonisch abgestimmte Teppiche, Naturfelle und Textilien für jeden Raum.'}
         </p>
       </div>
 
@@ -76,7 +76,7 @@ export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, storeMode = 'gene
               {/* Card Overlay Text */}
               <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
                 <span className="text-[10px] tracking-wider uppercase text-[#D9C5A7] font-medium block">
-                  {t('shopByRoom.roomInspiration', 'Room Inspiration')}
+                  {t('shopByRoom.roomInspiration', 'Raum-Inspiration')}
                 </span>
                 <h3 className="font-serif text-2xl md:text-3xl font-normal group-hover:text-[#B96A3C] transition-colors">
                   {getRoomName(room)}
@@ -86,7 +86,7 @@ export const ShopByRoom: React.FC<ShopByRoomProps> = ({ rooms, storeMode = 'gene
                 </p>
 
                 <div className="pt-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-[#D9C5A7] group-hover:text-[#B96A3C] group-hover:translate-x-1 transition-all">
-                  <span>{t('shopByRoom.exploreRoom', 'Explore Room')}</span>
+                  <span>{t('shopByRoom.exploreRoom', 'Raum entdecken')}</span>
                   <ArrowRight size={14} />
                 </div>
               </div>

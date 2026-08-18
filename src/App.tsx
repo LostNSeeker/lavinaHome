@@ -421,16 +421,16 @@ export function App() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-8 border-b border-[#ECE8E2]">
                   <div>
                     <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-                      Curated Collections &amp; Carpets
+                      Kollektionen &amp; Teppiche
                     </span>
                     <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#2B2B2B] capitalize">
                       {activeTag
                         ? activeTag
                         : activeRoom
-                        ? `Room: ${activeRoom}`
+                        ? `Raum: ${activeRoom}`
                         : activeCategory !== 'all'
-                        ? `${activeCategory} Collection`
-                        : 'Collections & Carpets'}
+                        ? `${activeCategory === 'carpets' ? 'Kinderteppiche' : activeCategory === 'naturfelle' ? 'Naturfelle' : activeCategory} Kollektion`
+                        : 'Kollektionen & Teppiche'}
                     </h2>
                   </div>
 
@@ -446,7 +446,7 @@ export function App() {
                       }}
                       className="text-xs uppercase tracking-[0.2em] font-medium text-[#B96A3C] hover:underline cursor-pointer flex items-center gap-1.5"
                     >
-                      <span>Reset all filters &times;</span>
+                      <span>Filter zurücksetzen &times;</span>
                     </button>
                   )}
                 </div>
@@ -456,7 +456,7 @@ export function App() {
                   <div className="flex items-center gap-2">
                     <SlidersHorizontal size={14} className="text-[#69705A]" />
                     <span className="font-medium uppercase tracking-wider text-[#2B2B2B]">
-                      Showing {Math.min(visibleCatalogCount, displayedProducts.length)} of {displayedProducts.length} Items
+                      Zeige {Math.min(visibleCatalogCount, displayedProducts.length)} von {displayedProducts.length} Artikeln
                     </span>
                   </div>
 
@@ -470,7 +470,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      All Materials
+                      Alle Materialien
                     </button>
                     <button
                       onClick={() => setSelectedMaterialFilter('wool')}
@@ -480,7 +480,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      Pure Wool
+                      100% Bio-Wolle
                     </button>
                     <button
                       onClick={() => setSelectedMaterialFilter('shaggy')}
@@ -490,7 +490,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      Plush Shaggy
+                      Kuschel-Shaggy
                     </button>
                     <button
                       onClick={() => setSelectedMaterialFilter('fell')}
@@ -500,7 +500,7 @@ export function App() {
                           : 'bg-[#EFE7DC] text-[#666666] hover:text-[#2B2B2B]'
                       }`}
                     >
-                      Naturfell
+                      Echtes Naturfell
                     </button>
                   </div>
                 </div>
@@ -509,7 +509,7 @@ export function App() {
                 {displayedProducts.length === 0 ? (
                   <div className="text-center py-20 bg-white/70 rounded-[2px] border border-[#ECE8E2] p-8 space-y-4">
                     <p className="text-base text-[#666666] font-light">
-                      No products match your selected filters in this section.
+                      Keine Artikel für die gewählten Filter gefunden.
                     </p>
                     <button
                       onClick={() => {
@@ -520,7 +520,7 @@ export function App() {
                       }}
                       className="px-6 py-2.5 bg-[#B96A3C] text-white text-xs uppercase tracking-widest rounded-[2px] hover:bg-[#A75D36] transition-colors cursor-pointer"
                     >
-                      Show All Catalog Items
+                      Alle Artikel anzeigen
                     </button>
                   </div>
                 ) : (
@@ -608,7 +608,7 @@ export function App() {
                               onClick={() => handleQuickAdd(product)}
                               className="text-xs text-[#B96A3C] hover:text-[#505744] font-medium uppercase tracking-wider cursor-pointer hover:underline"
                             >
-                              + Quick Add
+                              + Schnellkauf
                             </button>
                           </div>
                         </div>
@@ -624,7 +624,7 @@ export function App() {
                       onClick={() => setVisibleCatalogCount((prev) => prev + 8)}
                       className="px-8 py-3.5 bg-[#2B2B2B] hover:bg-[#505744] text-white text-xs uppercase tracking-[0.2em] font-medium rounded-[2px] transition-all cursor-pointer"
                     >
-                      Load More Pieces ({displayedProducts.length - visibleCatalogCount} remaining)
+                      Weitere Artikel laden ({displayedProducts.length - visibleCatalogCount} verbleibend)
                     </button>
                   </div>
                 )}

@@ -60,23 +60,23 @@ export const BrandStory: React.FC<BrandStoryProps> = ({ storeMode = 'general' })
     );
   }
 
-  // General Storefront Scandinavian Story
+  // Allgemeine Levina Home Manufaktur-Philosophie
   return (
     <section id="brand-story" className="py-32 bg-[#FAF8F5] border-b border-[#ECE8E2]">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 text-center space-y-12">
         <span className="text-xs uppercase tracking-[0.4em] text-[#69705A] font-medium block">
-          Our Philosophy &amp; Craftsmanship
+          Unsere Philosophie &amp; Handwerkskunst
         </span>
 
         <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal text-[#2B2B2B] leading-[1.25] max-w-4xl mx-auto">
-          &ldquo;We believe a home should feel like a sanctuary—quiet, enduring, and rooted in natural harmony.&rdquo;
+          &ldquo;Wir glauben, dass ein Zuhause Geborgenheit schenken sollte – natürlich, langlebig und voller Wärme.&rdquo;
         </h2>
 
         {/* Minimal Hero Lifestyle Photography */}
         <div className="relative aspect-[16/9] max-w-5xl mx-auto overflow-hidden rounded-[2px] bg-[#EFE7DC] shadow-xs my-12">
           <img
             src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1600&auto=format&fit=crop"
-            alt="Levina Home Scandinavian interior studio"
+            alt="Levina Home Teppich &amp; Interior Manufaktur"
             className="w-full h-full object-cover object-center transition-transform duration-1000 hover:scale-105"
             loading="lazy"
           />
@@ -87,22 +87,22 @@ export const BrandStory: React.FC<BrandStoryProps> = ({ storeMode = 'general' })
             <div className="w-10 h-10 rounded-full bg-[#69705A]/10 flex items-center justify-center text-[#69705A] mb-3">
               <Compass size={20} />
             </div>
-            <h3 className="font-serif text-xl text-[#2B2B2B] font-normal mb-2">Sustainable Fibers</h3>
-            <p>We source un-bleached New Zealand wool, organic flax linens, and certified European hardwoods harvested with environmental stewardship.</p>
+            <h3 className="font-serif text-xl text-[#2B2B2B] font-normal mb-2">100% Schadstofffrei</h3>
+            <p>Wir verwenden ungebleichte Naturwolle, OEKO-TEX® zertifizierte Textilien und geprüfte Naturmaterialien für ein gesundes Wohnklima.</p>
           </div>
           <div className="p-6 bg-white/70 rounded-[2px] border border-[#ECE8E2]">
             <div className="w-10 h-10 rounded-full bg-[#B96A3C]/10 flex items-center justify-center text-[#B96A3C] mb-3">
               <Heart size={20} />
             </div>
-            <h3 className="font-serif text-xl text-[#2B2B2B] font-normal mb-2">Generational Weavers</h3>
-            <p>Every rug is hand-loomed over weeks by master weavers who pass down traditional knotting techniques across generations.</p>
+            <h3 className="font-serif text-xl text-[#2B2B2B] font-normal mb-2">Traditionelle Handwerkskunst</h3>
+            <p>Jeder Teppich wird mit höchster Sorgfalt gewebt und geknüpft – für fühlbare Qualität, die Generationen überdauert.</p>
           </div>
           <div className="p-6 bg-white/70 rounded-[2px] border border-[#ECE8E2]">
             <div className="w-10 h-10 rounded-full bg-[#69705A]/10 flex items-center justify-center text-[#69705A] mb-3">
               <ShieldCheck size={20} />
             </div>
-            <h3 className="font-serif text-xl text-[#2B2B2B] font-normal mb-2">Timeless Longevity</h3>
-            <p>Designed to age gracefully alongside your memories. Free from chemical finishes, synthetic dyes, or transient trends.</p>
+            <h3 className="font-serif text-xl text-[#2B2B2B] font-normal mb-2">Langlebigkeit &amp; Qualität</h3>
+            <p>Gefertigt, um Ihr Leben über viele Jahre zu begleiten. Ohne schädliche Chemie oder flüchtige Trends.</p>
           </div>
         </div>
       </div>

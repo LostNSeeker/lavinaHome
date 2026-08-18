@@ -22,16 +22,16 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           <span className="text-xs uppercase tracking-[0.3em] text-[#69705A] font-medium block mb-2">
-            {storeMode === 'kids' ? t('collections.badge', 'Zauberhafte Welten') : 'Curated Spaces'}
+            {storeMode === 'kids' ? t('collections.badge', 'Zauberhafte Welten') : 'Ausgewählte Kollektionen'}
           </span>
           <h2 className="font-serif text-3xl md:text-5xl font-normal text-[#2B2B2B]">
-            {storeMode === 'kids' ? t('collections.title', 'Entdecke Kinderteppiche') : 'Featured Collections'}
+            {storeMode === 'kids' ? t('collections.title', 'Entdecke Kinderteppiche') : 'Entdecke Kollektionen'}
           </h2>
         </div>
         <p className="text-xs text-[#666666] tracking-widest uppercase max-w-xs font-light">
           {storeMode === 'kids'
-            ? '100% schadstoffgeprüft & kinderfreundlich loomed for cozy play spaces.'
-            : 'No synthetic fillers. Only pure organic textures designed for timeless interiors.'}
+            ? '100% schadstoffgeprüft & kinderfreundlich für kuschelige Spiel- und Wohlfühlräume.'
+            : 'Reine Naturfasern und geprüfte Textilien für ein gesundes, behagliches Zuhause.'}
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export const FeaturedCollections: React.FC<FeaturedCollectionsProps> = ({
               {/* Text Info */}
               <div>
                 <span className="text-[10px] tracking-[0.25em] uppercase text-[#8B8B8B] font-medium block mb-1">
-                  Collection
+                  Kollektion
                 </span>
                 <h3 className="font-serif text-2xl text-[#2B2B2B] group-hover:text-[#B96A3C] transition-colors mb-1">
                   {item.title}
