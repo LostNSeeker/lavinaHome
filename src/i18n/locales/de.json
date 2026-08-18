@@ -51,7 +51,16 @@
     "dimensionsTitle": "Raummaße:",
     "width": "Breite",
     "length": "Länge",
-    "orderButton": "3D-Teppich bestellen — {{price}}"
+    "orderButton": "3D-Teppich bestellen — {{price}}",
+    "detailsTitle": "3. Handwerks-Details & Haptik",
+    "fringeTitle": "Fransen & Tassels (Kettfäden)",
+    "fringeDesc": "Echte lose Fransen an den Enden",
+    "sergingTitle": "Kettelung & Serging (Schutzkante)",
+    "sergingDesc": "Dicht umwickelte Bordüre",
+    "sproutingTitle": "Flor-Sprouting & Fluffing",
+    "sproutingDesc": "Fühlbare 3D-Wollfasern & Mikroflusen",
+    "enabled": "Aktiv",
+    "disabled": "Aus"
   },
   "bestSellers": {
     "badge": "Von Eltern am meisten geliebt",

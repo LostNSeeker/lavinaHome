@@ -51,7 +51,16 @@
     "dimensionsTitle": "Room Dimensions:",
     "width": "Width",
     "length": "Length",
-    "orderButton": "Order 3D Carpet — {{price}}"
+    "orderButton": "Order 3D Carpet — {{price}}",
+    "detailsTitle": "3. Artisan Detailing & Tactility",
+    "fringeTitle": "Fringe & Tassels (Warp Threads)",
+    "fringeDesc": "Authentic exposed warp threads on ends",
+    "sergingTitle": "Binding & Serging (Whipping)",
+    "sergingDesc": "Heavy protective yarn-wrapped border",
+    "sproutingTitle": "Fluffing & Sprouting",
+    "sproutingDesc": "Tactile 3D wool fibers & micro-shedding",
+    "enabled": "Enabled",
+    "disabled": "Off"
   },
   "bestSellers": {
     "badge": "Most Loved by Parents",
