@@ -35,17 +35,20 @@ import { useTranslation } from 'react-i18next';
 
 // Helper to distinguish kids-specific products from luxury general products
 export const isKidsProduct = (p: Product): boolean => {
-  const nameLower = (p.name || '').toLowerCase();
+  if (p.section === 'kids') return true;
+  if (p.section === 'general') return false;
+
   const idLower = (p.id || '').toLowerCase();
-  const descLower = (p.description || '').toLowerCase();
-  const catLabelLower = (p.categoryLabel || '').toLowerCase();
+  const skuLower = (p.sku || '').toLowerCase();
+  const nameLower = (p.name || '').toLowerCase();
 
   return (
-    p.section === 'kids' ||
     idLower.startsWith('lk-') ||
     idLower.startsWith('bg-') ||
     idLower.startsWith('bc-') ||
-    catLabelLower.includes('kinder') ||
+    skuLower.startsWith('lk-') ||
+    skuLower.startsWith('bg-') ||
+    skuLower.startsWith('bc-') ||
     nameLower.includes('lillifee') ||
     nameLower.includes('felix') ||
     nameLower.includes('sharky') ||
@@ -56,10 +59,7 @@ export const isKidsProduct = (p: Product): boolean => {
     nameLower.includes('bobby') ||
     nameLower.includes('mondbär') ||
     nameLower.includes('spielteppich') ||
-    nameLower.includes('kinderteppich') ||
-    descLower.includes('kinderzimmer') ||
-    descLower.includes('spielteppich') ||
-    p.roomCategory === 'kids'
+    nameLower.includes('kinderteppich')
   );
 };
 
@@ -280,9 +280,11 @@ export function App() {
     // 1. Strict Mode Separation:
     if (storeMode === 'kids') {
       // In kids section, show ONLY products related to kids
-      if (!isKidsProduct(p)) return false;
+      if (p.section === 'general') return false;
+      if (!isKidsProduct(p) && p.section !== 'both') return false;
     } else {
       // In main site, show ONLY luxury carpets, comfort rugs, Naturfelle, and high-pile shaggies
+      if (p.section === 'kids') return false;
       if (isKidsProduct(p)) return false;
     }
 
@@ -293,6 +295,7 @@ export function App() {
       const descLower = (p.description || '').toLowerCase();
       const matLower = (p.material || '').toLowerCase();
       const idLower = (p.id || '').toLowerCase();
+      const skuLower = (p.sku || '').toLowerCase();
       const colorNames = (p.colors || []).map((c) => c.name.toLowerCase()).join(' ');
 
       if (activeTag === 'Kinderteppiche') {
@@ -300,18 +303,18 @@ export function App() {
       } else if (activeTag === 'Luxusteppiche' || activeTag === 'Wollteppiche') {
         if (p.category !== 'carpets' && p.category !== 'rugs' && !nameLower.includes('wolle') && !descLower.includes('wolle') && !nameLower.includes('teppich')) return false;
       } else if (activeTag === 'Naturfelle' || activeTag === 'Felle' || activeTag === 'Babyfelle') {
-        if (p.category !== 'naturfelle' && !nameLower.includes('fell') && !descLower.includes('fell') && !idLower.includes('fe-')) return false;
+        if (p.category !== 'naturfelle' && !nameLower.includes('fell') && !descLower.includes('fell') && !idLower.includes('fe-') && !skuLower.includes('fe-')) return false;
       } else if (activeTag === 'Rinderfelle') {
-        if (!nameLower.includes('rinderfell') && !nameLower.includes('rinder') && !descLower.includes('rinder') && !idLower.includes('fe-2194')) return false;
+        if (!nameLower.includes('rinderfell') && !nameLower.includes('rinder') && !descLower.includes('rinder') && !idLower.includes('fe-2194') && !skuLower.includes('fe-2194')) return false;
       } else if (activeTag === 'Lammfelle') {
-        if (!nameLower.includes('lammfell') && !nameLower.includes('lamm') && !descLower.includes('lamm') && !idLower.includes('fe-2192') && !idLower.includes('fe-2943')) return false;
+        if (!nameLower.includes('lammfell') && !nameLower.includes('lamm') && !descLower.includes('lamm') && !idLower.includes('fe-2192') && !idLower.includes('fe-2943') && !skuLower.includes('fe-2192') && !skuLower.includes('fe-2943')) return false;
       } else if (activeTag === 'Shaggy') {
-        if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-')) return false;
+        if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-') && !skuLower.includes('sh-')) return false;
       } else if (activeTag.startsWith('Sale')) {
         if (activeTag.includes('Kinderteppiche') || activeTag.includes('Wollteppiche')) {
           if (p.category !== 'carpets' && p.category !== 'rugs') return false;
         } else if (activeTag.includes('Shaggy')) {
-          if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-')) return false;
+          if (!nameLower.includes('shaggy') && !descLower.includes('shaggy') && !idLower.includes('sh-') && !skuLower.includes('sh-')) return false;
         } else if (activeTag.includes('Naturfelle')) {
           if (p.category !== 'naturfelle' && !nameLower.includes('fell')) return false;
         }
@@ -321,27 +324,32 @@ export function App() {
           descLower.includes(tagLower) ||
           matLower.includes(tagLower) ||
           colorNames.includes(tagLower) ||
-          (tagLower.includes('lillifee') && (nameLower.includes('lillifee') || idLower.includes('lk-401') || idLower.includes('lk-402'))) ||
-          (tagLower.includes('felix') && (nameLower.includes('felix') || idLower.includes('lk-404'))) ||
-          (tagLower.includes('sharky') && (nameLower.includes('sharky') || idLower.includes('lk-408'))) ||
-          (tagLower.includes('sieben') && (nameLower.includes('sieben') || idLower.includes('lk-409'))) ||
-          (tagLower.includes('t-rex') && (nameLower.includes('t-rex') || idLower.includes('lk-410'))) ||
-          (tagLower.includes('pferd') && (nameLower.includes('pferd') || idLower.includes('lk-411'))) ||
-          (tagLower.includes('glück') && (nameLower.includes('glück') || idLower.includes('lk-415') || idLower.includes('lk-416'))) ||
-          (tagLower.includes('bobby') && (nameLower.includes('bobby') || idLower.includes('lk-418'))) ||
-          (tagLower.includes('mondbär') && (nameLower.includes('mondbär') || idLower.includes('bg-714'))) ||
-          (tagLower.includes('rock star') && (nameLower.includes('rock') || idLower.includes('bg-715'))) ||
-          (tagLower.includes('bc kids') && (nameLower.includes('bc') || idLower.includes('bc-101')));
+          (tagLower.includes('lillifee') && (nameLower.includes('lillifee') || idLower.includes('lk-401') || idLower.includes('lk-402') || skuLower.includes('lk-401') || skuLower.includes('lk-402'))) ||
+          (tagLower.includes('felix') && (nameLower.includes('felix') || idLower.includes('lk-404') || skuLower.includes('lk-404'))) ||
+          (tagLower.includes('sharky') && (nameLower.includes('sharky') || idLower.includes('lk-408') || skuLower.includes('lk-408'))) ||
+          (tagLower.includes('sieben') && (nameLower.includes('sieben') || idLower.includes('lk-409') || skuLower.includes('lk-409'))) ||
+          (tagLower.includes('t-rex') && (nameLower.includes('t-rex') || idLower.includes('lk-410') || skuLower.includes('lk-410'))) ||
+          (tagLower.includes('pferd') && (nameLower.includes('pferd') || idLower.includes('lk-411') || skuLower.includes('lk-411'))) ||
+          (tagLower.includes('glück') && (nameLower.includes('glück') || idLower.includes('lk-415') || idLower.includes('lk-416') || skuLower.includes('lk-415') || skuLower.includes('lk-416'))) ||
+          (tagLower.includes('bobby') && (nameLower.includes('bobby') || idLower.includes('lk-418') || skuLower.includes('lk-418'))) ||
+          (tagLower.includes('mondbär') && (nameLower.includes('mondbär') || idLower.includes('bg-714') || skuLower.includes('bg-714'))) ||
+          (tagLower.includes('rock star') && (nameLower.includes('rock') || idLower.includes('bg-715') || skuLower.includes('bg-715'))) ||
+          (tagLower.includes('bc kids') && (nameLower.includes('bc') || idLower.includes('bc-101') || skuLower.includes('bc-101')));
 
         if (!matches) return false;
       }
     }
 
     // 3. Category & Room Filters
-    if (activeCategory !== 'all' && p.category !== activeCategory) return false;
+    if (activeCategory !== 'all') {
+      if (activeCategory === 'carpets' && p.category !== 'carpets' && p.category !== 'rugs') return false;
+      if (activeCategory === 'rugs' && p.category !== 'rugs' && p.category !== 'carpets') return false;
+      if (activeCategory === 'naturfelle' && p.category !== 'naturfelle') return false;
+      if (activeCategory === 'shaggy' && !p.name.toLowerCase().includes('shaggy') && !(p.material || '').toLowerCase().includes('shaggy')) return false;
+    }
     if (activeRoom && p.roomCategory !== activeRoom) return false;
     if (p.price > priceFilter) return false;
-    if (selectedMaterialFilter !== 'all' && !p.material.toLowerCase().includes(selectedMaterialFilter.toLowerCase())) return false;
+    if (selectedMaterialFilter !== 'all' && !(p.material || '').toLowerCase().includes(selectedMaterialFilter.toLowerCase())) return false;
 
     return true;
   });
@@ -702,11 +710,13 @@ export function App() {
             {/* Brand Philosophy & Craftsmanship */}
             <BrandStory storeMode={storeMode} />
 
-            {/* Sliding Marquee Gallery */}
-            <SlidingMarqueeGallery
-              products={storeMode === 'kids' ? products.filter(isKidsProduct) : products.filter(p => !isKidsProduct(p))}
-              onSelectProduct={navigateToProduct}
-            />
+            {/* Sliding Marquee Gallery (Kids Sanctuary Only) */}
+            {storeMode === 'kids' && (
+              <SlidingMarqueeGallery
+                products={products.filter(isKidsProduct)}
+                onSelectProduct={navigateToProduct}
+              />
+            )}
 
             {/* Curated Instagram Sanctuary Inspiration */}
             <InstagramGallery

@@ -155,10 +155,10 @@ export const GENERAL_PRODUCTS: Product[] = [
   {
     id: 'PO-1068',
     plentyVariationId: 1068,
-    name: 'Astrid Organic Wool Area Carpet',
+    name: 'Astrid Handgewebter Bio-Schurwolle Teppich',
     section: 'general',
     category: 'carpets',
-    categoryLabel: 'Luxury Carpets',
+    categoryLabel: 'Luxusteppiche',
     price: 1450,
     originalPrice: 1680,
     rating: 4.9,
@@ -172,27 +172,27 @@ export const GENERAL_PRODUCTS: Product[] = [
     ],
     isBestSeller: true,
     isNewArrival: false,
-    material: '100% Un-dyed New Zealand Wool',
-    availableMaterials: ['100% Un-dyed Wool', 'Wool & Silk Blend', 'Organic Jute Base'],
-    sizes: ['200 x 300 cm', '250 x 350 cm', '300 x 400 cm'],
+    material: '100% Ungefärbte Neuseeland Schurwolle',
+    availableMaterials: ['100% Neuseeland Bio-Schurwolle', 'Wolle & Seide Blend', 'Organische Jute Basis'],
+    sizes: ['160 x 230 cm', '200 x 300 cm', '250 x 350 cm', '300 x 400 cm'],
     colors: [
       { name: 'Oatmeal & Soft Linen', hex: '#EFE7DC' },
       { name: 'Sage & Olive Gray', hex: '#69705A' },
       { name: 'Warm Terracotta', hex: '#B96A3C' }
     ],
     roomCategory: 'living-room',
-    description: 'Hand-loomed by master artisans using un-dyed pure wool. The Astrid Carpet features a gentle high-low loop construction that imparts subtle tactile depth without overwhelming your interior.',
+    description: 'Handgewebt von Meisterhand aus ungefärbter reiner Bio-Schurwolle. Der Astrid Teppich zeichnet sich durch seine sanfte High-Low-Struktur und samtweichen Trittkomfort aus.',
     careInstructions: [
-      'Vacuum regularly with brush bar off.',
-      'Spot clean immediately with mild wool detergent and cool water.',
-      'Professional dry cleaning recommended annually.'
+      'Regelmäßig mit glatter Düse absaugen.',
+      'Punktuelle Flecken sofort mit mildem Wollwaschmittel abtupfen.',
+      'Geeignet für Fußbodenheizung.'
     ],
-    shippingInfo: 'Complimentary global white-glove delivery within 2-4 business days.',
+    shippingInfo: 'Kostenlose Premium-Lieferung direkt aus unserem Dülmen Logistikzentrum.',
     stockInfo: {
       physicalStock: 18,
       netStock: 15,
       inStock: true,
-      statusLabel: 'In Stock (15 units at Dülmen Depot)',
+      statusLabel: 'Auf Lager (15 Stück in Dülmen)',
       warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
     },
     deliveryInfo: {
@@ -205,10 +205,10 @@ export const GENERAL_PRODUCTS: Product[] = [
   {
     id: 'PO-1069',
     plentyVariationId: 1069,
-    name: 'Malmö Hand-Knotted Terracotta Rug',
+    name: 'Malmö Handgeknüpfter Terrakotta Naturteppich',
     section: 'general',
     category: 'rugs',
-    categoryLabel: 'Accent Rugs',
+    categoryLabel: 'Wollteppiche',
     price: 890,
     originalPrice: 1050,
     rating: 4.8,
@@ -221,8 +221,8 @@ export const GENERAL_PRODUCTS: Product[] = [
     ],
     isBestSeller: true,
     isNewArrival: true,
-    material: 'Natural Jute & Wool Micro-pile',
-    availableMaterials: ['Natural Jute & Wool', '100% Organic Cotton'],
+    material: 'Natürliche Jute & Schurwoll-Mikroflor',
+    availableMaterials: ['Natürliche Jute & Wolle', '100% Bio-Baumwolle'],
     sizes: ['160 x 230 cm', '200 x 300 cm', '240 x 320 cm'],
     colors: [
       { name: 'Terracotta Earth', hex: '#B96A3C' },
@@ -232,15 +232,15 @@ export const GENERAL_PRODUCTS: Product[] = [
     roomCategory: 'bedroom',
     description: 'Der Malmö Akzentteppich vereint warme Terrakotta-Töne mit einer flach gewebten Struktur für jedes Parkett.',
     careInstructions: [
-      'Rotate every 6 months to ensure even wear.',
-      'Do not pull loose ends; clip carefully with scissors.'
+      'Alle 6 Monate um 180 Grad drehen.',
+      'Nicht an losen Fäden ziehen, vorsichtig abschneiden.'
     ],
-    shippingInfo: 'Dispatched in 2 business days in eco-friendly protective linen wrapping.',
+    shippingInfo: 'Kostenlose Lieferung direkt aus Dülmen.',
     stockInfo: {
       physicalStock: 12,
       netStock: 9,
       inStock: true,
-      statusLabel: 'In Stock (9 units at Dülmen Depot)',
+      statusLabel: 'Auf Lager (9 Stück in Dülmen)',
       warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
     },
     deliveryInfo: {
@@ -253,198 +253,59 @@ export const GENERAL_PRODUCTS: Product[] = [
   {
     id: 'PO-1070',
     plentyVariationId: 1070,
-    name: 'Soren Solid Oak Sculptural Lounge Chair',
+    name: 'Kobenhavn Shaggy Hochflor-Teppich Naturweiß',
     section: 'general',
-    category: 'furniture',
-    categoryLabel: 'Bespoke Furniture',
-    price: 2100,
-    originalPrice: 2400,
+    category: 'carpets',
+    categoryLabel: 'Shaggy Teppiche',
+    price: 380,
+    originalPrice: 480,
     rating: 5.0,
-    reviewsCount: 19,
-    primaryImage: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=800&auto=format&fit=crop',
-    secondaryImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format&fit=crop',
+    reviewsCount: 62,
+    primaryImage: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=800&auto=format&fit=crop',
+    secondaryImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=800&auto=format&fit=crop',
     galleryImages: [
-      'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1000&auto=format&fit=crop'
+      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1600121848594-d8644e57abab?q=80&w=1000&auto=format&fit=crop'
     ],
     isBestSeller: true,
     isNewArrival: false,
-    material: 'FSC-Certified Solid European Oak & Washed Linen',
-    availableMaterials: ['Solid Oak / Cream Linen', 'Solid Ash / Sage Linen', 'Blackened Oak / Charcoal Linen'],
-    sizes: ['Standard Lounge (W 82cm x D 85cm x H 74cm)'],
+    material: '100% Soft-Touch Hochflor Mikrofaser & Schurwolle',
+    availableMaterials: ['100% Soft-Touch Hochflor', 'Mikrofaser & Schurwolle'],
+    sizes: ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
     colors: [
-      { name: 'Natural Oak & Cream', hex: '#F4EEE6' },
-      { name: 'Sage Ash', hex: '#69705A' }
+      { name: 'weiß', hex: '#FFFFFF' },
+      { name: 'silber', hex: '#CBD5E1' },
+      { name: 'mocca', hex: '#5C3D2E' },
+      { name: 'beige', hex: '#D9C5A7' }
     ],
     roomCategory: 'living-room',
-    description: 'Hand-carved curves and generous bouclé linen cushions make the Soren Armchair the architectural centerpiece of modern living spaces.',
+    description: 'Extrem dichter, samtiger Hochflor mit ca. 35 mm Florhöhe. Bringt unvergleichliche Gemütlichkeit und luxuriösen Komfort ins Wohnzimmer.',
     careInstructions: [
-      'Wipe wooden frame with damp soft cloth.',
-      'Cushions are removable and dry-cleanable.'
+      'Regelmäßig ausschütteln und mit glatter Düse absaugen.',
+      'Geeignet für Fußbodenheizung.'
     ],
-    shippingInfo: 'Delivered pre-assembled by two-person white glove logistics team.',
+    shippingInfo: 'Kostenlose Express-Lieferung aus Dülmen.',
     stockInfo: {
-      physicalStock: 6,
-      netStock: 4,
+      physicalStock: 20,
+      netStock: 18,
       inStock: true,
-      statusLabel: 'Low Stock (Only 4 available)',
-      warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
-    },
-    deliveryInfo: {
-      averageDays: 4,
-      deliveryText: 'White-Glove Freight: 3–5 Business Days',
-      estimatedDateRange: 'Aug 21 – Aug 24',
-      carrier: 'White-Glove Courier'
-    }
-  },
-  {
-    id: 'PO-1071',
-    plentyVariationId: 1071,
-    name: 'Koben Stoneware Ceramic Vessel & Pedestal',
-    section: 'general',
-    category: 'decor',
-    categoryLabel: 'Artisanal Decor',
-    price: 340,
-    originalPrice: 420,
-    rating: 4.7,
-    reviewsCount: 56,
-    primaryImage: 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=800&auto=format&fit=crop',
-    secondaryImage: 'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?q=80&w=800&auto=format&fit=crop',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1616046229478-9901c5536a45?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1578500494198-246f612d3b3d?q=80&w=1000&auto=format&fit=crop'
-    ],
-    isBestSeller: false,
-    isNewArrival: true,
-    material: 'Hand-thrown Stoneware & Matte Mineral Glaze',
-    availableMaterials: ['Sand Matte Ceramic', 'Deep Olive Glaze'],
-    sizes: ['Medium (H 32cm)', 'Large (H 45cm)'],
-    colors: [
-      { name: 'Warm Taupe Sand', hex: '#D9C5A7' },
-      { name: 'Chalk White', hex: '#FAF8F5' }
-    ],
-    roomCategory: 'dining',
-    description: 'Each Koben vessel displays organic asymmetry achieved through hand-thrown techniques in our Copenhagen workshop studio.',
-    careInstructions: [
-      'Handwash with mild warm soap water.',
-      'Safe for dry botanical displays or fresh blooms.'
-    ],
-    shippingInfo: 'Custom double-boxed protective foam packaging.',
-    stockInfo: {
-      physicalStock: 24,
-      netStock: 20,
-      inStock: true,
-      statusLabel: 'In Stock (20 units at Dülmen Depot)',
+      statusLabel: 'Auf Lager (18 Stück in Dülmen)',
       warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
     },
     deliveryInfo: {
       averageDays: 2,
       deliveryText: 'Express Dispatch: 1–3 Business Days',
       estimatedDateRange: 'Aug 19 – Aug 21',
-      carrier: 'DHL / DPD Freight White-Glove'
-    }
-  },
-  {
-    id: 'PO-1073',
-    plentyVariationId: 1073,
-    name: 'Elise French Flax Linen Duvet & Throw',
-    section: 'general',
-    category: 'textiles',
-    categoryLabel: 'Linen Textiles',
-    price: 460,
-    originalPrice: 520,
-    rating: 4.9,
-    reviewsCount: 88,
-    primaryImage: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=800&auto=format&fit=crop',
-    secondaryImage: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800&auto=format&fit=crop',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=1000&auto=format&fit=crop'
-    ],
-    isBestSeller: true,
-    isNewArrival: false,
-    material: '100% Washed European Flax Linen',
-    availableMaterials: ['Stone-washed Flax Linen', 'Linen-Cashmere Blend'],
-    sizes: ['Queen (230 x 230 cm)', 'King (260 x 230 cm)', 'Super King (290 x 240 cm)'],
-    colors: [
-      { name: 'Linen Warm Cream', hex: '#F4EEE6' },
-      { name: 'Sage Meadow', hex: '#69705A' },
-      { name: 'Copper Earth', hex: '#C37A4A' }
-    ],
-    roomCategory: 'bedroom',
-    description: 'Stone-washed for incredible softness, the Elise linen bedding breathes naturally, staying cool in summer and comforting in winter.',
-    careInstructions: [
-      'Machine wash cool on gentle cycle.',
-      'Tumble dry low or line dry in shade for relaxed texture.'
-    ],
-    shippingInfo: 'Comes packed in reusable linen drawstring tote.',
-    stockInfo: {
-      physicalStock: 30,
-      netStock: 28,
-      inStock: true,
-      statusLabel: 'In Stock (28 sets at Dülmen Depot)',
-      warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
-    },
-    deliveryInfo: {
-      averageDays: 2,
-      deliveryText: 'Express Dispatch: 1–3 Business Days',
-      estimatedDateRange: 'Aug 19 – Aug 21',
-      carrier: 'DHL / DPD Freight White-Glove'
-    }
-  },
-  {
-    id: 'PO-1074',
-    plentyVariationId: 1074,
-    name: 'Nordic Olive Wood & Stoneware Serving Set',
-    section: 'general',
-    category: 'kitchen',
-    categoryLabel: 'Kitchenware',
-    price: 280,
-    originalPrice: 320,
-    rating: 4.9,
-    reviewsCount: 41,
-    primaryImage: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800&auto=format&fit=crop',
-    secondaryImage: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=800&auto=format&fit=crop',
-    galleryImages: [
-      'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=1000&auto=format&fit=crop'
-    ],
-    isBestSeller: false,
-    isNewArrival: true,
-    material: 'Reclaimed Olive Wood & Matte Ceramic',
-    availableMaterials: ['Reclaimed Olive Wood', 'Smoked Oak'],
-    sizes: ['Set of 6 Pieces'],
-    colors: [
-      { name: 'Natural Grain & Sand', hex: '#D9C5A7' }
-    ],
-    roomCategory: 'dining',
-    description: 'Crafted from sustainable reclaimed olive wood featuring natural grain variations paired with four artisanal stoneware serving bowls.',
-    careInstructions: [
-      'Oil wooden boards periodically with organic food-grade mineral oil.',
-      'Handwash only.'
-    ],
-    shippingInfo: 'Gift-wrapped in custom craft box.',
-    stockInfo: {
-      physicalStock: 14,
-      netStock: 11,
-      inStock: true,
-      statusLabel: 'In Stock (11 sets at Dülmen Depot)',
-      warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
-    },
-    deliveryInfo: {
-      averageDays: 3,
-      deliveryText: 'Standard Dispatch: 2–4 Business Days',
-      estimatedDateRange: 'Aug 20 – Aug 23',
-      carrier: 'DHL / DPD Freight White-Glove'
+      carrier: 'DHL / DPD Freight'
     }
   },
   {
     id: 'PO-1075',
     plentyVariationId: 1075,
-    name: 'Hague High-Pile Sage Tufted Carpet',
+    name: 'Hague Samtweicher Salbei Hochflor-Teppich',
     section: 'general',
     category: 'carpets',
-    categoryLabel: 'Luxury Carpets',
+    categoryLabel: 'Luxusteppiche',
     price: 1650,
     originalPrice: 1850,
     rating: 4.95,
@@ -457,8 +318,8 @@ export const GENERAL_PRODUCTS: Product[] = [
     ],
     isBestSeller: true,
     isNewArrival: true,
-    material: 'Organic Tibetan Wool & Silk',
-    availableMaterials: ['Tibetan Wool & Silk', 'Pure Organic Merino Wool'],
+    material: 'Organische Tibet-Schurwolle & Seidenakzente',
+    availableMaterials: ['Tibet-Wolle & Seide', '100% Bio-Merinowolle'],
     sizes: ['200 x 300 cm', '250 x 350 cm', '300 x 400 cm'],
     colors: [
       { name: 'Sage Green', hex: '#69705A' },
@@ -466,17 +327,17 @@ export const GENERAL_PRODUCTS: Product[] = [
       { name: 'Soft Cream', hex: '#F4EEE6' }
     ],
     roomCategory: 'living-room',
-    description: 'A luxurious plush pile carpet featuring hand-carded Tibetan wool in serene sage green tones. Radiates comforting warmth and tactile luxury.',
+    description: 'Ein meisterhafter Plüschflor-Teppich mit handkardierter tibetischer Wolle in ruhigen Salbeitönen. Spendet wohlige Wärme und edle Haptik.',
     careInstructions: [
-      'Professional cleaning recommended.',
-      'Blot spills immediately with white cotton cloth.'
+      'Regelmäßig sanft absaugen.',
+      'Professionelle Reinigung einmal jährlich empfohlen.'
     ],
-    shippingInfo: 'White-glove indoor placement included.',
+    shippingInfo: 'Premium White-Glove Lieferung inklusive.',
     stockInfo: {
       physicalStock: 8,
       netStock: 6,
       inStock: true,
-      statusLabel: 'In Stock (6 units at Dülmen Depot)',
+      statusLabel: 'Auf Lager (6 Einheiten in Dülmen)',
       warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
     },
     deliveryInfo: {
@@ -487,46 +348,295 @@ export const GENERAL_PRODUCTS: Product[] = [
     }
   },
   {
-    id: 'PO-1076',
-    plentyVariationId: 1076,
-    name: 'Freja Woven Leather & Ash Bench',
+    id: 'PO-195',
+    sku: 'FE-2194',
+    plentyVariationId: 195,
+    name: 'Echtes Brasilien Natur-Rinderfell Unikat',
     section: 'general',
-    category: 'furniture',
-    categoryLabel: 'Bespoke Furniture',
-    price: 1250,
-    originalPrice: 1450,
-    rating: 4.85,
-    reviewsCount: 14,
-    primaryImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format&fit=crop',
-    secondaryImage: 'https://images.unsplash.com/photo-1538688525198-9b88f6f53126?q=80&w=800&auto=format&fit=crop',
+    category: 'naturfelle',
+    categoryLabel: 'Naturfelle',
+    price: 199,
+    originalPrice: 249,
+    rating: 4.9,
+    reviewsCount: 38,
+    primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-01.JPG',
+    secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-02.JPG',
     galleryImages: [
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=1000&auto=format&fit=crop'
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-01.JPG',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-02.JPG',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-03.JPG',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/195/middle/FE-2194-04.JPG'
+    ],
+    isBestSeller: true,
+    isNewArrival: true,
+    material: '100% Natürliches Echtes Rinderfell',
+    availableMaterials: ['100% Natürliches Echtes Rinderfell'],
+    sizes: ['Naturmaß (ca. 200 x 220 cm)'],
+    colors: [],
+    roomCategory: 'living-room',
+    description: 'Exklusives, naturbelassenes Rinderfell mit seidigem Glanz und unverwechselbarer natürlicher Zeichnung. Jedes Stück ist ein einzigartiges Unikat der Natur.',
+    careInstructions: [
+      'Regelmäßig an der frischen Luft ausschütteln.',
+      'Mit weicher Fellbürste in Wuchsrichtung bürsten.',
+      'Flecken sanft mit feuchtem Tuch abtupfen.'
+    ],
+    shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+    stockInfo: {
+      physicalStock: 14,
+      netStock: 11,
+      inStock: true,
+      statusLabel: 'Auf Lager (11 Unikate in Dülmen)',
+      warehouseName: 'KS Sales Dülmen Logistikzentrum'
+    },
+    deliveryInfo: {
+      averageDays: 2,
+      deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+      estimatedDateRange: 'Aug 19 – Aug 22',
+      carrier: 'DHL / DPD Paketdienst'
+    }
+  },
+  {
+    id: 'PO-197',
+    sku: 'FE-2192',
+    plentyVariationId: 197,
+    name: 'Echtes Neuseeland Natur-Lammfell Goldbraun',
+    section: 'general',
+    category: 'naturfelle',
+    categoryLabel: 'Naturfelle',
+    price: 79,
+    originalPrice: 99,
+    rating: 4.9,
+    reviewsCount: 92,
+    primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-02.jpg',
+    secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-01.jpg',
+    galleryImages: [
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-02.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-01.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/197/middle/FE-2192-03.jpg'
+    ],
+    isBestSeller: true,
+    isNewArrival: false,
+    material: '100% Echtes Neuseeland-Lammfell',
+    availableMaterials: ['100% Echtes Medizinisches Lammfell', '100% Echtes Neuseeland-Lammfell'],
+    sizes: ['Naturmaß (ca. 100-110 cm)'],
+    colors: [],
+    roomCategory: 'bedroom',
+    description: 'Samtweiches, echtes Natur-Lammfell für wohlige Wärme auf Sessel, Sofa oder Parkett. Temperaturausgleichend und schadstofffrei.',
+    careInstructions: [
+      'Regelmäßig ausschütteln und sanft aufkämmen.'
+    ],
+    shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+    stockInfo: {
+      physicalStock: 40,
+      netStock: 35,
+      inStock: true,
+      statusLabel: 'Auf Lager (35 Stück in Dülmen)',
+      warehouseName: 'KS Sales Dülmen Logistikzentrum'
+    },
+    deliveryInfo: {
+      averageDays: 2,
+      deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+      estimatedDateRange: 'Aug 19 – Aug 22',
+      carrier: 'DHL / DPD Paketdienst'
+    }
+  },
+  {
+    id: 'PO-146',
+    sku: 'SH-310',
+    plentyVariationId: 146,
+    name: 'Shaggy Hochflor-Teppich Flausch Mocca',
+    section: 'general',
+    category: 'carpets',
+    categoryLabel: 'Shaggy Teppiche',
+    price: 59,
+    originalPrice: 79,
+    rating: 4.85,
+    reviewsCount: 38,
+    primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310.jpg',
+    secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310-2.jpg',
+    galleryImages: [
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310-2.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/146/middle/SH-310-3.jpg'
+    ],
+    isBestSeller: true,
+    isNewArrival: false,
+    material: '100% Soft-Touch Hochflor Polypropylen / Mikrofaser',
+    availableMaterials: ['100% Soft-Touch Hochflor Mikrofaser'],
+    sizes: ['60 x 110 cm', '80 x 150 cm', '120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
+    colors: [
+      { name: 'mocca', hex: '#5C3D2E' },
+      { name: 'weiß', hex: '#FFFFFF' },
+      { name: 'silber', hex: '#CBD5E1' },
+      { name: 'schwarz', hex: '#1A202C' },
+      { name: 'bordeaux', hex: '#800020' },
+      { name: 'beige', hex: '#D9C5A7' }
+    ],
+    roomCategory: 'living-room',
+    description: 'Kuschelweicher Hochflor-Shaggy mit ca. 30-35 mm Florhöhe für maximalen Komfort unter den Füßen. Ideal für Wohnzimmer und Schlafbereich.',
+    careInstructions: [
+      'Regelmäßig ausschütteln und mit glatter Düse absaugen.',
+      'Fußbodenheizungsgeeignet und extrem strapazierfähig.'
+    ],
+    shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+    stockInfo: {
+      physicalStock: 19,
+      netStock: 16,
+      inStock: true,
+      statusLabel: 'Auf Lager (16 Stück in Dülmen)',
+      warehouseName: 'KS Sales Dülmen Logistikzentrum'
+    },
+    deliveryInfo: {
+      averageDays: 2,
+      deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+      estimatedDateRange: 'Aug 19 – Aug 22',
+      carrier: 'DHL / DPD Paketdienst'
+    }
+  },
+  {
+    id: 'PO-137',
+    sku: 'LI-111',
+    plentyVariationId: 137,
+    name: 'Levina Meisterstück Handwebteppich Klassik',
+    section: 'general',
+    category: 'carpets',
+    categoryLabel: 'Luxusteppiche',
+    price: 249,
+    originalPrice: 299,
+    rating: 4.95,
+    reviewsCount: 54,
+    primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111.jpg',
+    secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111p.jpg',
+    galleryImages: [
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111p.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/137/middle/LI-111d.jpg'
+    ],
+    isBestSeller: true,
+    isNewArrival: true,
+    material: 'Reine Neuseeland Schurwolle & Naturfaser-Kettelung',
+    availableMaterials: ['Reine Neuseeland Schurwolle', 'Wolle & Jute Blend'],
+    sizes: ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
+    colors: [
+      { name: 'Natur Sand', hex: '#D9C5A7' },
+      { name: 'Oatmeal', hex: '#EFE7DC' }
+    ],
+    roomCategory: 'living-room',
+    description: 'Meisterhaft gewebter Teppich aus edelster Schurwolle. Verleiht jedem Raum zeitlose Eleganz und eine spürbar behagliche Atmosphäre.',
+    careInstructions: [
+      'Regelmäßig mit glatter Düse absaugen.',
+      'Flüssigkeiten sofort mit saugfähigem Tuch abtupfen.'
+    ],
+    shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+    stockInfo: {
+      physicalStock: 22,
+      netStock: 19,
+      inStock: true,
+      statusLabel: 'Auf Lager (19 Stück in Dülmen)',
+      warehouseName: 'KS Sales Dülmen Logistikzentrum'
+    },
+    deliveryInfo: {
+      averageDays: 2,
+      deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+      estimatedDateRange: 'Aug 19 – Aug 22',
+      carrier: 'DHL / DPD Paketdienst'
+    }
+  },
+  {
+    id: 'PO-142',
+    sku: 'LS-211',
+    plentyVariationId: 142,
+    name: 'Levina Living Style Designerteppich Graphit',
+    section: 'general',
+    category: 'carpets',
+    categoryLabel: 'Wollteppiche',
+    price: 189,
+    originalPrice: 229,
+    rating: 4.8,
+    reviewsCount: 29,
+    primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211.jpg',
+    secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211-2.jpg',
+    galleryImages: [
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211-2.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/142/middle/LS-211-3.jpg'
     ],
     isBestSeller: false,
     isNewArrival: true,
-    material: 'Saddle Leather & Solid Ash Wood',
-    availableMaterials: ['Cognac Saddle Leather / Ash', 'Black Leather / Smoked Ash'],
-    sizes: ['L 140cm x W 42cm x H 45cm'],
+    material: 'Strukturierte Naturwolle & Baumwollbasis',
+    availableMaterials: ['Strukturierte Naturwolle'],
+    sizes: ['120 x 170 cm', '160 x 230 cm', '200 x 290 cm'],
     colors: [
-      { name: 'Cognac Terracotta', hex: '#B96A3C' },
-      { name: 'Warm Oak', hex: '#96714D' }
+      { name: 'Graphit Grau', hex: '#4A5568' },
+      { name: 'Anthrazit', hex: '#2D3748' }
     ],
-    roomCategory: 'office',
-    description: 'Hand-woven saddle leather straps integrated into an ash wood frame. Ideal for dining seating, bed-foot accents, or serene entryway styling.',
-    careInstructions: ['Treat leather with natural beeswax balm once annually.'],
-    shippingInfo: 'Dispatched within 3 days.',
+    roomCategory: 'dining',
+    description: 'Moderne geometrische Strukturwebung mit matter Haptik. Perfekt für Esszimmer, Wohnbereich und Arbeitszimmer.',
+    careInstructions: [
+      'Regelmäßig mit glatter Düse absaugen.',
+      'Geeignet für Fußbodenheizung.'
+    ],
+    shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
     stockInfo: {
-      physicalStock: 5,
-      netStock: 3,
+      physicalStock: 15,
+      netStock: 12,
       inStock: true,
-      statusLabel: 'Low Stock (Only 3 left)',
-      warehouseName: 'KS Sales Depot (Industriestr. 23, 48249 Dülmen)'
+      statusLabel: 'Auf Lager (12 Stück in Dülmen)',
+      warehouseName: 'KS Sales Dülmen Logistikzentrum'
     },
     deliveryInfo: {
-      averageDays: 4,
-      deliveryText: 'White-Glove Freight: 3–5 Business Days',
-      estimatedDateRange: 'Aug 21 – Aug 24',
-      carrier: 'White-Glove Courier'
+      averageDays: 2,
+      deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+      estimatedDateRange: 'Aug 19 – Aug 22',
+      carrier: 'DHL / DPD Paketdienst'
+    }
+  },
+  {
+    id: 'PO-192',
+    sku: 'LI-2200',
+    plentyVariationId: 192,
+    name: 'Levina Grand Luxury Webteppich Elegance',
+    section: 'general',
+    category: 'carpets',
+    categoryLabel: 'Luxusteppiche',
+    price: 320,
+    originalPrice: 380,
+    rating: 5.0,
+    reviewsCount: 42,
+    primaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/192/middle/LI-2200-01.jpg',
+    secondaryImage: 'https://cdn02.plentyone.com/sby0b6gglndr/item/images/192/middle/LI-2200-02.jpg',
+    galleryImages: [
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/192/middle/LI-2200-01.jpg',
+      'https://cdn02.plentyone.com/sby0b6gglndr/item/images/192/middle/LI-2200-02.jpg'
+    ],
+    isBestSeller: true,
+    isNewArrival: false,
+    material: '100% Feinste Schurwolle mit Kontrast-Kettelung',
+    availableMaterials: ['100% Feinste Schurwolle'],
+    sizes: ['160 x 230 cm', '200 x 290 cm', '240 x 340 cm'],
+    colors: [
+      { name: 'Klassik Creme', hex: '#FAF8F5' },
+      { name: 'Warm Grau', hex: '#718096' }
+    ],
+    roomCategory: 'living-room',
+    description: 'Hochwertige Manufakturqualität für anspruchsvolle Wohnräume. Dicht gewebter Flor mit exzellenter Schalldämmung und Wärmeisolierung.',
+    careInstructions: [
+      'Regelmäßig mit glatter Düse absaugen.',
+      'Allergikerfreundlich & 100% schadstofffrei.'
+    ],
+    shippingInfo: 'Kostenloser Premium-Versand aus unserem Dülmen Logistikzentrum.',
+    stockInfo: {
+      physicalStock: 10,
+      netStock: 8,
+      inStock: true,
+      statusLabel: 'Auf Lager (8 Stück in Dülmen)',
+      warehouseName: 'KS Sales Dülmen Logistikzentrum'
+    },
+    deliveryInfo: {
+      averageDays: 2,
+      deliveryText: 'Standard-Lieferung: 2–4 Werktage',
+      estimatedDateRange: 'Aug 19 – Aug 22',
+      carrier: 'DHL / DPD Paketdienst'
     }
   }
 ];
@@ -682,8 +792,8 @@ export const PRODUCTS = [...GENERAL_PRODUCTS, ...KIDS_PRODUCTS];
 export const INSTAGRAM_GALLERY: InstagramPost[] = [
   {
     id: 'ig-1',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop',
-    title: 'Morning light across the Astrid Organic Carpet in Copenhagen',
+    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=800&auto=format&fit=crop',
+    title: 'Sanftes Morgenlicht über dem Astrid Handgewebten Bio-Schurwollteppich',
     roomName: 'Living Room Sanctuary',
     likes: 1420,
     taggedProducts: [GENERAL_PRODUCTS[0], GENERAL_PRODUCTS[2]]
@@ -691,23 +801,23 @@ export const INSTAGRAM_GALLERY: InstagramPost[] = [
   {
     id: 'ig-2',
     image: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?q=80&w=800&auto=format&fit=crop',
-    title: 'Restful bedroom styling with Elise Washed Linen Bedding',
+    title: 'Harmonisches Schlafzimmer-Design mit echtem Natur-Lammfell',
     roomName: 'Serene Bedroom',
     likes: 980,
-    taggedProducts: [GENERAL_PRODUCTS[4]]
+    taggedProducts: [GENERAL_PRODUCTS[5]]
   },
   {
     id: 'ig-3',
     image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=800&auto=format&fit=crop',
-    title: 'Organic stoneware setup for weekend brunching',
+    title: 'Kuschelweicher Kobenhavn Shaggy Hochflor im eleganten Wohnbereich',
     roomName: 'Tactile Dining Space',
     likes: 1150,
-    taggedProducts: [GENERAL_PRODUCTS[3], GENERAL_PRODUCTS[5]]
+    taggedProducts: [GENERAL_PRODUCTS[2], GENERAL_PRODUCTS[3]]
   },
   {
     id: 'ig-4',
     image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop',
-    title: 'Warm wooden accents & low pile terracotta rug in quiet study',
+    title: 'Warme Holztexturen & Malmö Terrakotta Naturteppich im ruhigen Arbeitsbereich',
     roomName: 'Minimalist Office',
     likes: 870,
     taggedProducts: [GENERAL_PRODUCTS[1], GENERAL_PRODUCTS[7]]

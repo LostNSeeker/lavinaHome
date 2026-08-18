@@ -583,17 +583,17 @@ async function syncPlentyoneCatalog() {
                     titleLower.includes('kinder');
 
       let category = 'carpets';
-      let categoryLabel = 'Kinderteppiche';
-      let roomCategory = 'kids';
-      let sizes = ['100 x 120 cm', '150 x 120 cm'];
+      let categoryLabel = isKids ? 'Kinderteppiche' : 'Luxusteppiche';
+      let roomCategory = isKids ? 'kids' : 'living-room';
+      let sizes = isKids ? ['100 x 120 cm', '150 x 120 cm'] : ['160 x 230 cm', '200 x 300 cm'];
       let colors = [];
-      let material = '100% Weicher Soft-Polyacryl Flor, OEKO-TEX® Standard 100';
-      let availableMaterials = ['100% Weicher Soft-Polyacryl Flor'];
+      let material = isKids ? '100% Weicher Soft-Polyacryl Flor, OEKO-TEX® Standard 100' : '100% Reine Neuseeland Bio-Schurwolle';
+      let availableMaterials = isKids ? ['100% Weicher Soft-Polyacryl Flor'] : ['100% Reine Neuseeland Bio-Schurwolle'];
       let careInstructions = [
         'Regelmäßig mit handelsüblichem Staubsauger absaugen.',
         'Punktuelle Flecken sofort mit feuchtem Tuch und milder Seifenlauge abtupfen.',
         '100% schadstofffrei und für Fußbodenheizung geeignet.',
-        'Allergikerfreundlich & strapazierfähig für unbeschwertes Spielen.'
+        'Allergikerfreundlich & strapazierfähig für unbeschwertes Wohnen.'
       ];
 
       if (isShaggy) {

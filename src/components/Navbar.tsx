@@ -227,6 +227,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const getCatLabel = (cat: NavCategoryItem) => t(`nav.cats.${cat.id}`, cat.label);
+  const getItemLabel = (item: string | ShaggyColor) => typeof item === 'string' ? t(`nav.items.${item}`, item) : t(`nav.colors.${item.name}`, item.name);
+
   return (
     <>
       <header
@@ -244,7 +247,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 rounded-full bg-white/70 hover:bg-white text-[#2B2B2A] transition-all lg:hidden cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
-              aria-label="Toggle navigation menu"
+              aria-label={t('nav.allCollections', 'Menü')}
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -264,7 +267,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                   LEVINA HOME
                 </span>
                 <span className="text-[7.5px] sm:text-[8.5px] tracking-[0.35em] text-[#8B8B8B] uppercase font-sans font-light mt-0.5">
-                  {storeMode === 'kids' ? '★ KINDERWELT & SPIELTEPPICHE' : 'LUXUS-TEPPICHE & WOHNKOMFORT'}
+                  {storeMode === 'kids'
+                    ? t('nav.kidsSubtitle', '★ KINDERWELT & SPIELTEPPICHE')
+                    : t('nav.generalSubtitle', 'LUXUS-TEPPICHE & WOHNKOMFORT')}
                 </span>
               </div>
             </button>
@@ -297,7 +302,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }`}
                   >
                     {cat.isSale && <Tag size={13} className="shrink-0" />}
-                    <span>{cat.label}</span>
+                    <span>{getCatLabel(cat)}</span>
                     <ChevronDown
                       size={13}
                       className={`transition-transform duration-200 opacity-70 ${
@@ -318,9 +323,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                           <div>
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
                               <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
-                                {cat.label} Kollektionen
+                                {t('nav.collectionsHeader', { label: getCatLabel(cat) })}
                               </span>
-                              <span className="text-[10px] text-[#9E9891]">{cat.items.length} Serien</span>
+                              <span className="text-[10px] text-[#9E9891]">
+                                {t('nav.seriesCount', { count: cat.items.length })}
+                              </span>
                             </div>
                             <div className="grid grid-cols-2 gap-1 min-w-[340px]">
                               {cat.items.map((item) => {
@@ -338,7 +345,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                     }`}
                                   >
                                     <span className="truncate group-hover:translate-x-0.5 transition-transform">
-                                      {itemName}
+                                      {getItemLabel(item)}
                                     </span>
                                     {isItemActive && <Check size={12} className="text-[#8EBBB0] shrink-0 ml-1" />}
                                   </button>
@@ -352,7 +359,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           <div className="space-y-1 min-w-[200px]">
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
                               <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
-                                100% Echte Naturfelle
+                                {t('nav.naturalHidesHeader', '100% Echte Naturfelle')}
                               </span>
                             </div>
                             {cat.items.map((item) => {
@@ -369,7 +376,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                       : 'text-[#6B6661] hover:text-[#2D2B2A] hover:bg-[#F7F3EB]'
                                   }`}
                                 >
-                                  <span>{itemName}</span>
+                                  <span>{getItemLabel(item)}</span>
                                   {isItemActive && <Check size={12} className="text-[#8EBBB0]" />}
                                 </button>
                               );
@@ -381,9 +388,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                           <div>
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
                               <span className="text-[10px] uppercase font-bold tracking-wider text-[#8EBBB0]">
-                                Hochflor Farbwelten
+                                {t('nav.shaggyColorsHeader', 'Hochflor Farbwelten')}
                               </span>
-                              <span className="text-[10px] text-[#9E9891]">9 Farben</span>
+                              <span className="text-[10px] text-[#9E9891]">{t('nav.colorsCount', '9 Farben')}</span>
                             </div>
                             <div className="grid grid-cols-3 gap-1.5 min-w-[280px]">
                               {cat.items.map((item) => {
@@ -404,7 +411,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                       className="w-3.5 h-3.5 rounded-full shrink-0 border border-[#EDE6DC] shadow-2xs group-hover:scale-110 transition-transform"
                                       style={{ backgroundColor: colorItem.hex }}
                                     />
-                                    <span className="truncate capitalize">{colorItem.name}</span>
+                                    <span className="truncate capitalize">{getItemLabel(colorItem)}</span>
                                   </button>
                                 );
                               })}
@@ -416,7 +423,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           <div className="space-y-1 min-w-[220px]">
                             <div className="px-2.5 pb-2 mb-2 border-b border-[#EDE6DC] flex items-center justify-between">
                               <span className="text-[10px] uppercase font-bold tracking-wider text-[#E79685] flex items-center gap-1">
-                                <Sparkles size={11} /> Reduzierte Angebote
+                                <Sparkles size={11} /> {t('nav.saleDealsHeader', 'Reduzierte Angebote')}
                               </span>
                             </div>
                             {cat.items.map((item) => {
@@ -434,7 +441,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                       : 'text-[#6B6661] hover:text-[#E79685] hover:bg-[#F7F3EB]'
                                   }`}
                                 >
-                                  <span>{itemName} im Sale</span>
+                                  <span>{t('nav.saleTag', { name: getItemLabel(item) })}</span>
                                   <span className="text-[10px] bg-[#E79685]/15 text-[#E79685] px-1.5 py-0.5 rounded font-bold">
                                     %
                                   </span>
@@ -459,18 +466,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <button
                   onClick={() => onSwitchMode('kids')}
                   className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#E79685]/15 text-[#E79685] hover:bg-[#E79685] hover:text-white border border-[#E79685]/30 text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-2xs hover:scale-105 cursor-pointer group"
-                  title="Zur Levina Kinderwelt wechseln"
+                  title={t('nav.switchToKidsTitle', 'Zur Levina Kinderwelt wechseln')}
                 >
                   <Sparkles size={13} className="group-hover:rotate-12 transition-transform" />
-                  <span>🧸 Kinderwelt</span>
+                  <span>{t('nav.switchToKids', '🧸 Kinderwelt')}</span>
                 </button>
               ) : (
                 <button
                   onClick={() => onSwitchMode('general')}
                   className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/90 text-[#2B2B2B] hover:bg-[#69705A] hover:text-white border border-[#ECE8E2] text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-2xs hover:scale-105 cursor-pointer group"
-                  title="Zur Hauptseite (Luxusteppiche) wechseln"
+                  title={t('nav.switchToGeneralTitle', 'Zur Hauptseite (Luxusteppiche) wechseln')}
                 >
-                  <span>← Hauptseite</span>
+                  <span>{t('nav.switchToGeneral', '← Hauptseite')}</span>
                 </button>
               )
             )}
@@ -483,8 +490,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onOpenAuth}
                 className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
-                title={t('nav.account')}
-                aria-label={t('nav.account')}
+                title={t('nav.account', 'Konto')}
+                aria-label={t('nav.account', 'Konto')}
               >
                 <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-current" fill="none" viewBox="0 0 24 24" strokeWidth="1.8">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
@@ -495,8 +502,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenSearch}
               className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
-              title={t('nav.search')}
-              aria-label={t('nav.search')}
+              title={t('nav.search', 'Suche')}
+              aria-label={t('nav.search', 'Suche')}
             >
               <Search size={17} strokeWidth={1.8} />
             </button>
@@ -504,8 +511,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenWishlist}
               className="p-2 sm:p-2.5 rounded-full bg-white/70 hover:bg-white text-[#2D2B2A] hover:text-[#B96A3C] transition-all relative group cursor-pointer border border-white/80 shadow-2xs backdrop-blur-xs"
-              title={t('nav.wishlist')}
-              aria-label={t('nav.wishlist')}
+              title={t('nav.wishlist', 'Wunschliste')}
+              aria-label={t('nav.wishlist', 'Wunschliste')}
             >
               <Heart size={17} strokeWidth={1.8} className={wishlistCount > 0 ? "fill-[#E79685] text-[#E79685]" : ""} />
               {wishlistCount > 0 && (
@@ -518,8 +525,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenCart}
               className="p-2 sm:p-2.5 rounded-full bg-[#2D2B2A] text-white hover:bg-[#8EBBB0] transition-all relative group cursor-pointer shadow-2xs"
-              title={t('nav.cart')}
-              aria-label={t('nav.cart')}
+              title={t('nav.cart', 'Warenkorb')}
+              aria-label={t('nav.cart', 'Warenkorb')}
             >
               <ShoppingBag size={17} strokeWidth={1.8} />
               {cartCount > 0 && (
@@ -546,7 +553,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     className="w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#E79685] text-white shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Sparkles size={14} />
-                    <span>🧸 Zur Levina Kinderwelt wechseln</span>
+                    <span>{t('nav.switchToKidsTitle', '🧸 Zur Levina Kinderwelt wechseln')}</span>
                   </button>
                 ) : (
                   <button
@@ -556,7 +563,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     }}
                     className="w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-white text-[#2B2B2B] shadow-xs flex items-center justify-center gap-2 cursor-pointer"
                   >
-                    <span>← Zur Hauptseite (Luxusteppiche)</span>
+                    <span>{t('nav.switchToGeneralTitle', '← Zur Hauptseite (Luxusteppiche)')}</span>
                   </button>
                 )}
               </div>
@@ -564,7 +571,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             <div className="space-y-2">
               <div className="text-[11px] font-bold uppercase tracking-wider text-[#8EBBB0] px-2 pt-1">
-                {storeMode === 'kids' ? 'Kinderwelt Kollektionen' : 'Luxusteppiche & Kollektionen'}
+                {storeMode === 'kids'
+                  ? t('nav.menuKidsTitle', 'Kinderwelt Kollektionen')
+                  : t('nav.menuGeneralTitle', 'Luxusteppiche & Kollektionen')}
               </div>
 
               {currentCategories.map((cat) => {
@@ -580,7 +589,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     >
                       <span className="flex items-center gap-2">
                         {cat.isSale && <Tag size={13} />}
-                        {cat.label}
+                        {getCatLabel(cat)}
                       </span>
                       <ChevronDown
                         size={14}
@@ -594,7 +603,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                           onClick={() => handleCategoryHeaderClick(cat)}
                           className="w-full text-left text-xs font-bold text-[#8EBBB0] py-2 px-3 rounded-xl hover:bg-white cursor-pointer"
                         >
-                          Alle {cat.label} ansehen &rarr;
+                          {t('nav.viewAll', { label: getCatLabel(cat) })}
                         </button>
 
                         {cat.id === 'shaggy' ? (
@@ -612,7 +621,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                     className="w-3 h-3 rounded-full shrink-0 border border-[#EDE6DC]"
                                     style={{ backgroundColor: colorItem.hex }}
                                   />
-                                  <span className="capitalize">{colorItem.name}</span>
+                                  <span className="capitalize">{getItemLabel(colorItem)}</span>
                                 </button>
                               );
                             })}
@@ -628,7 +637,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                                   onClick={() => handleTagClick(itemName, cat.categoryKey)}
                                   className="px-3 py-2 rounded-xl text-left text-xs text-[#6B6661] hover:text-[#2D2B2A] hover:bg-white truncate cursor-pointer"
                                 >
-                                  {itemName}
+                                  {getItemLabel(item)}
                                 </button>
                               );
                             })}
